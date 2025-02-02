@@ -2,14 +2,36 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8"/>
-    <link href="/vite.svg" rel="icon" type="image/svg+xml"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link rel="stylesheet" href="./src/style.css">
     <title>Vite + TS</title>
 </head>
 <body>
 <div id="app">
-    <canvas id="gameCanvas"></canvas>
-    <div id="game-information"> </div>
+
+    <div id="game">
+        <div id="game-information">
+            <div id="player-information">
+                <div id="player-stat">
+                    <span>life : 25 </span>
+                    <span>force : 3 </span>
+                    <span>defense : 22 </span>
+                </div>
+                <div id="player-inventaire">
+                    <img src="./assets/bouclier.png" alt="bouclier"  width="32px" height="32px"/>
+                    <img src="./assets/cleRed.png" alt="cle Red"  width="32px" height="32px"/>
+                </div>
+            </div>
+            <div id="player-interaction">
+
+            </div>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+    </div>
+    <div id="game-debug"></div>
+
+
+
 </div>
 <script src="/src/main.ts" type="module"></script>
 </body>

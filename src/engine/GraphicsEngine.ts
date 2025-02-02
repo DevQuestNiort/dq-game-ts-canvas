@@ -5,11 +5,15 @@ import {GridBackgroundPainter} from "./GridBackgroundPainter.ts";
 import {Position} from "./model/Position.ts";
 import {ItemsLayerPainter} from "./ItemsLayerPainter.ts";
 import {Orientation} from "./model/Orientation.ts";
+import {Debug} from "../component/Debug.ts";
+import {PlayerStat} from "../component/PlayerStat.ts";
 
 export class GraphicsEngine {
     canvas: HTMLCanvasElement;
     canvasCtx: CanvasRenderingContext2D;
     gameInformation : HTMLElement
+    gameDebug : HTMLElement
+    playerStat: HTMLElement
     gameConfiguration: GameConfiguration;
     gameState: GameState;
     backgroundImage: HTMLImageElement | undefined;
@@ -25,6 +29,8 @@ export class GraphicsEngine {
         this.canvas = canvas;
         this.canvasCtx = canvas.getContext("2d") as CanvasRenderingContext2D;
         this.gameInformation = document.getElementById("game-information") as HTMLElement;
+        this.gameDebug = document.getElementById("game-debug") as HTMLElement;
+        this.playerStat = document.getElementById("player-stat") as HTMLElement;
         this.gameConfiguration = gameConfiguration;
         this.gameState = gameState;
         this.prepareCanvas();
@@ -45,7 +51,11 @@ export class GraphicsEngine {
         const elapsedTimeSinceLastFrame = currentTime - this.lastFrameTime;
         if (elapsedTimeSinceLastFrame > this.fpsInterval) {
 
-            this.gameInformation.innerHTML    =` <pre>${JSON.stringify(this.gameState,null,2)}</pre>`
+
+
+
+            this.gameDebug.innerHTML    = Debug(this.gameState)
+            this.playerStat.innerHTML = PlayerStat(this.gameState.player)
             // on met à jour la date de la dernière frame en tenant compte du fait qu'une frame n'est pas forcément déssinée pile à 1 fpsInterval de l'ancienne fraùe
             this.lastFrameTime = currentTime - (elapsedTimeSinceLastFrame % this.fpsInterval);
             this.gridBackgroundPainter.paintBackground(this.getCurrentMap().grid, this.gameState.viewport, this.gameConfiguration.viewport.dimension, this.tilesChanged, this.viewportChanged)
