@@ -19,8 +19,8 @@ window.onload = function () {
         new PlayerState(new Position(5, 13), Orientation.RIGHT),
         "./assets/player-sprite.png")
     const viewportConfiguration = new ViewportConfiguration(
-        new TwoDimensionalSize(49, 29),
-        new DeadZone(new Position(10, 10), new TwoDimensionalSize(29, 9)),
+        new TwoDimensionalSize(35, 19),
+        new DeadZone(new Position(8, 4), new TwoDimensionalSize(19, 11)),
         30)
     const configuration = new GameConfiguration(mapsConfiguration, initialMap, playerConfiguration, viewportConfiguration);
 
