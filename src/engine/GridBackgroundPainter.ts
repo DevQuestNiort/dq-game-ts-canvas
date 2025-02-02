@@ -4,15 +4,21 @@ import {ViewportState} from "./model/state/ViewportState.ts";
 import {TwoDimensionalSize} from "./model/TwoDimensionalSize.ts";
 import {GridBackgroundFillers} from "./GridBackgroundFillers.ts";
 import {Position} from "./model/Position.ts";
+import {AssetLibrary} from "./AssetLibrary.ts";
 
 export class GridBackgroundPainter {
-
+    assetLibrary: AssetLibrary
     fillers: GridBackgroundFillers;
     canvasCtx: CanvasRenderingContext2D;
 
     constructor(canvasCtx: CanvasRenderingContext2D) {
         this.canvasCtx = canvasCtx;
         this.fillers = new GridBackgroundFillers(canvasCtx);
+        this.assetLibrary = new AssetLibrary(); // TODO Rechargement
+    }
+
+    init = async () => {
+        await this.assetLibrary.init();
     }
 
     paintBackground = (grid: Grid, viewportState: ViewportState, viewportDimension: TwoDimensionalSize, tilesChanged: Position[], viewportChanged: boolean) => {
@@ -32,6 +38,8 @@ export class GridBackgroundPainter {
     paintBackgroundTile = (x: number, y: number, type: string) => {
         this.canvasCtx.fillStyle = (() => {
             switch (type) {
+                case "T" :
+                    return this.fillers.getFiller("tree");
                 case "h" :
                     return this.fillers.getFiller("grass");
                 case " ":
@@ -62,6 +70,18 @@ export class GridBackgroundPainter {
             }
         })();
         this.canvasCtx.fillRect(x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
+
+
+        // build couche items
+        switch (type) {
+            case "T" :
+                this.canvasCtx.drawImage(this.assetLibrary.getImage("arbre"), x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
+                break
+
+        }
+
+
+
     }
 
 }

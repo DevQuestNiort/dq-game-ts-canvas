@@ -1,3 +1,5 @@
+import {GRID_PITCH} from "./constants.ts";
+
 export class GridBackgroundFillers {
     fillers: Record<string, string | CanvasGradient | CanvasPattern>;
 
@@ -7,12 +9,47 @@ export class GridBackgroundFillers {
         this.fillers.lava = this.createPatternLava(canvasCtx);
         this.fillers.water = this.createPatternWater(canvasCtx);
         this.fillers.grass = this.createPatternHerb(canvasCtx);
+        this.fillers.tree = this.createPatternTree(canvasCtx);
     }
 
     getFiller(name: string): string | CanvasGradient | CanvasPattern {
         return this.fillers[name];
     }
 
+
+   /* drawImg = (image: HTMLImageElement, x: number, y: number) => {
+        this.canvasCtx.drawImage(image, x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
+    }*/
+
+    createPatternTree = (canvasCtx: CanvasRenderingContext2D) => {
+        // Créer un petit canvas temporaire pour le pattern
+        const patternCanvas = document.createElement("canvas");
+        const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
+
+        // Taille du pattern (doit correspondre à background-size en CSS)
+        patternCanvas.width = 16;
+        patternCanvas.height = 16;
+
+        // Fond de la cellule
+        pCtx.fillStyle = "#206702";
+        pCtx.fillRect(0, 0, 16, 16);
+
+        // Points du pattern (équivalent à radial-gradient)
+        pCtx.fillStyle = "#1b521b";
+
+        // Premier point en haut à gauche
+        pCtx.beginPath();
+        pCtx.arc(2.5, 2.5, 2.5, 0, Math.PI * 2);
+        pCtx.fill();
+
+        // Deuxième point décalé (8px, 8px) comme en CSS
+        pCtx.beginPath();
+        pCtx.arc(10.5, 10.5, 2.5, 0, Math.PI * 2);
+        pCtx.fill();
+
+        // Créer le pattern
+        return canvasCtx.createPattern(patternCanvas, "repeat") as CanvasPattern;
+    }
     createPatternHerb = (canvasCtx: CanvasRenderingContext2D) => {
         // Créer un petit canvas temporaire pour le pattern
         const patternCanvas = document.createElement("canvas");

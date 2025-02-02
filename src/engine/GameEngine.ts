@@ -137,7 +137,7 @@ export class GameEngine {
         if (tileType === "l") {
             console.log("aie ca brule")
             return false;
-        } else if (["║", "═", "╝", "╗", "╔", "╚", "╩", "╦", "╠", "╣", "╬", "■"].includes(tileType)) {
+        } else if (["T","║", "═", "╝", "╗", "╔", "╚", "╩", "╦", "╠", "╣", "╬", "■"].includes(tileType)) {
             console.log("poc");
             return false;
         } else if (tileType === "w") {

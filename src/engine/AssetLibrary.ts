@@ -13,6 +13,7 @@ export class AssetLibrary {
         await this.loadAsset("chicken", "chicken.png");
         await this.loadAsset("anneau","anneau.png");
         await this.loadAsset("appareil","appareil.png");
+        await this.loadAsset("arbre","arbre.png");
         await this.loadAsset("archer","archer.png");
         await this.loadAsset("armure","armure.png");
         await this.loadAsset("backpack","backpack.png");

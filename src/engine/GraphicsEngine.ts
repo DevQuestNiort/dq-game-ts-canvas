@@ -114,6 +114,7 @@ export class GraphicsEngine {
 
     async init() {
         await this.itemsLayerPainter.init();
+        await  this.gridBackgroundPainter.init();
         await this.loadImage(this.gameConfiguration.player.playerImageUrl)
             .then(img => this.playerImage = img, err => console.log(err))
         // await this.loadImage(this.gameConfiguration.maps[this.gameState.currentMap].backgroundImageUrl)
