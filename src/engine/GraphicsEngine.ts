@@ -4,6 +4,7 @@ import {GRID_PITCH} from "./constants.ts";
 import {GridBackgroundPainter} from "./GridBackgroundPainter.ts";
 import {Position} from "./model/Position.ts";
 import {ItemsLayerPainter} from "./ItemsLayerPainter.ts";
+import {Orientation} from "./model/Orientation.ts";
 
 export class GraphicsEngine {
     canvas: HTMLCanvasElement;
@@ -81,7 +82,15 @@ export class GraphicsEngine {
     }
 
     drawPlayer = () => {
+        const shift = (() => { switch(this.gameState.player.orientation) {
+            case Orientation.UP: return 0;
+            case Orientation.DOWN: return 1;
+            case Orientation.LEFT: return 2;
+            case Orientation.RIGHT: return 3;
+        }})();
+
         this.canvasCtx.drawImage(this.playerImage as HTMLImageElement,
+            GRID_PITCH * shift, 0, GRID_PITCH, GRID_PITCH,
             (this.gameState.player.position.x - this.gameState.viewport.position.x) * GRID_PITCH,
             (this.gameState.player.position.y - this.gameState.viewport.position.y) * GRID_PITCH,
             GRID_PITCH,

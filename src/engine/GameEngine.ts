@@ -7,6 +7,7 @@ import {Position} from "./model/Position.ts";
 import {ViewportManager} from "./ViewportManager.ts";
 import {MapState} from "./model/state/MapState.ts";
 import {ItemType} from "./model/Item.ts";
+import {Orientation} from "./model/Orientation.ts";
 
 export class GameEngine {
 
@@ -69,18 +70,22 @@ export class GameEngine {
     }
 
     upKeyPressed = () => {
+        this.rotatePlayer(Orientation.UP);
         this.movePlayer(0, -1);
     }
 
     downKeyPressed = () => {
+        this.rotatePlayer(Orientation.DOWN);
         this.movePlayer(0, 1);
     }
 
     leftKeyPressed = () => {
+        this.rotatePlayer(Orientation.LEFT);
         this.movePlayer(-1, 0);
     }
 
     rightKeyPressed = () => {
+        this.rotatePlayer(Orientation.RIGHT);
         this.movePlayer(1, 0);
 
     }
@@ -91,6 +96,11 @@ export class GameEngine {
 
     getCurrentMap = () => {
         return this.gameConfiguration.maps[this.gameState.currentMap];
+    }
+
+    rotatePlayer = (orientation: Orientation) => {
+        this.gameState.player.orientation = orientation;
+        this.graphicsEngine.notifyChangedTile(this.gameState.player.position);
     }
 
     movePlayer = (x: number, y: number) => {

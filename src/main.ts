@@ -1,33 +1,28 @@
 import {GameEngine} from "./engine/GameEngine.ts";
 import {GameConfiguration} from "./engine/model/configuration/GameConfiguration.ts";
 import asteniaConfiguration from "./levels/astenia/astenia.ts";
+import {Orientation} from "./engine/model/Orientation.ts";
+import {PlayerConfiguration} from "./engine/model/configuration/PlayerConfiguration.ts";
+import {PlayerState} from "./engine/model/state/PlayerState.ts";
+import {Position} from "./engine/model/Position.ts";
+import {ViewportConfiguration} from "./engine/model/configuration/ViewportConfiguration.ts";
+import {TwoDimensionalSize} from "./engine/model/TwoDimensionalSize.ts";
+import {DeadZone} from "./engine/model/configuration/DeadZone.ts";
 
 
 window.onload = function () {
-    const configuration = {
-        maps: {
-            astenia: asteniaConfiguration
-        },
-        initialMap: "astenia",
-        player: {
-            playerImageUrl: "./assets/knight.png", initialState: {
-                position: {
-                    x: 5, y: 13
-                }
-            }
-        },
-        viewport: {
-            dimension: {
-                width: 49, height: 29,
-            }, deadZone: {
-                dimension: {
-                    width: 29, height: 9,
-                }, position: {
-                    x: 10, y: 10
-                }
-            }, fpsLimit: 30
-        }
-    } as GameConfiguration;
+    const mapsConfiguration = {
+        astenia: asteniaConfiguration
+    };
+    const initialMap = "astenia";
+    const playerConfiguration = new PlayerConfiguration(
+        new PlayerState(new Position(5, 13), Orientation.RIGHT),
+        "./assets/player-sprite.png")
+    const viewportConfiguration = new ViewportConfiguration(
+        new TwoDimensionalSize(49, 29),
+        new DeadZone(new Position(10, 10), new TwoDimensionalSize(29, 9)),
+        30)
+    const configuration = new GameConfiguration(mapsConfiguration, initialMap, playerConfiguration, viewportConfiguration);
 
     const engine = new GameEngine(configuration);
     console.log("engine created, starting loop");
