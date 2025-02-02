@@ -4,7 +4,7 @@ export class Item {
 
     public uid: string;
     public name: string;
-    public type: string;
+    public type: ItemType;
     public position: Position;
     public takable: boolean;
     public description: string;
@@ -12,7 +12,7 @@ export class Item {
     public image: string;
 
 
-    constructor(uid: string, name: string, type: string, position: Position, takable: boolean, description: string, instructions: string, image: string) {
+    constructor(uid: string, name: string, type: ItemType, position: Position, takable: boolean, description: string, instructions: string, image: string) {
         this.uid = uid;
         this.name = name;
         this.type = type;
@@ -25,4 +25,14 @@ export class Item {
     }
 
 
+
+
+}
+
+
+export enum ItemType {
+    DECORATIF ,
+    TAKEABLE,
+    CONSOMMABlE,
+    USABLE,
 }

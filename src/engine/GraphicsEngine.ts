@@ -8,6 +8,7 @@ import {ItemsLayerPainter} from "./ItemsLayerPainter.ts";
 export class GraphicsEngine {
     canvas: HTMLCanvasElement;
     canvasCtx: CanvasRenderingContext2D;
+    gameInformation : HTMLElement
     gameConfiguration: GameConfiguration;
     gameState: GameState;
     backgroundImage: HTMLImageElement | undefined;
@@ -22,6 +23,7 @@ export class GraphicsEngine {
     constructor(canvas: HTMLCanvasElement, gameConfiguration: GameConfiguration, gameState: GameState) {
         this.canvas = canvas;
         this.canvasCtx = canvas.getContext("2d") as CanvasRenderingContext2D;
+        this.gameInformation = document.getElementById("game-information") as HTMLElement;
         this.gameConfiguration = gameConfiguration;
         this.gameState = gameState;
         this.prepareCanvas();
@@ -41,6 +43,8 @@ export class GraphicsEngine {
         const currentTime = Date.now();
         const elapsedTimeSinceLastFrame = currentTime - this.lastFrameTime;
         if (elapsedTimeSinceLastFrame > this.fpsInterval) {
+
+            this.gameInformation.innerHTML    =` <pre>${JSON.stringify(this.gameState,null,2)}</pre>`
             // on met à jour la date de la dernière frame en tenant compte du fait qu'une frame n'est pas forcément déssinée pile à 1 fpsInterval de l'ancienne fraùe
             this.lastFrameTime = currentTime - (elapsedTimeSinceLastFrame % this.fpsInterval);
             this.gridBackgroundPainter.paintBackground(this.getCurrentMap().grid, this.gameState.viewport, this.gameConfiguration.viewport.dimension, this.tilesChanged, this.viewportChanged)

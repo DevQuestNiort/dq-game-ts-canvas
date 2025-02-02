@@ -6,6 +6,7 @@ import {ViewportState} from "./model/state/ViewportState.ts";
 import {Position} from "./model/Position.ts";
 import {ViewportManager} from "./ViewportManager.ts";
 import {MapState} from "./model/state/MapState.ts";
+import {ItemType} from "./model/Item.ts";
 
 export class GameEngine {
 
@@ -14,6 +15,7 @@ export class GameEngine {
     gameState: GameState;
     graphicsEngine: GraphicsEngine;
     viewportManager: ViewportManager;
+
 
     constructor(gameConfiguration: GameConfiguration) {
         this.canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
@@ -109,7 +111,7 @@ export class GameEngine {
         }
 
         // puis je aller en playerX playerY
-        if (this.isTileAccessible(playerX, playerY)) {
+        if (this.isTileAccessible(playerX, playerY) && this.isTileIsNotObstruct(playerX, playerY)) {
             const oldPosition = structuredClone(this.gameState.player.position);
             this.gameState.player.position.x = playerX;
             this.gameState.player.position.y = playerY;
@@ -133,6 +135,15 @@ export class GameEngine {
             return false;
         }
         return true;
+    }
+
+    isTileIsNotObstruct = (x: number, y: number) => {
+        const itemAtPos = this.gameState.mapStates[this.gameState.currentMap].items.getItemByPosition(new Position(x,y))
+
+        if (itemAtPos && itemAtPos.type=== ItemType.DECORATIF){
+            return false
+        }
+        return true
     }
 
     run = async () => {

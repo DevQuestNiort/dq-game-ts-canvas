@@ -1,9 +1,10 @@
 import {Item} from "../Item.ts";
+import {Items} from "../Items.ts";
 
 export class MapState {
-    items: Item[]
+    items: Items
 
     constructor(items: Item[]) {
-        this.items = items;
+        this.items = new Items(items);
     }
 }

@@ -3,6 +3,7 @@ import {Item} from "./model/Item.ts";
 import {GRID_PITCH} from "./constants.ts";
 import {GameState} from "./model/state/GameState.ts";
 import {GameConfiguration} from "./model/configuration/GameConfiguration.ts";
+import {Items} from "./model/Items.ts";
 
 export class ItemsLayerPainter {
 
@@ -22,8 +23,8 @@ export class ItemsLayerPainter {
         await this.assetLibrary.init();
     }
 
-    paintItemsLayer = (items: Item[]) => {
-        items.map(item => {
+    paintItemsLayer = (items: Items) => {
+        items.get().map(item => {
             if (item.position.x >= this.gameState.viewport.position.x
                 && item.position.x < this.gameState.viewport.position.x + this.gameConfiguration.viewport.dimension.width
                 && item.position.y >= this.gameState.viewport.position.y
