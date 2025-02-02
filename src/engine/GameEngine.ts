@@ -4,6 +4,8 @@ import {GameState} from "./model/state/GameState.ts";
 import {PlayerState} from "./model/state/PlayerState.ts";
 import {ViewportState} from "./model/state/ViewportState.ts";
 import {Position} from "./model/Position.ts";
+import {ViewportManager} from "./ViewportManager.ts";
+import {MapState} from "./model/state/MapState.ts";
 
 export class GameEngine {
 
@@ -11,18 +13,31 @@ export class GameEngine {
     gameConfiguration: GameConfiguration;
     gameState: GameState;
     graphicsEngine: GraphicsEngine;
+    viewportManager: ViewportManager;
 
     constructor(gameConfiguration: GameConfiguration) {
         this.canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
         this.gameConfiguration = gameConfiguration;
         this.gameState = this.buildInitialGameState(gameConfiguration.player.initialState, gameConfiguration.initialMap);
         this.graphicsEngine = new GraphicsEngine(this.canvas as HTMLCanvasElement, this.gameConfiguration, this.gameState);
+        this.viewportManager = new ViewportManager(this.gameState, this.gameConfiguration, this.graphicsEngine.notifyViewportChanged);
         this.binKeys();
-        this.centerViewportOnPlayer();
+        this.viewportManager.centerViewportOnPlayer();
     }
 
     buildInitialGameState: (initialPlayerState: PlayerState, initialMap: string) => GameState = (initialPlayerState: PlayerState, initialMap: string) => {
-        return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap);
+        //const mapStates = this.gameConfiguration.maps.entries().map((name, map) => {map.name, map.items}).reduce((acc, map) => {acc[map.name] = map.items; return acc}, {});
+        const mapStates = Object.entries(this.gameConfiguration.maps).map(([name, map]) => {
+            return {
+                name: name,
+                mapState: new MapState(map.items)
+            }
+        }).reduce((acc: Record<string, MapState>, map) => {
+                acc[map.name] = map.mapState;
+                return acc;
+            }, {}
+        )
+        return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates);
     }
 
     binKeys = () => {
@@ -52,77 +67,28 @@ export class GameEngine {
     }
 
     upKeyPressed = () => {
-        console.debug("up key pressed");
         this.movePlayer(0, -1);
     }
 
     downKeyPressed = () => {
-        console.debug("down key pressed");
         this.movePlayer(0, 1);
     }
 
     leftKeyPressed = () => {
-        console.debug("left key pressed");
         this.movePlayer(-1, 0);
     }
 
     rightKeyPressed = () => {
-        console.debug("right key pressed");
         this.movePlayer(1, 0);
 
     }
 
     actionKeyPressed = () => {
-        console.debug("action key pressed");
+        console.log("je sais rien faire pour l'instant");
     }
 
     getCurrentMap = () => {
         return this.gameConfiguration.maps[this.gameState.currentMap];
-    }
-
-    centerViewportOnPlayer = () => {
-        this.setViewportPositionWithinMapX(this.gameState.player.position.x - Math.floor(this.gameConfiguration.viewport.dimension.width / 2))
-        this.setViewportPositionWithinMapY(this.gameState.player.position.y - Math.floor(this.gameConfiguration.viewport.dimension.height / 2));
-    }
-
-    computeViewportPosition = () => {
-        // on recalcule le viewport au cas ou on sort de la dead zone
-        // top boundary
-        if (this.gameState.player.position.y < (this.gameState.viewport.position.y + this.gameConfiguration.viewport.deadZone.position.y)) {
-            this.setViewportPositionWithinMapY(this.gameState.player.position.y - this.gameConfiguration.viewport.deadZone.position.y);
-        // bottom boundary
-        } else if (this.gameState.player.position.y > (this.gameState.viewport.position.y + this.gameConfiguration.viewport.deadZone.position.y + this.gameConfiguration.viewport.deadZone.dimension.height)) {
-            this.setViewportPositionWithinMapY(this.gameState.player.position.y - this.gameConfiguration.viewport.deadZone.position.y - this.gameConfiguration.viewport.deadZone.dimension.height);
-        }
-        // left boundary
-        if (this.gameState.player.position.x < (this.gameState.viewport.position.x + this.gameConfiguration.viewport.deadZone.position.x)) {
-            this.setViewportPositionWithinMapX(this.gameState.player.position.x - this.gameConfiguration.viewport.deadZone.position.x);
-        // right boundary
-        } else if (this.gameState.player.position.x > (this.gameState.viewport.position.x + this.gameConfiguration.viewport.deadZone.position.x + this.gameConfiguration.viewport.deadZone.dimension.width)) {
-            this.setViewportPositionWithinMapX(this.gameState.player.position.x - this.gameConfiguration.viewport.deadZone.position.x - this.gameConfiguration.viewport.deadZone.dimension.width);
-        }
-    }
-
-    setViewportPositionWithinMapX(x: number) {
-        let viewportX = x;
-        if (viewportX < 0) {
-            viewportX = 0;
-        }
-        if (viewportX + this.gameConfiguration.viewport.dimension.width > this.getCurrentMap().grid.getWidth()) {
-            viewportX = this.getCurrentMap().grid.getWidth() - this.gameConfiguration.viewport.dimension.width;
-        }
-        this.gameState.viewport.position.x = viewportX;
-    }
-
-    setViewportPositionWithinMapY(y: number) {
-        let viewportY = y;
-        if (viewportY < 0) {
-            viewportY = 0;
-        }
-        if (viewportY + this.gameConfiguration.viewport.dimension.height > this.getCurrentMap().grid.getHeight()) {
-            viewportY = this.getCurrentMap().grid.getHeight() - this.gameConfiguration.viewport.dimension.height;
-        }
-        this.gameState.viewport.position.y = viewportY;
     }
 
     movePlayer = (x: number, y: number) => {
@@ -141,15 +107,37 @@ export class GameEngine {
         if (playerY >= this.getCurrentMap().grid.getHeight()) {
             playerY = this.getCurrentMap().grid.getHeight() - 1;
         }
-        this.gameState.player.position.x = playerX;
-        this.gameState.player.position.y = playerY;
-        console.debug(`player moved to ${playerX}, ${playerY}`);
-        this.computeViewportPosition();
+
+        // puis je aller en playerX playerY
+        if (this.isTileAccessible(playerX, playerY)) {
+            const oldPosition = structuredClone(this.gameState.player.position);
+            this.gameState.player.position.x = playerX;
+            this.gameState.player.position.y = playerY;
+            this.graphicsEngine.notifyChangedTile(oldPosition);
+            this.graphicsEngine.notifyChangedTile(new Position(playerX, playerY));
+            console.debug(`player moved to ${playerX}, ${playerY}`);
+            this.viewportManager.computeViewportPosition();
+        }
+    }
+
+    isTileAccessible = (x: number, y: number) => {
+        const tileType = this.getCurrentMap().grid.getCase(x, y)
+        if (tileType === "l") {
+            console.log("aie ca brule")
+            return false;
+        } else if (["║", "═", "╝", "╗", "╔", "╚", "╩", "╦", "╠", "╣", "╬", "■"].includes(tileType)) {
+            console.log("poc");
+            return false;
+        } else if (tileType === "w") {
+            console.log("je vais me noyer")
+            return false;
+        }
+        return true;
     }
 
     run = async () => {
         // on démarre le graphcisEngine
-        await this.graphicsEngine.loadAssets()
+        await this.graphicsEngine.init()
         this.graphicsEngine.draw();
     }
 }

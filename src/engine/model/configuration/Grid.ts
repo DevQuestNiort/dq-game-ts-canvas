@@ -2,6 +2,17 @@ export class Grid {
     public rows: string[]
 
     constructor(rows: string[]) {
+        /*
+        // FIX refaire correctement cette verification
+        const columnCount: number = rows[0].length
+
+            for( const row in rows){
+                if ( row.length !== columnCount){
+                    console.log("Data grid has differents length in row",columnCount, row.length)
+                    throw Error("Data grid has differents length in row")
+                }
+            }*/
+
         this.rows = rows;
     }
 

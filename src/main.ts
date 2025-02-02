@@ -1,36 +1,40 @@
 import {GameEngine} from "./engine/GameEngine.ts";
 import {GameConfiguration} from "./engine/model/configuration/GameConfiguration.ts";
-import {MapConfiguration} from "./engine/model/configuration/MapConfiguration.ts";
 import {Grid} from "./engine/model/configuration/Grid.ts";
 
 
 import asteniaGrid from './levels/astenia.json'
+import {Item} from "./engine/model/Item.ts";
+import {Position} from "./engine/model/Position.ts";
 
 
 window.onload = function () {
     const configuration = {
         maps: {
-            astenia : {grid : new Grid (asteniaGrid)
+            astenia: {
+                grid: new Grid(asteniaGrid),
+                items: [new Item("16adcb0b-e281-460d-a1fa-98876df8edd5", "bouclier", "item", new Position(12, 12), true, "le bouclier +3", "press F to take", "bouclier"),
+                    new Item("16adcb0b-e281-460d-a1fa-98876df8edd5", "bouclier", "item", new Position(12, 8), true, "le bouclier +3", "press F to take", "chicken")]
             }
         },
         initialMap: "astenia",
         player: {
-            playerImageUrl: "./assets/player.png", initialState: {
+            playerImageUrl: "./assets/knight.png", initialState: {
                 position: {
-                    x: 17, y: 17
+                    x: 5, y: 13
                 }
             }
         },
         viewport: {
             dimension: {
-                width: 50, height: 30,
+                width: 49, height: 29,
             }, deadZone: {
                 dimension: {
-                    width: 10, height: 10,
+                    width: 29, height: 9,
                 }, position: {
-                    x: 10, y: 5
+                    x: 10, y: 10
                 }
-            }, fpsLimit: 10
+            }, fpsLimit: 30
         }
     } as GameConfiguration;
 

@@ -2,6 +2,8 @@ import {GameConfiguration} from "./model/configuration/GameConfiguration.ts";
 import {GameState} from "./model/state/GameState.ts";
 import {GRID_PITCH} from "./constants.ts";
 import {GridBackgroundPainter} from "./GridBackgroundPainter.ts";
+import {Position} from "./model/Position.ts";
+import {ItemsLayerPainter} from "./ItemsLayerPainter.ts";
 
 export class GraphicsEngine {
     canvas: HTMLCanvasElement;
@@ -13,6 +15,9 @@ export class GraphicsEngine {
     fpsInterval: number;
     lastFrameTime: number;
     gridBackgroundPainter: GridBackgroundPainter;
+    itemsLayerPainter: ItemsLayerPainter;
+    tilesChanged: Position[];
+    viewportChanged: boolean;
 
     constructor(canvas: HTMLCanvasElement, gameConfiguration: GameConfiguration, gameState: GameState) {
         this.canvas = canvas;
@@ -22,7 +27,10 @@ export class GraphicsEngine {
         this.prepareCanvas();
         this.fpsInterval = 1000 / gameConfiguration.viewport.fpsLimit;
         this.lastFrameTime = Date.now();
-        this.gridBackgroundPainter = new GridBackgroundPainter();
+        this.gridBackgroundPainter = new GridBackgroundPainter(this.canvasCtx);
+        this.itemsLayerPainter = new ItemsLayerPainter(this.canvasCtx, this.gameState, this.gameConfiguration);
+        this.tilesChanged = [];
+        this.viewportChanged = true;
     }
 
     draw = () => {
@@ -35,73 +43,31 @@ export class GraphicsEngine {
         if (elapsedTimeSinceLastFrame > this.fpsInterval) {
             // on met à jour la date de la dernière frame en tenant compte du fait qu'une frame n'est pas forcément déssinée pile à 1 fpsInterval de l'ancienne fraùe
             this.lastFrameTime = currentTime - (elapsedTimeSinceLastFrame % this.fpsInterval);
-            console.debug("new frame drawn")
-
-            this.gridBackgroundPainter.paintFullBackground(this.getCurrentMap().grid, this.canvasCtx)
+            this.gridBackgroundPainter.paintBackground(this.getCurrentMap().grid, this.gameState.viewport, this.gameConfiguration.viewport.dimension, this.tilesChanged, this.viewportChanged)
+            this.itemsLayerPainter.paintItemsLayer(this.getCurrentMapState().items);
             //this.drawGrid();
             this.drawPlayer();
+            this.tilesChanged = [];
+            this.viewportChanged = false;
         }
+    }
+
+    notifyChangedTile = (changedTile: Position) => {
+        console.log(`tile changed notification x=${changedTile.x}, y=${changedTile.y}`);
+        this.tilesChanged.push(changedTile);
+    }
+    notifyViewportChanged = () => {
+        console.log("viewport changed notification");
+        this.viewportChanged = true;
     }
 
     getCurrentMap = () => {
         return this.gameConfiguration.maps[this.gameState.currentMap];
     }
-    drawGrid()  {
-        const cols = this.getCurrentMap().grid.getWidth(); // Nombre de colonnes
-        const rows = this.getCurrentMap().grid.getHeight(); // Nombre de lignes
-        const cellSize = GRID_PITCH; // Taille des cellules
 
-        // Remplir le fond (ex: en blanc pour reset au de)
-        this.canvasCtx.fillStyle = "#ffffff";
-        this.canvasCtx.fillRect(0, 0, this.getCurrentMap().grid.getWidth()*GRID_PITCH, this.getCurrentMap().grid.getHeight()*GRID_PITCH);
-
-
-        const patternHerb = createPatternHerb(this.canvasCtx)
-
-
-        for (let i = 0; i < cols; i++) {
-            for (let j = 0; j < rows; j++) {
-
-                let x = i * cellSize;
-                let y = j * cellSize;
-
-                let color
-                switch (this.getCurrentMap().grid.getCase(i,j)){
-                    case "h" :
-                    case "T" : color =patternHerb; break;
-                    case " ":  color = "rgba(171,171,171,0.5)"; break;
-
-                    case "l": color = "rgba(252,41,41,1)"; break;
-                    case "B":color = "rgb(72,49,11)"; break;
-                    case "w": color = "rgba(41,76,252,0.5)"; break;
-                    case "║":
-                    case "═":
-                    case "╝":
-                    case "╗":
-                    case "╔":
-                    case "╚":
-                    case "╩":
-                    case "╦":
-                    case "╠":
-                    case "╣":
-                    case "╬":
-                    case "■":
-                        color = "#1e1d11"; break;
-
-                   case "S" : color = "#736435"; break;
-                    default : color ="rgba(4,243,43,0.74)"
-                }
-
-                this.canvasCtx.fillStyle = color;
-                this.canvasCtx.fillRect(x,y, GRID_PITCH, GRID_PITCH);
-
-
-            }
-        }
-
-
+    getCurrentMapState = () => {
+        return this.gameState.mapStates[this.gameState.currentMap];
     }
-
 
 
     drawBackground = () => {
@@ -113,7 +79,9 @@ export class GraphicsEngine {
     drawPlayer = () => {
         this.canvasCtx.drawImage(this.playerImage as HTMLImageElement,
             (this.gameState.player.position.x - this.gameState.viewport.position.x) * GRID_PITCH,
-            (this.gameState.player.position.y - this.gameState.viewport.position.y) * GRID_PITCH);
+            (this.gameState.player.position.y - this.gameState.viewport.position.y) * GRID_PITCH,
+            GRID_PITCH,
+            GRID_PITCH);
     }
 
     prepareCanvas = () => {
@@ -121,7 +89,8 @@ export class GraphicsEngine {
         this.canvas.height = this.gameConfiguration.viewport.dimension.height * GRID_PITCH;
     }
 
-    async loadAssets() {
+    async init() {
+        await this.itemsLayerPainter.init();
         await this.loadImage(this.gameConfiguration.player.playerImageUrl)
             .then(img => this.playerImage = img, err => console.log(err))
         // await this.loadImage(this.gameConfiguration.maps[this.gameState.currentMap].backgroundImageUrl)
@@ -140,32 +109,3 @@ export class GraphicsEngine {
 
 
 
-function createPatternHerb(ctx) {
-    // Créer un petit canvas temporaire pour le pattern
-    const patternCanvas = document.createElement("canvas");
-    const pCtx = patternCanvas.getContext("2d");
-
-    // Taille du pattern (doit correspondre à background-size en CSS)
-    patternCanvas.width = 16;
-    patternCanvas.height = 16;
-
-    // Fond de la cellule
-    pCtx.fillStyle = "#206702";
-    pCtx.fillRect(0, 0, 16, 16);
-
-    // Points du pattern (équivalent à radial-gradient)
-    pCtx.fillStyle = "#1b521b";
-
-    // Premier point en haut à gauche
-    pCtx.beginPath();
-    pCtx.arc(2.5, 2.5, 2.5, 0, Math.PI * 2);
-    pCtx.fill();
-
-    // Deuxième point décalé (8px, 8px) comme en CSS
-    pCtx.beginPath();
-    pCtx.arc(10.5, 10.5, 2.5, 0, Math.PI * 2);
-    pCtx.fill();
-
-    // Créer le pattern
-    return ctx.createPattern(patternCanvas, "repeat");
-}
