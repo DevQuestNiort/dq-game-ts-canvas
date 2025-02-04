@@ -25,13 +25,11 @@ export class Item {
     }
 
 
-
-
 }
 
 
 export enum ItemType {
-    DECORATIF ,
+    DECORATIF,
     TAKEABLE,
     CONSOMMABlE,
     USABLE,

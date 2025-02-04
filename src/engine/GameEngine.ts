@@ -1,164 +1,151 @@
 import {GameConfiguration} from "./model/configuration/GameConfiguration.ts";
-import {GraphicsEngine} from "./GraphicsEngine.ts";
+import {draw, init as initGraphicsEngine, notifyChangedTile} from "./GraphicsEngine.ts";
 import {GameState} from "./model/state/GameState.ts";
 import {PlayerState} from "./model/state/PlayerState.ts";
 import {ViewportState} from "./model/state/ViewportState.ts";
 import {Position} from "./model/Position.ts";
-import {ViewportManager} from "./ViewportManager.ts";
 import {MapState} from "./model/state/MapState.ts";
 import {ItemType} from "./model/Item.ts";
 import {Orientation} from "./model/Orientation.ts";
+import {centerViewportOnPlayer, computeViewportPosition} from "./ViewportManager.ts";
+import {init as initAssetLibrary} from "./AssetLibrary.ts";
+import {gameConfiguration, gameState, setCanvas, setGameConfiguration, setGameState} from "./GameDataService.ts";
 
-export class GameEngine {
+export const init = async (gameCfg: GameConfiguration) => {
+    setCanvas(document.getElementById("gameCanvas") as HTMLCanvasElement);
+    setGameConfiguration(gameCfg);
+    setGameState(buildInitialGameState(gameConfiguration.player.initialState, gameConfiguration.initialMap));
+    await initAssetLibrary();
+    await initGraphicsEngine();
+    bindKeys();
+    centerViewportOnPlayer();
+}
 
-    canvas: HTMLCanvasElement
-    gameConfiguration: GameConfiguration;
-    gameState: GameState;
-    graphicsEngine: GraphicsEngine;
-    viewportManager: ViewportManager;
-
-
-    constructor(gameConfiguration: GameConfiguration) {
-        this.canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
-        this.gameConfiguration = gameConfiguration;
-        this.gameState = this.buildInitialGameState(gameConfiguration.player.initialState, gameConfiguration.initialMap);
-        this.graphicsEngine = new GraphicsEngine(this.canvas as HTMLCanvasElement, this.gameConfiguration, this.gameState);
-        this.viewportManager = new ViewportManager(this.gameState, this.gameConfiguration, this.graphicsEngine.notifyViewportChanged);
-        this.binKeys();
-        this.viewportManager.centerViewportOnPlayer();
-    }
-
-    buildInitialGameState: (initialPlayerState: PlayerState, initialMap: string) => GameState = (initialPlayerState: PlayerState, initialMap: string) => {
-        //const mapStates = this.gameConfiguration.maps.entries().map((name, map) => {map.name, map.items}).reduce((acc, map) => {acc[map.name] = map.items; return acc}, {});
-        const mapStates = Object.entries(this.gameConfiguration.maps).map(([name, map]) => {
-            return {
-                name: name,
-                mapState: new MapState(map.items)
-            }
-        }).reduce((acc: Record<string, MapState>, map) => {
-                acc[map.name] = map.mapState;
-                return acc;
-            }, {}
-        )
-        return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates);
-    }
-
-    binKeys = () => {
-        addEventListener("keydown", (evt) => {
-            switch (evt.key) {
-                case "ArrowUp":
-                case "z":
-                    this.upKeyPressed();
-                    break;
-                case "ArrowDown":
-                case "s":
-                    this.downKeyPressed();
-                    break;
-                case "ArrowLeft":
-                case "q":
-                    this.leftKeyPressed();
-                    break;
-                case "ArrowRight":
-                case "d":
-                    this.rightKeyPressed();
-                    break;
-                case "f":
-                    this.actionKeyPressed();
-                    break;
-            }
-        })
-    }
-
-    upKeyPressed = () => {
-        this.rotatePlayer(Orientation.UP);
-        this.movePlayer(0, -1);
-    }
-
-    downKeyPressed = () => {
-        this.rotatePlayer(Orientation.DOWN);
-        this.movePlayer(0, 1);
-    }
-
-    leftKeyPressed = () => {
-        this.rotatePlayer(Orientation.LEFT);
-        this.movePlayer(-1, 0);
-    }
-
-    rightKeyPressed = () => {
-        this.rotatePlayer(Orientation.RIGHT);
-        this.movePlayer(1, 0);
-
-    }
-
-    actionKeyPressed = () => {
-        console.log("je sais rien faire pour l'instant");
-    }
-
-    getCurrentMap = () => {
-        return this.gameConfiguration.maps[this.gameState.currentMap];
-    }
-
-    rotatePlayer = (orientation: Orientation) => {
-        this.gameState.player.orientation = orientation;
-        this.graphicsEngine.notifyChangedTile(this.gameState.player.position);
-    }
-
-    movePlayer = (x: number, y: number) => {
-        let playerX = this.gameState.player.position.x + x;
-        if (playerX < 0) {
-            playerX = 0;
+const buildInitialGameState: (initialPlayerState: PlayerState, initialMap: string) => GameState = (initialPlayerState: PlayerState, initialMap: string) => {
+    const mapStates = Object.entries(gameConfiguration.maps).map(([name, map]) => {
+        return {
+            name: name, mapState: new MapState(map.items)
         }
-        if (playerX >= this.getCurrentMap().grid.getWidth()) {
-            playerX = this.getCurrentMap().grid.getWidth() - 1;
-        }
+    }).reduce((acc: Record<string, MapState>, map) => {
+        acc[map.name] = map.mapState;
+        return acc;
+    }, {})
+    return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates);
+}
 
-        let playerY = this.gameState.player.position.y + y;
-        if (playerY < 0) {
-            playerY = 0;
+const bindKeys = () => {
+    addEventListener("keydown", (evt) => {
+        switch (evt.key) {
+            case "ArrowUp":
+            case "z":
+                upKeyPressed();
+                break;
+            case "ArrowDown":
+            case "s":
+                downKeyPressed();
+                break;
+            case "ArrowLeft":
+            case "q":
+                leftKeyPressed();
+                break;
+            case "ArrowRight":
+            case "d":
+                rightKeyPressed();
+                break;
+            case "f":
+                actionKeyPressed();
+                break;
         }
-        if (playerY >= this.getCurrentMap().grid.getHeight()) {
-            playerY = this.getCurrentMap().grid.getHeight() - 1;
-        }
+    })
+}
 
-        // puis je aller en playerX playerY
-        if (this.isTileAccessible(playerX, playerY) && this.isTileIsNotObstruct(playerX, playerY)) {
-            const oldPosition = structuredClone(this.gameState.player.position);
-            this.gameState.player.position.x = playerX;
-            this.gameState.player.position.y = playerY;
-            this.graphicsEngine.notifyChangedTile(oldPosition);
-            this.graphicsEngine.notifyChangedTile(new Position(playerX, playerY));
-            console.debug(`player moved to ${playerX}, ${playerY}`);
-            this.viewportManager.computeViewportPosition();
-        }
+const upKeyPressed = () => {
+    rotatePlayer(Orientation.UP);
+    movePlayer(0, -1);
+}
+
+const downKeyPressed = () => {
+    rotatePlayer(Orientation.DOWN);
+    movePlayer(0, 1);
+}
+
+const leftKeyPressed = () => {
+    rotatePlayer(Orientation.LEFT);
+    movePlayer(-1, 0);
+}
+
+const rightKeyPressed = () => {
+    rotatePlayer(Orientation.RIGHT);
+    movePlayer(1, 0);
+
+}
+
+const actionKeyPressed = () => {
+    console.log("je sais rien faire pour l'instant");
+}
+
+const getCurrentMap = () => {
+    return gameConfiguration.maps[gameState.currentMap];
+}
+
+const rotatePlayer = (orientation: Orientation) => {
+    gameState.player.orientation = orientation;
+    notifyChangedTile(gameState.player.position);
+}
+
+const movePlayer = (x: number, y: number) => {
+    let playerX = gameState.player.position.x + x;
+    if (playerX < 0) {
+        playerX = 0;
+    }
+    if (playerX >= getCurrentMap().grid.getWidth()) {
+        playerX = getCurrentMap().grid.getWidth() - 1;
     }
 
-    isTileAccessible = (x: number, y: number) => {
-        const tileType = this.getCurrentMap().grid.getCase(x, y)
-        if (tileType === "l") {
-            console.log("aie ca brule")
-            return false;
-        } else if (["T","║", "═", "╝", "╗", "╔", "╚", "╩", "╦", "╠", "╣", "╬", "■"].includes(tileType)) {
-            console.log("poc");
-            return false;
-        } else if (tileType === "w") {
-            console.log("je vais me noyer")
-            return false;
-        }
-        return true;
+    let playerY = gameState.player.position.y + y;
+    if (playerY < 0) {
+        playerY = 0;
+    }
+    if (playerY >= getCurrentMap().grid.getHeight()) {
+        playerY = getCurrentMap().grid.getHeight() - 1;
     }
 
-    isTileIsNotObstruct = (x: number, y: number) => {
-        const itemAtPos = this.gameState.mapStates[this.gameState.currentMap].items.getItemByPosition(new Position(x,y))
-
-        if (itemAtPos && itemAtPos.type=== ItemType.DECORATIF){
-            return false
-        }
-        return true
+    // puis je aller en playerX playerY
+    if (isTileAccessible(playerX, playerY) && isTileIsNotObstruct(playerX, playerY)) {
+        const oldPosition = structuredClone(gameState.player.position);
+        gameState.player.position.x = playerX;
+        gameState.player.position.y = playerY;
+        notifyChangedTile(oldPosition);
+        notifyChangedTile(new Position(playerX, playerY));
+        console.debug(`player moved to ${playerX}, ${playerY}`);
+        computeViewportPosition();
     }
+}
 
-    run = async () => {
-        // on démarre le graphcisEngine
-        await this.graphicsEngine.init()
-        this.graphicsEngine.draw();
+const isTileAccessible = (x: number, y: number) => {
+    const tileType = getCurrentMap().grid.getCase(x, y)
+    if (tileType === "l") {
+        console.log("aie ca brule")
+        return false;
+    } else if (["T", "║", "═", "╝", "╗", "╔", "╚", "╩", "╦", "╠", "╣", "╬", "■"].includes(tileType)) {
+        console.log("poc");
+        return false;
+    } else if (tileType === "w") {
+        console.log("je vais me noyer")
+        return false;
     }
+    return true;
+}
+
+const isTileIsNotObstruct = (x: number, y: number) => {
+    const itemAtPos = gameState.mapStates[gameState.currentMap].items.getItemByPosition(new Position(x, y))
+
+    if (itemAtPos && itemAtPos.type === ItemType.DECORATIF) {
+        return false
+    }
+    return true
+}
+
+export const run = async () => {
+    draw();
 }

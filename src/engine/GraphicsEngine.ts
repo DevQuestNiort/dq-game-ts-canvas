@@ -1,135 +1,106 @@
-import {GameConfiguration} from "./model/configuration/GameConfiguration.ts";
-import {GameState} from "./model/state/GameState.ts";
 import {GRID_PITCH} from "./constants.ts";
-import {GridBackgroundPainter} from "./GridBackgroundPainter.ts";
+import {init as initGridBackgroundPainter, paintBackground} from "./GridBackgroundPainter.ts";
 import {Position} from "./model/Position.ts";
-import {ItemsLayerPainter} from "./ItemsLayerPainter.ts";
+import {paintItemsLayer} from "./ItemsLayerPainter.ts";
 import {Orientation} from "./model/Orientation.ts";
 import {Debug} from "../component/Debug.ts";
 import {PlayerStat} from "../component/PlayerStat.ts";
+import {canvas, canvasContext, gameConfiguration, gameState} from "./GameDataService.ts";
 
-export class GraphicsEngine {
-    canvas: HTMLCanvasElement;
-    canvasCtx: CanvasRenderingContext2D;
-    gameInformation : HTMLElement
-    gameDebug : HTMLElement
-    playerStat: HTMLElement
-    gameConfiguration: GameConfiguration;
-    gameState: GameState;
-    backgroundImage: HTMLImageElement | undefined;
-    playerImage: HTMLImageElement | undefined;
-    fpsInterval: number;
-    lastFrameTime: number;
-    gridBackgroundPainter: GridBackgroundPainter;
-    itemsLayerPainter: ItemsLayerPainter;
-    tilesChanged: Position[];
-    viewportChanged: boolean;
+let gameInformation: HTMLElement
+let gameDebug: HTMLElement
+let playerStat: HTMLElement
+let playerImage: HTMLImageElement | undefined;
+let fpsInterval: number;
+let lastFrameTime: number;
+let tilesChanged: Position[];
+let viewportChanged: boolean;
 
-    constructor(canvas: HTMLCanvasElement, gameConfiguration: GameConfiguration, gameState: GameState) {
-        this.canvas = canvas;
-        this.canvasCtx = canvas.getContext("2d") as CanvasRenderingContext2D;
-        this.gameInformation = document.getElementById("game-information") as HTMLElement;
-        this.gameDebug = document.getElementById("game-debug") as HTMLElement;
-        this.playerStat = document.getElementById("player-stat") as HTMLElement;
-        this.gameConfiguration = gameConfiguration;
-        this.gameState = gameState;
-        this.prepareCanvas();
-        this.fpsInterval = 1000 / gameConfiguration.viewport.fpsLimit;
-        this.lastFrameTime = Date.now();
-        this.gridBackgroundPainter = new GridBackgroundPainter(this.canvasCtx);
-        this.itemsLayerPainter = new ItemsLayerPainter(this.canvasCtx, this.gameState, this.gameConfiguration);
-        this.tilesChanged = [];
-        this.viewportChanged = true;
-    }
+export const init = async () => {
+    gameInformation = document.getElementById("game-information") as HTMLElement;
+    gameDebug = document.getElementById("game-debug") as HTMLElement;
+    playerStat = document.getElementById("player-stat") as HTMLElement;
+    prepareCanvas();
+    fpsInterval = 1000 / gameConfiguration.viewport.fpsLimit;
+    lastFrameTime = Date.now();
+    await initGridBackgroundPainter();
+    tilesChanged = [];
+    viewportChanged = true;
+    await loadImage(gameConfiguration.player.playerImageUrl)
+        .then(img => playerImage = img, err => console.log(err))
+}
 
-    draw = () => {
-        // on rappelle cette fonction à chaque animation frame du navigateur
-        requestAnimationFrame(this.draw);
+export const draw = () => {
+    // on rappelle cette fonction à chaque animation frame du navigateur
+    requestAnimationFrame(draw);
 
-        // si la dernière frame générée était il y a assez longtemps (fps limit), on peut draw une nouvelle frame
-        const currentTime = Date.now();
-        const elapsedTimeSinceLastFrame = currentTime - this.lastFrameTime;
-        if (elapsedTimeSinceLastFrame > this.fpsInterval) {
+    // si la dernière frame générée était il y a assez longtemps (fps limit), on peut draw une nouvelle frame
+    const currentTime = Date.now();
+    const elapsedTimeSinceLastFrame = currentTime - lastFrameTime;
+    if (elapsedTimeSinceLastFrame > fpsInterval) {
 
 
-
-
-            this.gameDebug.innerHTML    = Debug(this.gameState)
-            this.playerStat.innerHTML = PlayerStat(this.gameState.player)
-            // on met à jour la date de la dernière frame en tenant compte du fait qu'une frame n'est pas forcément déssinée pile à 1 fpsInterval de l'ancienne fraùe
-            this.lastFrameTime = currentTime - (elapsedTimeSinceLastFrame % this.fpsInterval);
-            this.gridBackgroundPainter.paintBackground(this.getCurrentMap().grid, this.gameState.viewport, this.gameConfiguration.viewport.dimension, this.tilesChanged, this.viewportChanged)
-            this.itemsLayerPainter.paintItemsLayer(this.getCurrentMapState().items);
-            //this.drawGrid();
-            this.drawPlayer();
-            this.tilesChanged = [];
-            this.viewportChanged = false;
-        }
-    }
-
-    notifyChangedTile = (changedTile: Position) => {
-        console.log(`tile changed notification x=${changedTile.x}, y=${changedTile.y}`);
-        this.tilesChanged.push(changedTile);
-    }
-    notifyViewportChanged = () => {
-        console.log("viewport changed notification");
-        this.viewportChanged = true;
-    }
-
-    getCurrentMap = () => {
-        return this.gameConfiguration.maps[this.gameState.currentMap];
-    }
-
-    getCurrentMapState = () => {
-        return this.gameState.mapStates[this.gameState.currentMap];
-    }
-
-
-    drawBackground = () => {
-        this.canvasCtx.drawImage(this.backgroundImage as HTMLImageElement,
-            -this.gameState.viewport.position.x * GRID_PITCH,
-            -this.gameState.viewport.position.y * GRID_PITCH);
-    }
-
-    drawPlayer = () => {
-        const shift = (() => { switch(this.gameState.player.orientation) {
-            case Orientation.UP: return 0;
-            case Orientation.DOWN: return 1;
-            case Orientation.LEFT: return 2;
-            case Orientation.RIGHT: return 3;
-        }})();
-
-        this.canvasCtx.drawImage(this.playerImage as HTMLImageElement,
-            GRID_PITCH * shift, 0, GRID_PITCH, GRID_PITCH,
-            (this.gameState.player.position.x - this.gameState.viewport.position.x) * GRID_PITCH,
-            (this.gameState.player.position.y - this.gameState.viewport.position.y) * GRID_PITCH,
-            GRID_PITCH,
-            GRID_PITCH);
-    }
-
-    prepareCanvas = () => {
-        this.canvas.width = this.gameConfiguration.viewport.dimension.width * GRID_PITCH;
-        this.canvas.height = this.gameConfiguration.viewport.dimension.height * GRID_PITCH;
-    }
-
-    async init() {
-        await this.itemsLayerPainter.init();
-        await  this.gridBackgroundPainter.init();
-        await this.loadImage(this.gameConfiguration.player.playerImageUrl)
-            .then(img => this.playerImage = img, err => console.log(err))
-        // await this.loadImage(this.gameConfiguration.maps[this.gameState.currentMap].backgroundImageUrl)
-        //     .then(img => this.backgroundImage = img, err => console.log(err))
-    }
-
-    loadImage(src: string): Promise<HTMLImageElement> {
-        return new Promise((resolve, reject) => {
-            let img = new Image()
-            img.onload = () => resolve(img);
-            img.onerror = reject
-            img.src = src
-        })
+        gameDebug.innerHTML = Debug(gameState)
+        playerStat.innerHTML = PlayerStat(gameState.player)
+        // on met à jour la date de la dernière frame en tenant compte du fait qu'une frame n'est pas forcément déssinée pile à 1 fpsInterval de l'ancienne fraùe
+        lastFrameTime = currentTime - (elapsedTimeSinceLastFrame % fpsInterval);
+        paintBackground(getCurrentMap().grid, gameState.viewport, gameConfiguration.viewport.dimension, tilesChanged, viewportChanged)
+        paintItemsLayer(getCurrentMapState().items);
+        //drawGrid();
+        drawPlayer();
+        tilesChanged = [];
+        viewportChanged = false;
     }
 }
+
+export const notifyChangedTile = (changedTile: Position) => {
+    console.log(`tile changed notification x=${changedTile.x}, y=${changedTile.y}`);
+    tilesChanged.push(changedTile);
+}
+export const notifyViewportChanged = () => {
+    console.log("viewport changed notification");
+    viewportChanged = true;
+}
+
+const getCurrentMap = () => {
+    return gameConfiguration.maps[gameState.currentMap];
+}
+
+const getCurrentMapState = () => {
+    return gameState.mapStates[gameState.currentMap];
+}
+
+const drawPlayer = () => {
+    const shift = (() => {
+        switch (gameState.player.orientation) {
+            case Orientation.UP:
+                return 0;
+            case Orientation.DOWN:
+                return 1;
+            case Orientation.LEFT:
+                return 2;
+            case Orientation.RIGHT:
+                return 3;
+        }
+    })();
+
+    canvasContext.drawImage(playerImage as HTMLImageElement, GRID_PITCH * shift, 0, GRID_PITCH, GRID_PITCH, (gameState.player.position.x - gameState.viewport.position.x) * GRID_PITCH, (gameState.player.position.y - gameState.viewport.position.y) * GRID_PITCH, GRID_PITCH, GRID_PITCH);
+}
+
+const prepareCanvas = () => {
+    canvas.width = gameConfiguration.viewport.dimension.width * GRID_PITCH;
+    canvas.height = gameConfiguration.viewport.dimension.height * GRID_PITCH;
+}
+
+const loadImage: (src: string) => Promise<HTMLImageElement> = (src: string) => {
+    return new Promise((resolve, reject) => {
+        let img = new Image()
+        img.onload = () => resolve(img);
+        img.onerror = reject
+        img.src = src
+    })
+}
+
 
 
 

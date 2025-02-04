@@ -4,6 +4,5 @@ import {MapConfiguration} from "../../engine/model/configuration/MapConfiguratio
 import {Grid} from "../../engine/model/configuration/Grid.ts";
 
 
-
-export default  new MapConfiguration(new Grid(grid),items);
+export default new MapConfiguration(new Grid(grid), items);
 

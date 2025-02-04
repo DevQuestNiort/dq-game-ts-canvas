@@ -1,44 +1,18 @@
-import {AssetLibrary} from "./AssetLibrary.ts";
-import {Item} from "./model/Item.ts";
 import {GRID_PITCH} from "./constants.ts";
-import {GameState} from "./model/state/GameState.ts";
-import {GameConfiguration} from "./model/configuration/GameConfiguration.ts";
 import {Items} from "./model/Items.ts";
+import {getImage} from "./AssetLibrary.ts";
+import {canvasContext, gameConfiguration, gameState} from "./GameDataService.ts";
 
-export class ItemsLayerPainter {
-
-    assetLibrary: AssetLibrary
-    canvasCtx: CanvasRenderingContext2D;
-    gameState: GameState;
-    gameConfiguration: GameConfiguration;
-
-    constructor(canvasCtx: CanvasRenderingContext2D, gameState: GameState, gameConfiguration: GameConfiguration) {
-        this.assetLibrary = new AssetLibrary();
-        this.canvasCtx = canvasCtx;
-        this.gameState = gameState;
-        this.gameConfiguration = gameConfiguration;
-    }
-
-    init = async () => {
-        await this.assetLibrary.init();
-    }
-
-    paintItemsLayer = (items: Items) => {
-        items.get().map(item => {
-            if (item.position.x >= this.gameState.viewport.position.x
-                && item.position.x < this.gameState.viewport.position.x + this.gameConfiguration.viewport.dimension.width
-                && item.position.y >= this.gameState.viewport.position.y
-                && item.position.y < this.gameState.viewport.position.y + this.gameConfiguration.viewport.dimension.height
-            ) {
-                const theImage = this.assetLibrary.getImage(item.image)
-
-                this.drawImg(theImage, item.position.x - this.gameState.viewport.position.x, item.position.y - this.gameState.viewport.position.y)
-            }
-        })
-    }
+export const paintItemsLayer = (items: Items) => {
+    items.get().map(item => {
+        if (item.position.x >= gameState.viewport.position.x && item.position.x < gameState.viewport.position.x + gameConfiguration.viewport.dimension.width && item.position.y >= gameState.viewport.position.y && item.position.y < gameState.viewport.position.y + gameConfiguration.viewport.dimension.height) {
+            const theImage = getImage(item.image)
+            drawImg(theImage, item.position.x - gameState.viewport.position.x, item.position.y - gameState.viewport.position.y)
+        }
+    })
+}
 
 
-    drawImg = (image: HTMLImageElement, x: number, y: number) => {
-        this.canvasCtx.drawImage(image, x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
-    }
+const drawImg = (image: HTMLImageElement, x: number, y: number) => {
+    canvasContext.drawImage(image, x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
 }

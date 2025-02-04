@@ -1,4 +1,4 @@
-import {GameEngine} from "./engine/GameEngine.ts";
+import {init as initGameEngine, run} from "./engine/GameEngine.ts";
 import {GameConfiguration} from "./engine/model/configuration/GameConfiguration.ts";
 import asteniaConfiguration from "./levels/astenia/astenia.ts";
 import {Orientation} from "./engine/model/Orientation.ts";
@@ -10,21 +10,20 @@ import {TwoDimensionalSize} from "./engine/model/TwoDimensionalSize.ts";
 import {DeadZone} from "./engine/model/configuration/DeadZone.ts";
 
 
-window.onload = function () {
+window.onload = async function () {
     const mapsConfiguration = {
         astenia: asteniaConfiguration
     };
     const initialMap = "astenia";
     const playerConfiguration = new PlayerConfiguration(
-        new PlayerState(new Position(5, 13), Orientation.RIGHT,3,2,25),
+        new PlayerState(new Position(5, 13), Orientation.RIGHT, 3, 2, 25),
         "./assets/player-sprite.png")
     const viewportConfiguration = new ViewportConfiguration(
         new TwoDimensionalSize(35, 19),
         new DeadZone(new Position(8, 4), new TwoDimensionalSize(19, 11)),
         30)
     const configuration = new GameConfiguration(mapsConfiguration, initialMap, playerConfiguration, viewportConfiguration);
-
-    const engine = new GameEngine(configuration);
+    await initGameEngine(configuration);
     console.log("engine created, starting loop");
-    engine.run();
+    run();
 }
