@@ -43,7 +43,7 @@ export class GridBackgroundPainter {
                 case "h" :
                     return this.fillers.getFiller("grass");
                 case " ":
-                    return "rgba(171,171,171,1)";
+                    return this.fillers.getFiller("dalle");
                 case "l":
                     return this.fillers.getFiller("lava");
                 case "B":
