@@ -77,6 +77,8 @@ export const init = async () => {
     await loadAsset("village", "village.png");
     await loadAsset("vortex", "vortex.png");
     await loadAsset("wizard", "wizard.png");
+    await loadAsset("bg-carrelage", "bg/carrelage.png");
+    await loadAsset("bg-lava", "bg/lava.png");
 }
 
 

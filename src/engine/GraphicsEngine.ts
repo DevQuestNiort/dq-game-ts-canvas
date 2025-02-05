@@ -1,16 +1,13 @@
 import {GRID_PITCH} from "./constants.ts";
 import {init as initGridBackgroundPainter, paintBackground} from "./GridBackgroundPainter.ts";
-import {init as initGridBackgroundPainter, paintBackground} from "./GridBackgroundPainter.ts";
 import {Position} from "./model/Position.ts";
 import {paintItemsLayer} from "./ItemsLayerPainter.ts";
 import {Orientation} from "./model/Orientation.ts";
 import {Debug} from "../component/Debug.ts";
-import {PlayerStat} from "../component/PlayerStat.ts";
 import {canvas, canvasContext, gameConfiguration, gameState} from "./GameDataService.ts";
 
-let gameInformation: HTMLElement
+
 let gameDebug: HTMLElement
-let playerStat: HTMLElement
 let playerImage: HTMLImageElement | undefined;
 let fpsInterval: number;
 let lastFrameTime: number;
@@ -18,9 +15,7 @@ let tilesChanged: Position[];
 let viewportChanged: boolean;
 
 export const init = async () => {
-    gameInformation = document.getElementById("game-information") as HTMLElement;
     gameDebug = document.getElementById("game-debug") as HTMLElement;
-    playerStat = document.getElementById("player-stat") as HTMLElement;
     prepareCanvas();
     fpsInterval = 1000 / gameConfiguration.viewport.fpsLimit;
     lastFrameTime = Date.now();
@@ -42,21 +37,26 @@ export const draw = () => {
 
 
         gameDebug.innerHTML = Debug(gameState)
-        playerStat.innerHTML = PlayerStat(gameState.player)
         // on met à jour la date de la dernière frame en tenant compte du fait qu'une frame n'est pas forcément déssinée pile à 1 fpsInterval de l'ancienne fraùe
         lastFrameTime = currentTime - (elapsedTimeSinceLastFrame % fpsInterval);
         paintBackground(getCurrentMap().grid, gameState.viewport, gameConfiguration.viewport.dimension, tilesChanged, viewportChanged)
         paintItemsLayer(getCurrentMapState().items);
         
-               this.canvasCtx.fillStyle = "#000000";
-            this.canvasCtx.fillRect(0, GRID_PITCH * 19, GRID_PITCH * 35, 120);
-            this.canvasCtx.fillStyle = "#ffffff";
-            this.canvasCtx.fillRect( 0 + 3, GRID_PITCH * 19 +3 , (GRID_PITCH * 35) -6, 120 - 6);
+        canvasContext.fillStyle = "#000000";
+        canvasContext.fillRect(0, GRID_PITCH * 23, GRID_PITCH * 35, 110);
+        canvasContext.fillStyle = "#ffffff";
+        canvasContext.strokeStyle = "#ffffff"; // Définition de la couleur du contour
+        canvasContext.lineWidth = 4; // Épaisseur du contour
+        canvasContext.strokeRect( 0 + 3, GRID_PITCH * 23 +3 , ((GRID_PITCH * 35)/2) -3, 110 - 6);
+        canvasContext.strokeRect( ((GRID_PITCH * 35)/2) + 3, GRID_PITCH * 23 +3 , ((GRID_PITCH * 35)/2) -6, 110 - 6);
+        canvasContext.font = "18px gamms";
+        canvasContext.fillStyle = "#fff";
+        canvasContext.fillText("Points de Vie: ", 10, GRID_PITCH * 23 +3 + 22, 125)
+        canvasContext.fillText("Attaque: ", 200, GRID_PITCH * 23 +3 + 22, 125)
+        canvasContext.fillText("Defense: ", 350, GRID_PITCH * 23 +3 + 22, 125)
 
-            this.canvasCtx.fillRect(0 + 5, GRID_PITCH * 19 +5 , (GRID_PITCH * 35) -10, 120 - 10);
-            this.canvasCtx.fillStyle = "#000000";
-            this.canvasCtx.fillStyle = "#DD11AA";
-            this.canvasCtx.fillText("GAME ", 10, 10, 125)
+        canvasContext.fillText("Inventaire: ", 10, GRID_PITCH * 23 +3 + 22 * 2 + 10, 125)
+
         drawPlayer();
         tilesChanged = [];
         viewportChanged = false;
@@ -100,7 +100,7 @@ const drawPlayer = () => {
 
 const prepareCanvas = () => {
     canvas.width = gameConfiguration.viewport.dimension.width * GRID_PITCH;
-    canvas.height = gameConfiguration.viewport.dimension.height * GRID_PITCH;
+    canvas.height = gameConfiguration.viewport.dimension.height * GRID_PITCH + 110;
 }
 
 const loadImage: (src: string) => Promise<HTMLImageElement> = (src: string) => {
