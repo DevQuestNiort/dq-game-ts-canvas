@@ -1,5 +1,6 @@
 import {GRID_PITCH} from "./constants.ts";
 import {init as initGridBackgroundPainter, paintBackground} from "./GridBackgroundPainter.ts";
+import {init as initGridBackgroundPainter, paintBackground} from "./GridBackgroundPainter.ts";
 import {Position} from "./model/Position.ts";
 import {paintItemsLayer} from "./ItemsLayerPainter.ts";
 import {Orientation} from "./model/Orientation.ts";
@@ -46,10 +47,20 @@ export const draw = () => {
         lastFrameTime = currentTime - (elapsedTimeSinceLastFrame % fpsInterval);
         paintBackground(getCurrentMap().grid, gameState.viewport, gameConfiguration.viewport.dimension, tilesChanged, viewportChanged)
         paintItemsLayer(getCurrentMapState().items);
-        //drawGrid();
+        
+               this.canvasCtx.fillStyle = "#000000";
+            this.canvasCtx.fillRect(0, GRID_PITCH * 19, GRID_PITCH * 35, 120);
+            this.canvasCtx.fillStyle = "#ffffff";
+            this.canvasCtx.fillRect( 0 + 3, GRID_PITCH * 19 +3 , (GRID_PITCH * 35) -6, 120 - 6);
+
+            this.canvasCtx.fillRect(0 + 5, GRID_PITCH * 19 +5 , (GRID_PITCH * 35) -10, 120 - 10);
+            this.canvasCtx.fillStyle = "#000000";
+            this.canvasCtx.fillStyle = "#DD11AA";
+            this.canvasCtx.fillText("GAME ", 10, 10, 125)
         drawPlayer();
         tilesChanged = [];
         viewportChanged = false;
+     
     }
 }
 
