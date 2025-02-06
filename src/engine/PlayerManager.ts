@@ -42,6 +42,7 @@ export const pickUpKeyPressed = () => {
     if ( itemAtPlayerPosition && itemAtPlayerPosition instanceof PickableItem ) {
         console.log("je ramasse")
         addItemToInventory(itemAtPlayerPosition)
+        updateStats()
     }
 }
 
@@ -87,4 +88,12 @@ export const movePlayer = (x: number, y: number) => {
         console.debug(`player moved to ${playerX}, ${playerY}`);
         computeViewportPosition();
     }
+}
+
+export const updateStats = () => {
+    // recalcul attack, on parcourt les objets pour appliquer les effets
+    gameState.player.attack = gameState.player.baseAttack;
+    gameState.player.defense = gameState.player.baseDefense;
+    gameState.player.inventory.get().map(item => item as PickableItem).forEach(item => item.playerModificator(gameState.player));
+
 }

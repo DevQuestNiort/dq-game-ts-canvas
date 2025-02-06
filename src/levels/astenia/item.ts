@@ -4,7 +4,8 @@ import {DecorativeItem} from "../../engine/model/DecorativeItem.ts";
 import {PickableItem} from "../../engine/model/PickableItem.ts";
 
 export const items = [
-    new PickableItem("cm6o2258z00036g63ayv2nmd8", "bouclier",  new Position(9, 13),  "Bouclier", "", "bouclier"),
+    new PickableItem("cm6o2258z00036g6azefjzeo", "chicken",  new Position(10, 13),(player) => player.attack+=3 , "poulet", "", "chicken"),
+    new PickableItem("cm6o2258z00036g63ayv2nmd8", "bouclier",  new Position(9, 13), (player) => player.defense+=5 , "Bouclier", "", "bouclier"),
     new DecorativeItem("cm6o2258z00036g63ayv2nmd7", "tonneau",  new Position(8, 13),  "Tonneau", "", "tonneau"),
     new DecorativeItem("cm6o2258z00036g63ayv2nmd7", "tonneau",  new Position(9, 3),  "Tonneau", "", "tonneau"),
     new DecorativeItem("cm6o2258z00046g6335rkr8mh", "tonneau",  new Position(9, 4),  "Tonneau", "", "tonneau"),

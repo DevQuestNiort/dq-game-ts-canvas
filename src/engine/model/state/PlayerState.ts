@@ -6,16 +6,20 @@ export class PlayerState {
     /** position sur la grille */
     public position: Position;
     public orientation: Orientation
-    public degat: number
+    public readonly baseAttack: number
+    public readonly baseDefense: number
+    public attack: number
     public defense: number
     public life: number
     public inventory: Items
 
-    constructor(position: Position, orientation: Orientation, degat: number, defense: number, life: number) {
+    constructor(position: Position, orientation: Orientation, baseAttack: number, baseDefense: number, life: number) {
         this.position = position;
         this.orientation = orientation;
-        this.degat = degat;
-        this.defense = defense;
+        this.baseAttack = baseAttack;
+        this.baseDefense = baseDefense;
+        this.attack = baseAttack;
+        this.defense = baseDefense;
         this.life = life;
         this.inventory = new Items([])
     }

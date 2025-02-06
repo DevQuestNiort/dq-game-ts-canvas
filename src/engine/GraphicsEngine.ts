@@ -5,6 +5,7 @@ import {paintItemsLayer} from "./ItemsLayerPainter.ts";
 import {Orientation} from "./model/Orientation.ts";
 import {Debug} from "../component/Debug.ts";
 import {canvas, canvasContext, gameConfiguration, gameState, getCurrentMap} from "./GameDataService.ts";
+import {getImage} from "./AssetLibrary.ts";
 
 
 let gameDebug: HTMLElement
@@ -41,28 +42,47 @@ export const draw = () => {
         lastFrameTime = currentTime - (elapsedTimeSinceLastFrame % fpsInterval);
         paintBackground(getCurrentMap().grid, gameState.viewport, gameConfiguration.viewport.dimension, tilesChanged, viewportChanged)
         paintItemsLayer(getCurrentMapState().items);
-        
-        canvasContext.fillStyle = "#000000";
-        canvasContext.fillRect(0, GRID_PITCH * 23, GRID_PITCH * 35, 110);
-        canvasContext.fillStyle = "#ffffff";
-        canvasContext.strokeStyle = "#ffffff"; // Définition de la couleur du contour
-        canvasContext.lineWidth = 4; // Épaisseur du contour
-        canvasContext.strokeRect( 0 + 3, GRID_PITCH * 23 +3 , ((GRID_PITCH * 35)/2) -3, 110 - 6);
-        canvasContext.strokeRect( ((GRID_PITCH * 35)/2) + 3, GRID_PITCH * 23 +3 , ((GRID_PITCH * 35)/2) -6, 110 - 6);
-        canvasContext.font = "18px gamms";
-        canvasContext.fillStyle = "#fff";
-        canvasContext.fillText("Points de Vie: ", 10, GRID_PITCH * 23 +3 + 22, 125)
-        canvasContext.fillText("Attaque: ", 200, GRID_PITCH * 23 +3 + 22, 125)
-        canvasContext.fillText("Defense: ", 350, GRID_PITCH * 23 +3 + 22, 125)
 
-        canvasContext.fillText("Inventaire: ", 10, GRID_PITCH * 23 +3 + 22 * 2 + 10, 125)
 
+        paintMenu()
         drawPlayer();
         tilesChanged = [];
         viewportChanged = false;
      
     }
 }
+
+
+function paintMenu(){
+    const patternCanvas = document.createElement("canvas");
+    patternCanvas.width = GRID_PITCH * 35;
+    patternCanvas.height =  110;
+    const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
+
+    pCtx.fillStyle = "#245a5a";
+    pCtx.fillRect(0, 0, GRID_PITCH * 35, 110);
+
+    pCtx.fillStyle = "#000000";
+    pCtx.fillRect(0, 0, GRID_PITCH * 35, 110);
+    pCtx.fillStyle = "#ffffff";
+    pCtx.strokeStyle = "#ffffff"; // Définition de la couleur du contour
+    pCtx.lineWidth = 4; // Épaisseur du contour
+    pCtx.strokeRect( 0 + 3, 0 +3 , ((GRID_PITCH * 35)/2) -3, 110 - 6);
+    pCtx.strokeRect( ((GRID_PITCH * 35)/2) + 3, 0 +3 , ((GRID_PITCH * 35)/2) -6, 110 - 6);
+    pCtx.font = "20px gamms";
+    pCtx.fillStyle = "#fff";
+    pCtx.fillText("Points de Vie :  " + gameState.player.life, 10, 0 +3 + 22, 160)
+    pCtx.fillText("Attaque :  " + gameState.player.attack  , 200, 0 +3 + 22, 125)
+    pCtx.fillText("Defense :  " + gameState.player.defense, 350, 0 +3 + 22, 125)
+
+    pCtx.fillText("Inventaire: ", 10, 0 +3 + 22 * 2 + 10, 125)
+    gameState.player.inventory.get().map(item => getImage(item.image))
+        .forEach((image,index) => pCtx.drawImage(image, 10 + index * (GRID_PITCH + 5), 67, GRID_PITCH, GRID_PITCH ) )
+
+
+    canvasContext.drawImage(patternCanvas, 0, GRID_PITCH * 23);
+}
+
 
 export const notifyChangedTile = (changedTile: Position) => {
     console.log(`tile changed notification x=${changedTile.x}, y=${changedTile.y}`);
