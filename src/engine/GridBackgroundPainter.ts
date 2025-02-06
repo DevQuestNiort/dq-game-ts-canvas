@@ -35,11 +35,12 @@ const paintBackgroundTile = (x: number, y: number, type: string) => {
             case "h" :
                 return getFiller("grass");
             case " ":
-                return getFiller("dalle");
+               // return "rgb(255,255,255)";
+               return getFiller("dalle");
             case "l":
                 return getFiller("lava");
             case "B":
-                return "rgb(72,49,11)";
+                return getFiller("wood")
             case "w":
                 return getFiller("water");
             case "║":
@@ -55,8 +56,10 @@ const paintBackgroundTile = (x: number, y: number, type: string) => {
             case "╬":
             case "■":
                 return getFiller("wall");
+            case "x":
+                return getFiller("grass");
             case "S" :
-                return "#736435";
+                return getFiller("sand");
             default :
                 return "rgba(4,243,43,0.74)"
         }
