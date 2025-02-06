@@ -4,7 +4,7 @@ import {Position} from "./model/Position.ts";
 import {paintItemsLayer} from "./ItemsLayerPainter.ts";
 import {Orientation} from "./model/Orientation.ts";
 import {Debug} from "../component/Debug.ts";
-import {canvas, canvasContext, gameConfiguration, gameState} from "./GameDataService.ts";
+import {canvas, canvasContext, gameConfiguration, gameState, getCurrentMap} from "./GameDataService.ts";
 
 
 let gameDebug: HTMLElement
@@ -71,10 +71,6 @@ export const notifyChangedTile = (changedTile: Position) => {
 export const notifyViewportChanged = () => {
     console.log("viewport changed notification");
     viewportChanged = true;
-}
-
-const getCurrentMap = () => {
-    return gameConfiguration.maps[gameState.currentMap];
 }
 
 const getCurrentMapState = () => {

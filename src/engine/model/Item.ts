@@ -1,28 +1,26 @@
 import {Position} from "./Position.ts";
 
-export class Item {
-
-    public uid: string;
-    public name: string;
-    public type: ItemType;
-    public position: Position;
-    public takable: boolean;
-    public description: string;
-    public instructions: string;
-    public image: string;
 
 
-    constructor(uid: string, name: string, type: ItemType, position: Position, takable: boolean, description: string, instructions: string, image: string) {
-        this.uid = uid;
-        this.name = name;
-        this.type = type;
-        this.position = position;
-        this.takable = takable;
-        this.description = description;
-        this.instructions = instructions;
-        this.image = image;
+/*
 
-    }
+ITEM Sterile ( tonneau, decoratif )  MVP zero action ( bloquant et decoratif )
+
+
+
+ */
+
+
+
+export interface Item {
+
+    uid: string;
+    name: string;
+    type: ItemType;
+    position: Position;
+    description: string;
+    instructions: string;
+    image: string;
 
 
 }
@@ -30,7 +28,13 @@ export class Item {
 
 export enum ItemType {
     DECORATIF,
-    TAKEABLE,
-    CONSOMMABlE,
+    PICKABLE,
     USABLE,
+}
+
+
+export enum BonusType {
+    LIFE,
+    DEGAT,
+    DEFENSE,
 }

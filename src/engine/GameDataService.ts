@@ -16,3 +16,7 @@ export const setCanvas = (cnv: HTMLCanvasElement): void => {
     canvas = cnv;
     canvasContext = canvas.getContext("2d") as CanvasRenderingContext2D;
 };
+
+export const getCurrentMap = () => {
+    return gameConfiguration.maps[gameState.currentMap];
+}

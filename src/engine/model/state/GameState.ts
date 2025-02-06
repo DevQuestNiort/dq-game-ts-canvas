@@ -9,6 +9,7 @@ export class GameState {
     public mapStates: Record<string, MapState>;
 
 
+
     constructor(player: PlayerState, viewport: ViewportState, currentMap: string, mapStates: Record<string, MapState>) {
         this.player = player;
         this.viewport = viewport;

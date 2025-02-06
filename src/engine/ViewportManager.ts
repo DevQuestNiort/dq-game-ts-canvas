@@ -1,5 +1,5 @@
 import {notifyViewportChanged} from "./GraphicsEngine.ts";
-import {gameConfiguration, gameState} from "./GameDataService.ts";
+import {gameConfiguration, gameState, getCurrentMap} from "./GameDataService.ts";
 
 export const centerViewportOnPlayer = () => {
     setViewportPositionWithinMapX(gameState.player.position.x - Math.floor(gameConfiguration.viewport.dimension.width / 2))
@@ -51,8 +51,4 @@ const setViewportPositionWithinMapY = (y: number) => {
         gameState.viewport.position.y = viewportY;
         notifyViewportChanged();
     }
-}
-
-const getCurrentMap = () => {
-    return gameConfiguration.maps[gameState.currentMap];
 }

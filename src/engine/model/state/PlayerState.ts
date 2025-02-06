@@ -9,7 +9,7 @@ export class PlayerState {
     public degat: number
     public defense: number
     public life: number
-    public inventaire: Items
+    public inventory: Items
 
     constructor(position: Position, orientation: Orientation, degat: number, defense: number, life: number) {
         this.position = position;
@@ -17,6 +17,6 @@ export class PlayerState {
         this.degat = degat;
         this.defense = defense;
         this.life = life;
-        this.inventaire = new Items([])
+        this.inventory = new Items([])
     }
 }

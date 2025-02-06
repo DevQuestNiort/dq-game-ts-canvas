@@ -16,7 +16,7 @@ window.onload = async function () {
     };
     const initialMap = "astenia";
     const playerConfiguration = new PlayerConfiguration(
-        new PlayerState(new Position(98, 14), Orientation.RIGHT, 3, 2, 25),
+        new PlayerState(new Position(10, 13), Orientation.RIGHT, 3, 2, 25),
         "./assets/player-sprite.png")
     const viewportConfiguration = new ViewportConfiguration(
         new TwoDimensionalSize(35, 23),
