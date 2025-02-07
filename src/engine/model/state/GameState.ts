@@ -1,19 +1,22 @@
 import {PlayerState} from "./PlayerState.ts";
 import {ViewportState} from "./ViewportState.ts";
 import {MapState} from "./MapState.ts";
+import {Options} from "./Options.ts";
 
 export class GameState {
     public player: PlayerState;
     public currentMap: string;
     public viewport: ViewportState;
     public mapStates: Record<string, MapState>;
+    public options: Options
 
 
 
-    constructor(player: PlayerState, viewport: ViewportState, currentMap: string, mapStates: Record<string, MapState>) {
+    constructor(player: PlayerState, viewport: ViewportState, currentMap: string, mapStates: Record<string, MapState>,options: Options) {
         this.player = player;
         this.viewport = viewport;
         this.currentMap = currentMap;
         this.mapStates = mapStates;
+        this.options = options
     }
 }

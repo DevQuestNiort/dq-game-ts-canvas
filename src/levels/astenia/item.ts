@@ -6,22 +6,40 @@ import {UsableItem} from "../../engine/model/UsableItem.ts";
 import {movePlayer, movePlayerToPosition} from "../../engine/PlayerManager.ts";
 import {PNJItem} from "../../engine/model/PNJItem.ts";
 import {gameState, getCurrentMap} from "../../engine/GameDataService.ts";
+import {playSound, soundJump} from "../../engine/SoundManager.ts";
+import {DoorItem} from "../../engine/model/DoorItem.ts";
 
 export const items = [
+
+    new DoorItem("cm6uhwsdo0005vs630x547dy7", "Porte Rouge", new Position(13, 17), "Porte Rouge", "", "prisonRed","cleRouge"),
+
     new PickableItem("cm6uhwsdm0002vs63dzl0g70a", "Epee", new Position(10, 5), (player) => player.attack += 3, "Epee Magique augmentant l'attaque +3", "press T pour prendre", "raresword"),
     new PickableItem("cm6uhwsdn0003vs63vjx18npm", "bouclier", new Position(9, 13), (player) => player.defense += 5, "Bouclier D' Agnes, +5 en defense", "press T pour prendre", "bouclier"),
 
+    new PickableItem("cleRouge", "cle", new Position(8, 16), (player) => {}, "Cle Rouge", "press T pour prendre", "cleRed"),
+
     new ComsumableItem("cm6uhwsdn0004vs63z2xh2hfh", "Potion", new Position(16, 16), (player) => player.life += 15, "Potion de soin +15", "press T pour Boise", "potion"),
     new UsableItem("cm6uiav5h000jvs633dm9oyj9", "Vortex", new Position(13, 22), (player) => {
-        movePlayerToPosition(36, 5)
+        movePlayerToPosition(36, 5);
+        playSound("jump")
     }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "vortex"),
     new UsableItem("cm6uiryd9000kvs6308ahv6nm", "Vortex", new Position(36, 5), (player) => {
-        movePlayerToPosition(13, 22)
+        movePlayerToPosition(13, 22);
+        playSound("jump")
+    }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "vortex"),
+    new UsableItem("cm6v5vbc4000ovs633vgd1cdb", "Vortex", new Position(30, 13), (player) => {
+        movePlayerToPosition(103, 16);
+        playSound("jump")
     }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "vortex"),
 
     new PNJItem("cm6uj11q4000lvs63d6xka7h4", "Vincent", new Position(13, 10), 10, 3, 2, (stateContext) => {
         stateContext.mapStates[stateContext.currentMap].items.addItem(new ComsumableItem("cm6ul464y000mvs630qlpu3ik", "Potion", new Position(13, 10), (player) => player.life += 15, "Potion de soin +15", "", "potion"),)
     }, "niak", "", "troll"),
+
+    new DecorativeItem("cm6ux31s6000nvs63zvk1aj1s", "Carte", new Position(2, 20), "panneau", "", "panneau","Chateau de Aleg, "),
+
+
+
 
     new DecorativeItem("cm6uhwsdo0005vs630x547dy7", "tonneau", new Position(8, 13), "Tonneau", "", "tonneau"),
     new DecorativeItem("cm6uhwsdo0006vs63ms9nj6rz", "tonneau", new Position(9, 3), "Tonneau", "", "tonneau"),

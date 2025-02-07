@@ -7,7 +7,7 @@ import {Position} from "./model/Position.ts";
 import {MapState} from "./model/state/MapState.ts";
 import {centerViewportOnPlayer,} from "./ViewportManager.ts";
 import {init as initAssetLibrary} from "./AssetLibrary.ts";
-import {gameConfiguration, setCanvas, setGameConfiguration, setGameState} from "./GameDataService.ts";
+import {gameConfiguration, gameState, setCanvas, setGameConfiguration, setGameState} from "./GameDataService.ts";
 import {
     actionKeyPressed,
     downKeyPressed, leftKeyPressed,
@@ -15,6 +15,7 @@ import {
     rightKeyPressed,
     upKeyPressed
 } from "./PlayerManager.ts";
+import {Options} from "./model/state/Options.ts";
 
 export const init = async (gameCfg: GameConfiguration) => {
     setCanvas(document.getElementById("gameCanvas") as HTMLCanvasElement);
@@ -35,7 +36,7 @@ const buildInitialGameState: (initialPlayerState: PlayerState, initialMap: strin
         acc[map.name] = map.mapState;
         return acc;
     }, {})
-    return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates);
+    return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates,new Options(false));
 }
 
 const bindKeys = () => {
@@ -69,10 +70,21 @@ const bindKeys = () => {
             case "T":
                 pickUpKeyPressed();
                 break;
+            case "m":
+            case "M":
+                muteSwitch();
+                break;
         }
 
     })
 }
+
+
+function muteSwitch() {
+    gameState.options.mute = !gameState.options.mute
+
+}
+
 export const run = async () => {
     draw();
 }

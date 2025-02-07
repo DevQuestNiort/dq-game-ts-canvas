@@ -2,6 +2,7 @@ import {gameState, getCurrentMap} from "./GameDataService.ts";
 import {Position} from "./model/Position.ts";
 import {ItemType} from "./model/Item.ts";
 import {Orientation} from "./model/Orientation.ts";
+import {DoorItem} from "./model/DoorItem.ts";
 
 export const isTileAccessible = (x: number, y: number) => {
     const tileType = getCurrentMap().grid.getCase(x, y)
@@ -22,6 +23,13 @@ export const isTileIsNotObstructed = (x: number, y: number) => {
     const itemAtPos = getItemAtPosition(new Position(x, y))
 
     if (itemAtPos && (itemAtPos.type === ItemType.DECORATIF ||  itemAtPos.type === ItemType.PNJ)) {
+        return false
+    }else if (itemAtPos && itemAtPos.type === ItemType.DOOR  ){
+        const itemAtPos1 = itemAtPos as DoorItem;
+        console.log("recherche de " + itemAtPos1.itemId + "  dans l inventaire")
+        if (gameState.player.inventory.getById(itemAtPos1.itemId)) {
+            return true
+        }
         return false
     }
     return true

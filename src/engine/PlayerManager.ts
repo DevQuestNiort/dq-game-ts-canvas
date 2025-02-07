@@ -13,6 +13,7 @@ import {PickableItem} from "./model/PickableItem.ts";
 import {ComsumableItem} from "./model/ComsumableItem.ts";
 import {UsableItem} from "./model/UsableItem.ts";
 import {PNJItem} from "./model/PNJItem.ts";
+import {playSound, soundAttack, soundError, soundKillEnnely, soundMove, soundPick} from "./SoundManager.ts";
 
 
 export const upKeyPressed = () => {
@@ -78,7 +79,7 @@ const attak = ( pnj : PNJItem) =>{
 
         console.log('death of ', pnj.name)
         pnj.death(gameState)
-
+        soundKillEnnely()
     }else {
 
         let degatToPlayer =  pnj.attack - gameState.player.defense
@@ -94,6 +95,8 @@ const attak = ( pnj : PNJItem) =>{
 
     notifyChangedTile(pnj.position);
 
+    playSound("attack")
+
 }
 
 
@@ -101,6 +104,8 @@ const addItemToInventory = ( item: PickableItem ) => {
     gameState.player.inventory.addItem(item);
     removeItemFromCurrentMapByUid(item.uid);
     notifyChangedTile(item.position);
+
+    playSound("pick")
     // refresh zone inventaire
 }
 
@@ -109,6 +114,7 @@ const comsumnItem = ( item: ComsumableItem ) => {
     item.playerModificator(gameState.player)
     removeItemFromCurrentMapByUid(item.uid);
     notifyChangedTile(item.position);
+    playSound("pick")
 
 }
 
@@ -140,8 +146,10 @@ export const movePlayerToPosition  = (playerX: number, playerY: number) => {
         notifyChangedTile(new Position(playerX, playerY));
         console.debug(`player moved to ${playerX}, ${playerY}`);
         computeViewportPosition();
+return true
     }
 
+return false
 }
 
 export const movePlayer = (x: number, y: number) => {
@@ -160,7 +168,12 @@ export const movePlayer = (x: number, y: number) => {
     if (playerY >= getCurrentMap().grid.getHeight()) {
         playerY = getCurrentMap().grid.getHeight() - 1;
     }
-    movePlayerToPosition(playerX,playerY)
+    const boolean = movePlayerToPosition(playerX,playerY);
+    if (boolean){
+        playSound("move")
+    }else{
+        playSound("error")
+    }
 
 }
 

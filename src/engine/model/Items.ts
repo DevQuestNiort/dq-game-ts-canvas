@@ -21,6 +21,10 @@ export class Items {
     getItemByPosition = (position: Position) => {
         return this.list.find(item => item.position.x === position.x && item.position.y === position.y)
     }
+    getById = (uid: string) => {
+      return this.list.find(item => item.uid === uid)
+    }
+
 
     removeItemByUid = (uid: string) => {
         this.list = this.list.filter(item => item.uid !== uid)
