@@ -21,20 +21,18 @@ export const isTileAccessible = (x: number, y: number) => {
 export const isTileIsNotObstructed = (x: number, y: number) => {
     const itemAtPos = getItemAtPosition(new Position(x, y))
 
-    if (itemAtPos && itemAtPos.type === ItemType.DECORATIF) {
+    if (itemAtPos && (itemAtPos.type === ItemType.DECORATIF ||  itemAtPos.type === ItemType.PNJ)) {
         return false
     }
     return true
 }
 
 export const getItemAtPosition = (position: Position) => {
-
     return gameState.mapStates[gameState.currentMap].items.getItemByPosition(position)
 }
 
 
 export const removeItemFromCurrentMapByUid = (uid: string) => {
-
     return gameState.mapStates[gameState.currentMap].items.removeItemByUid(uid)
 }
 

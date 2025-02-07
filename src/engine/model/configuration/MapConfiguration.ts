@@ -1,12 +1,12 @@
 import {Grid} from "./Grid.ts";
-import {Item} from "../Item.ts";
+import {AbstractItem} from "../AbstractItem.ts";
 
 export class MapConfiguration {
     public grid: Grid;
 
-    public items: Item[];
+    public items: AbstractItem[];
 
-    constructor(grid: Grid, items: Item[]) {
+    constructor(grid: Grid, items: AbstractItem[]) {
         this.grid = grid;
         this.items = items;
     }

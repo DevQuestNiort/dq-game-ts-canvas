@@ -6,6 +6,8 @@ import {Orientation} from "./model/Orientation.ts";
 import {Debug} from "../component/Debug.ts";
 import {canvas, canvasContext, gameConfiguration, gameState, getCurrentMap} from "./GameDataService.ts";
 import {getImage} from "./AssetLibrary.ts";
+import {getItemInFrontOfPlayer} from "./MapManager.ts";
+import {PNJItem} from "./model/PNJItem.ts";
 
 
 let gameDebug: HTMLElement
@@ -78,6 +80,16 @@ function paintMenu(){
     pCtx.fillText("Inventaire: ", 10, 0 +3 + 22 * 2 + 10, 125)
     gameState.player.inventory.get().map(item => getImage(item.image))
         .forEach((image,index) => pCtx.drawImage(image, 10 + index * (GRID_PITCH + 5), 67, GRID_PITCH, GRID_PITCH ) )
+
+
+    const itemInFrontOfPlayer = getItemInFrontOfPlayer()
+    if ( itemInFrontOfPlayer && itemInFrontOfPlayer instanceof PNJItem ) {
+        pCtx.fillStyle = "#fff";
+        pCtx.fillText("Points de Vie :  " + itemInFrontOfPlayer.life, ((GRID_PITCH * 35)/2) + 10, 0 +3 + 22, 160)
+        pCtx.fillText("Attaque :  " + itemInFrontOfPlayer.attack  , ((GRID_PITCH * 35)/2) +200, 0 +3 + 22, 125)
+        pCtx.fillText("Defense :  " + itemInFrontOfPlayer.defense, ((GRID_PITCH * 35)/2) +350, 0 +3 + 22, 125)
+        pCtx.fillText("name  :" + itemInFrontOfPlayer.name  , ((GRID_PITCH * 35)/2) + 10, 0 +3 + 22 * 2 + 10, 125)
+    }
 
 
     canvasContext.drawImage(patternCanvas, 0, GRID_PITCH * 23);

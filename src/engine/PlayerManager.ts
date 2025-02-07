@@ -4,12 +4,15 @@ import {notifyChangedTile} from "./GraphicsEngine.ts";
 import {Position} from "./model/Position.ts";
 import {computeViewportPosition} from "./ViewportManager.ts";
 import {
-    getItemAtPlayerPosition,
+    getItemAtPlayerPosition, getItemInFrontOfPlayer,
     isTileAccessible,
     isTileIsNotObstructed,
     removeItemFromCurrentMapByUid
 } from "./MapManager.ts";
 import {PickableItem} from "./model/PickableItem.ts";
+import {ComsumableItem} from "./model/ComsumableItem.ts";
+import {UsableItem} from "./model/UsableItem.ts";
+import {PNJItem} from "./model/PNJItem.ts";
 
 
 export const upKeyPressed = () => {
@@ -33,7 +36,13 @@ export const rightKeyPressed = () => {
 }
 
 export const actionKeyPressed = () => {
-    console.log("je sais rien faire pour l'instant");
+    const itemInFrontOfPlayer = getItemInFrontOfPlayer();
+    if ( itemInFrontOfPlayer && itemInFrontOfPlayer instanceof PNJItem ) {
+
+        console.log("j'attaque'" + itemInFrontOfPlayer.name);
+        attak(itemInFrontOfPlayer)
+    }
+
 }
 
 export const pickUpKeyPressed = () => {
@@ -43,7 +52,48 @@ export const pickUpKeyPressed = () => {
         console.log("je ramasse")
         addItemToInventory(itemAtPlayerPosition)
         updateStats()
+    }else if (itemAtPlayerPosition && itemAtPlayerPosition instanceof ComsumableItem){
+        console.log("je Consomme")
+        comsumnItem(itemAtPlayerPosition)
     }
+    else if (itemAtPlayerPosition && itemAtPlayerPosition instanceof UsableItem){
+        console.log("j utilise")
+        useItem(itemAtPlayerPosition)
+    }
+
+}
+
+const attak = ( pnj : PNJItem) =>{
+
+
+
+    let degatToPnj = (gameState.player.attack - pnj.defense)
+    if (degatToPnj < 1 ){
+        degatToPnj = 1
+    }
+    pnj.life = pnj.life - degatToPnj
+
+
+    if (pnj.life<1){
+
+        console.log('death of ', pnj.name)
+        pnj.death(gameState)
+
+    }else {
+
+        let degatToPlayer =  pnj.attack - gameState.player.defense
+
+        if (degatToPlayer < 1 ){
+            degatToPlayer = 1
+        }
+        gameState.player.life= gameState.player.life - degatToPlayer
+
+    }
+
+
+
+    notifyChangedTile(pnj.position);
+
 }
 
 
@@ -54,9 +104,44 @@ const addItemToInventory = ( item: PickableItem ) => {
     // refresh zone inventaire
 }
 
+const comsumnItem = ( item: ComsumableItem ) => {
+
+    item.playerModificator(gameState.player)
+    removeItemFromCurrentMapByUid(item.uid);
+    notifyChangedTile(item.position);
+    // refresh zone inventaire
+}
+
+const useItem = ( item: UsableItem ) => {
+console.log("useTiemt")
+    item.playerModificator(gameState.player)
+    notifyChangedTile(item.position);
+    // refresh zone inventaire
+}
+
+
+
 export const rotatePlayer = (orientation: Orientation) => {
     gameState.player.orientation = orientation;
     notifyChangedTile(gameState.player.position);
+}
+
+
+export const movePlayerToPosition  = (playerX: number, playerY: number) => {
+
+    // puis je aller en playerX playerY
+    if (isTileAccessible(playerX, playerY) && isTileIsNotObstructed(playerX, playerY)) {
+        const oldPosition = structuredClone(gameState.player.position);
+        gameState.player.position.x = playerX;
+        gameState.player.position.y = playerY;
+
+
+        notifyChangedTile(oldPosition);
+        notifyChangedTile(new Position(playerX, playerY));
+        console.debug(`player moved to ${playerX}, ${playerY}`);
+        computeViewportPosition();
+    }
+
 }
 
 export const movePlayer = (x: number, y: number) => {
@@ -75,19 +160,8 @@ export const movePlayer = (x: number, y: number) => {
     if (playerY >= getCurrentMap().grid.getHeight()) {
         playerY = getCurrentMap().grid.getHeight() - 1;
     }
+    movePlayerToPosition(playerX,playerY)
 
-    // puis je aller en playerX playerY
-    if (isTileAccessible(playerX, playerY) && isTileIsNotObstructed(playerX, playerY)) {
-        const oldPosition = structuredClone(gameState.player.position);
-        gameState.player.position.x = playerX;
-        gameState.player.position.y = playerY;
-
-
-        notifyChangedTile(oldPosition);
-        notifyChangedTile(new Position(playerX, playerY));
-        console.debug(`player moved to ${playerX}, ${playerY}`);
-        computeViewportPosition();
-    }
 }
 
 export const updateStats = () => {
