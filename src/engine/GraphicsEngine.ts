@@ -6,8 +6,9 @@ import {Orientation} from "./model/Orientation.ts";
 import {Debug} from "../component/Debug.ts";
 import {canvas, canvasContext, gameConfiguration, gameState, getCurrentMap} from "./GameDataService.ts";
 import {getImage} from "./AssetLibrary.ts";
-import {getItemInFrontOfPlayer} from "./MapManager.ts";
+import {getItemAtPlayerPosition, getItemInFrontOfPlayer} from "./MapManager.ts";
 import {PNJItem} from "./model/PNJItem.ts";
+import {AbstractItem} from "./model/AbstractItem.ts";
 
 
 let gameDebug: HTMLElement
@@ -46,6 +47,14 @@ export const draw = () => {
         paintItemsLayer(getCurrentMapState().items);
 
 
+        const itemAtPlayerPosition = getItemAtPlayerPosition();
+
+        if (itemAtPlayerPosition){
+            paintItemCadre(itemAtPlayerPosition)
+        }
+
+
+
         paintMenu()
         drawPlayer();
         tilesChanged = [];
@@ -54,6 +63,34 @@ export const draw = () => {
     }
 }
 
+function paintItemCadre( item : AbstractItem){
+
+
+    const patternCanvas = document.createElement("canvas");
+    patternCanvas.width = GRID_PITCH * 19;
+    patternCanvas.height =  GRID_PITCH *3;
+
+    const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
+    pCtx.fillStyle = "#245a5a";
+    pCtx.fillRect(0, 0, GRID_PITCH * 19, GRID_PITCH *3);
+
+    pCtx.strokeStyle = "#ffffff"; // Définition de la couleur du contour
+    pCtx.lineWidth = 4; // Épaisseur du contour
+
+    pCtx.strokeRect( 0 + 3, 0 +3 , GRID_PITCH * 19 -6, GRID_PITCH *3 - 6);
+
+    pCtx.font = "20px gamms";
+    pCtx.fillStyle = "#fff";
+    pCtx.fillText("Description  : " + item.description , 10, 0 +3 + 22, 500)
+
+    pCtx.fillText( item.instructions , 10, 0 +3 + 2* 22+ 10, 500)
+
+
+    canvasContext.drawImage(patternCanvas, GRID_PITCH * 3 , GRID_PITCH * 3);
+
+
+
+}
 
 function paintMenu(){
     const patternCanvas = document.createElement("canvas");
@@ -91,9 +128,10 @@ function paintMenu(){
         pCtx.fillText("name  :" + itemInFrontOfPlayer.name  , ((GRID_PITCH * 35)/2) + 10, 0 +3 + 22 * 2 + 10, 125)
     }
 
-
     canvasContext.drawImage(patternCanvas, 0, GRID_PITCH * 23);
 }
+
+
 
 
 export const notifyChangedTile = (changedTile: Position) => {

@@ -109,14 +109,14 @@ const comsumnItem = ( item: ComsumableItem ) => {
     item.playerModificator(gameState.player)
     removeItemFromCurrentMapByUid(item.uid);
     notifyChangedTile(item.position);
-    // refresh zone inventaire
+
 }
 
 const useItem = ( item: UsableItem ) => {
 console.log("useTiemt")
     item.playerModificator(gameState.player)
     notifyChangedTile(item.position);
-    // refresh zone inventaire
+
 }
 
 
