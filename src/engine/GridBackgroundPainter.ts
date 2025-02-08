@@ -57,11 +57,11 @@ const paintBackgroundTile = (x: number, y: number, type: string) => {
             case "■":
                 return getFiller("wall");
             case "x":
-                return getFiller("grass");
+                return  "rgb(0,0,0)";
             case "S" :
                 return getFiller("sand");
             default :
-                return "rgba(4,243,43,0.74)"
+                return "rgba(0,0,0)"
         }
     })();
     canvasContext.fillRect(x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);

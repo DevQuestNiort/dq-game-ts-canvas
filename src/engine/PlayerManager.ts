@@ -1,6 +1,6 @@
 import {Orientation} from "./model/Orientation.ts";
 import {gameState, getCurrentMap} from "./GameDataService.ts";
-import {notifyChangedTile} from "./GraphicsEngine.ts";
+import {notifyChangedTile, notifyViewportChanged} from "./GraphicsEngine.ts";
 import {Position} from "./model/Position.ts";
 import {computeViewportPosition} from "./ViewportManager.ts";
 import {
@@ -130,6 +130,20 @@ console.log("useTiemt")
 export const rotatePlayer = (orientation: Orientation) => {
     gameState.player.orientation = orientation;
     notifyChangedTile(gameState.player.position);
+}
+
+
+
+export const movePlayerToPositionAndMap  = (playerX: number, playerY: number, mapName: string) => {
+    gameState.player.position.x = playerX;
+    gameState.player.position.y = playerY;
+    gameState.currentMap=mapName
+    // puis je aller en playerX playerY
+
+
+        console.debug(`player moved to ${playerX}, ${playerY}`);
+        notifyViewportChanged()
+
 }
 
 

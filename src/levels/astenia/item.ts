@@ -3,7 +3,7 @@ import {DecorativeItem} from "../../engine/model/DecorativeItem.ts";
 import {PickableItem} from "../../engine/model/PickableItem.ts";
 import {ComsumableItem} from "../../engine/model/ComsumableItem.ts";
 import {UsableItem} from "../../engine/model/UsableItem.ts";
-import {movePlayer, movePlayerToPosition} from "../../engine/PlayerManager.ts";
+import {movePlayer, movePlayerToPosition, movePlayerToPositionAndMap} from "../../engine/PlayerManager.ts";
 import {PNJItem} from "../../engine/model/PNJItem.ts";
 import {gameState, getCurrentMap} from "../../engine/GameDataService.ts";
 import {playSound, soundJump} from "../../engine/SoundManager.ts";
@@ -28,9 +28,9 @@ export const items = [
         playSound("jump")
     }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "vortex"),
     new UsableItem("cm6v5vbc4000ovs633vgd1cdb", "Vortex", new Position(30, 13), (player) => {
-        movePlayerToPosition(103, 16);
+        movePlayerToPositionAndMap(23, 17,"castelm01");// 18 / 14
         playSound("jump")
-    }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "vortex"),
+    }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "echelle"),
 
     new PNJItem("cm6uj11q4000lvs63d6xka7h4", "Vincent", new Position(13, 10), 10, 3, 2, (stateContext) => {
         stateContext.mapStates[stateContext.currentMap].items.addItem(new ComsumableItem("cm6ul464y000mvs630qlpu3ik", "Potion", new Position(13, 10), (player) => player.life += 15, "Potion de soin +15", "", "potion"),)

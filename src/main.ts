@@ -1,6 +1,7 @@
 import {init as initGameEngine, run} from "./engine/GameEngine.ts";
 import {GameConfiguration} from "./engine/model/configuration/GameConfiguration.ts";
 import asteniaConfiguration from "./levels/astenia/astenia.ts";
+import castelm01Configuration  from './levels/castelm01/castelm01.ts'
 import {Orientation} from "./engine/model/Orientation.ts";
 import {PlayerConfiguration} from "./engine/model/configuration/PlayerConfiguration.ts";
 import {PlayerState} from "./engine/model/state/PlayerState.ts";
@@ -12,7 +13,8 @@ import {DeadZone} from "./engine/model/configuration/DeadZone.ts";
 
 window.onload = async function () {
     const mapsConfiguration = {
-        astenia: asteniaConfiguration
+        astenia: asteniaConfiguration,
+        castelm01: castelm01Configuration
     };
     const initialMap = "astenia";
     const playerConfiguration = new PlayerConfiguration(
