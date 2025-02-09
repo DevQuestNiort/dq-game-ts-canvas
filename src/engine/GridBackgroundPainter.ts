@@ -58,6 +58,8 @@ const paintBackgroundTile = (x: number, y: number, type: string) => {
                 return getFiller("wall");
             case "x":
                 return  "rgb(0,0,0)";
+            case "p":
+                return  "rgb(0,0,0)";
             case "S" :
                 return getFiller("sand");
             default :

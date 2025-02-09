@@ -1,5 +1,5 @@
 import {GRID_PITCH} from "./constants.ts";
-import {Items} from "./model/Items.ts";
+import {Items} from "./model/item/Items.ts";
 import {getImage} from "./AssetLibrary.ts";
 import {canvasContext, gameConfiguration, gameState} from "./GameDataService.ts";
 

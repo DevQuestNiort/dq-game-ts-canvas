@@ -6,6 +6,8 @@ export let gameConfiguration: GameConfiguration;
 export let canvas: HTMLCanvasElement;
 export let canvasContext: CanvasRenderingContext2D;
 
+
+
 export const setGameState = (gameSt: GameState): void => {
     gameState = gameSt;
 };

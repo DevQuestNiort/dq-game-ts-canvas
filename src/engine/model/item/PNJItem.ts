@@ -1,8 +1,8 @@
 import {AbstractItem} from "./AbstractItem.ts";
-import {Position} from "./Position.ts";
+import {Position} from "../Position.ts";
 import {ItemType} from "./Item.ts";
-import {PlayerState} from "./state/PlayerState.ts";
-import {GameState} from "./state/GameState.ts";
+import {PlayerState} from "../state/PlayerState.ts";
+import {GameState} from "../state/GameState.ts";
 
 export class PNJItem extends AbstractItem {
 

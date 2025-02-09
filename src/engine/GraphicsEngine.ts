@@ -7,8 +7,11 @@ import {Debug} from "../component/Debug.ts";
 import {canvas, canvasContext, gameConfiguration, gameState, getCurrentMap} from "./GameDataService.ts";
 import {getImage} from "./AssetLibrary.ts";
 import {getItemAtPlayerPosition, getItemInFrontOfPlayer} from "./MapManager.ts";
-import {PNJItem} from "./model/PNJItem.ts";
-import {AbstractItem} from "./model/AbstractItem.ts";
+import {PNJItem} from "./model/item/PNJItem.ts";
+import {AbstractItem} from "./model/item/AbstractItem.ts";
+import {DecorativeItem} from "./model/item/DecorativeItem.ts";
+import {ModalTemplate} from "./model/modalTemplate/ModalTemplate.ts";
+import {AbstractModalTemplate, TypeModal} from "./model/modalTemplate/AbstractModalTemplate.ts";
 
 
 let gameDebug: HTMLElement
@@ -43,24 +46,109 @@ export const draw = () => {
         gameDebug.innerHTML = Debug(gameState)
         // on met à jour la date de la dernière frame en tenant compte du fait qu'une frame n'est pas forcément déssinée pile à 1 fpsInterval de l'ancienne fraùe
         lastFrameTime = currentTime - (elapsedTimeSinceLastFrame % fpsInterval);
-        paintBackground(getCurrentMap().grid, gameState.viewport, gameConfiguration.viewport.dimension, tilesChanged, viewportChanged)
-        paintItemsLayer(getCurrentMapState().items);
+
+        if( gameState.openMenu){
+
+            paintAllMenu(gameState.contentMenu)
 
 
-        const itemAtPlayerPosition = getItemAtPlayerPosition();
+        }else{
+            paintBackground(getCurrentMap().grid, gameState.viewport, gameConfiguration.viewport.dimension, tilesChanged, viewportChanged)
+            paintItemsLayer(getCurrentMapState().items);
+            const itemAtPlayerPosition = getItemAtPlayerPosition();
 
-        if (itemAtPlayerPosition){
-            paintItemCadre(itemAtPlayerPosition)
+            if (itemAtPlayerPosition){
+                paintItemCadre(itemAtPlayerPosition)
+            }
+            drawPlayer();
         }
 
 
 
+
+
+
+
+
         paintMenu()
-        drawPlayer();
+
         tilesChanged = [];
         viewportChanged = false;
      
     }
+}
+
+
+
+function paintAllMenu( modal :AbstractModalTemplate  ){
+
+
+    switch (modal.type) {
+        case TypeModal.DETAILSIMPLE: paintMenuModalSimple(modal as ModalTemplate)
+                break;
+        case TypeModal.INVENTAIRE: paintInventaire(); break;
+    }
+
+
+
+}
+
+function paintInventaire(){
+const patternCanvas = document.createElement("canvas");
+patternCanvas.width = GRID_PITCH * 35;
+patternCanvas.height =  GRID_PITCH *23;
+
+const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
+pCtx.fillStyle = "#245a5a";
+pCtx.fillRect(0, 0, GRID_PITCH * 35, GRID_PITCH *23);
+
+pCtx.strokeStyle = "#ffffff"; // Définition de la couleur du contour
+pCtx.lineWidth = 4; // Épaisseur du contour
+
+pCtx.strokeRect( 0 + 3, 0 +3 , GRID_PITCH * 35 -6, GRID_PITCH *23 - 6);
+
+pCtx.font = "20px gamms";
+pCtx.fillStyle = "#fff";
+
+pCtx.fillText("Inventaire", GRID_PITCH * 3, GRID_PITCH*1,GRID_PITCH *23 - 10 )
+
+    gameState.player.inventory.get().forEach((item,index) => {
+        pCtx.drawImage(getImage(item.image), (GRID_PITCH *2), (GRID_PITCH*4) +  GRID_PITCH *(index +1  ), GRID_PITCH, GRID_PITCH )
+        pCtx.fillText(item.name, GRID_PITCH * 4 , (GRID_PITCH*4) +  GRID_PITCH *(index +1  ) + 20,GRID_PITCH *10 - 10 )
+        pCtx.fillText(item.description, GRID_PITCH * 10 , (GRID_PITCH*4) +  GRID_PITCH *(index +1  ) + 20,GRID_PITCH *12 - 10 )
+    })
+
+
+canvasContext.drawImage(patternCanvas, GRID_PITCH * 0 , GRID_PITCH * 0);
+
+}
+
+function paintMenuModalSimple(modal:ModalTemplate){
+    const patternCanvas = document.createElement("canvas");
+    patternCanvas.width = GRID_PITCH * 35;
+    patternCanvas.height =  GRID_PITCH *23;
+
+    const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
+    pCtx.fillStyle = "#245a5a";
+    pCtx.fillRect(0, 0, GRID_PITCH * 35, GRID_PITCH *23);
+
+    pCtx.strokeStyle = "#ffffff"; // Définition de la couleur du contour
+    pCtx.lineWidth = 4; // Épaisseur du contour
+
+    pCtx.strokeRect( 0 + 3, 0 +3 , GRID_PITCH * 35 -6, GRID_PITCH *23 - 6);
+
+    pCtx.font = "20px gamms";
+    pCtx.fillStyle = "#fff";
+
+    pCtx.fillText(modal.title, GRID_PITCH * 3, GRID_PITCH*1,GRID_PITCH *23 - 10 )
+
+    modal.texts.forEach((text,index) => {
+        pCtx.fillText(text, GRID_PITCH * 3 , GRID_PITCH*2 +(index +1  )*20,GRID_PITCH *23 - 10 )
+
+    })
+
+
+    canvasContext.drawImage(patternCanvas, GRID_PITCH * 0 , GRID_PITCH * 0);
 }
 
 function paintItemCadre( item : AbstractItem){
@@ -86,7 +174,7 @@ function paintItemCadre( item : AbstractItem){
     pCtx.fillText( item.instructions , 10, 0 +3 + 2* 22+ 10, 500)
 
 
-    canvasContext.drawImage(patternCanvas, GRID_PITCH * 3 , GRID_PITCH * 3);
+    canvasContext.drawImage(patternCanvas, 0 , 0);
 
 
 

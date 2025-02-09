@@ -1,6 +1,6 @@
 import {Position} from "../Position.ts";
 import {Orientation} from "../Orientation.ts";
-import {Items} from "../Items.ts";
+import {Items} from "../item/Items.ts";
 
 export class PlayerState {
     /** position sur la grille */
@@ -12,6 +12,7 @@ export class PlayerState {
     public defense: number
     public life: number
     public inventory: Items
+
 
     constructor(position: Position, orientation: Orientation, baseAttack: number, baseDefense: number, life: number) {
         this.position = position;

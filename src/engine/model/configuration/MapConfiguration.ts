@@ -1,5 +1,5 @@
 import {Grid} from "./Grid.ts";
-import {AbstractItem} from "../AbstractItem.ts";
+import {AbstractItem} from "../item/AbstractItem.ts";
 
 export class MapConfiguration {
     public grid: Grid;

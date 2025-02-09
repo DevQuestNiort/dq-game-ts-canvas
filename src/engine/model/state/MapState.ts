@@ -1,5 +1,5 @@
-import {Item} from "../Item.ts";
-import {Items} from "../Items.ts";
+import {Item} from "../item/Item.ts";
+import {Items} from "../item/Items.ts";
 
 export class MapState {
     items: Items

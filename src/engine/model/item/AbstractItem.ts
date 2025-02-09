@@ -1,4 +1,4 @@
-import {Position} from "./Position.ts";
+import {Position} from "../Position.ts";
 import {ItemType} from "./Item.ts";
 
 export abstract class AbstractItem {

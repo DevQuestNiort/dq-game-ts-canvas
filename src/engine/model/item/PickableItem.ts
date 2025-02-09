@@ -1,7 +1,7 @@
 import {AbstractItem} from "./AbstractItem.ts";
-import {Position} from "./Position.ts";
+import {Position} from "../Position.ts";
 import { ItemType} from "./Item.ts";
-import {PlayerState} from "./state/PlayerState.ts";
+import {PlayerState} from "../state/PlayerState.ts";
 
 export class PickableItem extends AbstractItem {
 

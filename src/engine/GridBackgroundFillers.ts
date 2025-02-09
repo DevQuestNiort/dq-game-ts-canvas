@@ -166,19 +166,19 @@ const createPatternDalle = (canvasCtx: CanvasRenderingContext2D) => {
     const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
 
     // Taille du pattern (doit correspondre à background-size en CSS)
-    patternCanvas.width = 16;
-    patternCanvas.height = 16;
+    patternCanvas.width = 32;
+    patternCanvas.height = 32;
 
     // Fond de la cellulesd
-    pCtx.fillStyle = "#c9c8c8";
+    pCtx.fillStyle = "#e1e1e1";
     pCtx.fillRect(0, 0, 32, 32);
 
     // Points du pattern (équivalent à radial-gradient)
-    pCtx.fillStyle = "#e7e7e7";
+    pCtx.fillStyle = "#a8a8a8";
 
     // Premier point en haut à gauche
-    pCtx.fillRect(0, 0, 8, 8)
-    pCtx.fillRect(8, 8, 8, 8)
+    pCtx.fillRect(0, 0, 16, 16)
+    pCtx.fillRect(16, 16, 16, 16)
     // Créer le pattern
     return canvasCtx.createPattern(patternCanvas, "repeat") as CanvasPattern;
 }

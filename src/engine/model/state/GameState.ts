@@ -8,7 +8,10 @@ export class GameState {
     public currentMap: string;
     public viewport: ViewportState;
     public mapStates: Record<string, MapState>;
+    public isOnMap : boolean = true;
     public options: Options
+    public openMenu: boolean = false
+    public contentMenu : any = undefined
 
 
 

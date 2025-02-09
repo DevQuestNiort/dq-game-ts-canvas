@@ -80,6 +80,7 @@ export const init = async () => {
     await loadAsset("bg-carrelage", "bg/carrelage.png");
     await loadAsset("bg-lava", "bg/lava.png");
     await loadAsset("echelle", "echelle.png");
+    await loadAsset("trapp", "trapp.png");
 
 
 }

@@ -1,4 +1,4 @@
-import {Position} from "./Position.ts";
+import {Position} from "../Position.ts";
 import {AbstractItem} from "./AbstractItem.ts";
 
 export class Items {
@@ -24,7 +24,9 @@ export class Items {
     getById = (uid: string) => {
       return this.list.find(item => item.uid === uid)
     }
-
+    hasItemBy = (uid: string) => {
+        return this.list.some(item => item.uid === uid)
+    }
 
     removeItemByUid = (uid: string) => {
         this.list = this.list.filter(item => item.uid !== uid)

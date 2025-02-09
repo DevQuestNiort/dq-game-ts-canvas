@@ -1,8 +1,8 @@
-import {UsableItem} from "../../engine/model/UsableItem.ts";
+import {UsableItem} from "../../engine/model/item/UsableItem.ts";
 import {Position} from "../../engine/model/Position.ts";
 import {movePlayerToPositionAndMap} from "../../engine/PlayerManager.ts";
 import {playSound} from "../../engine/SoundManager.ts";
-import {DoorItem} from "../../engine/model/DoorItem.ts";
+import {DoorItem} from "../../engine/model/item/DoorItem.ts";
 
 
 export const items = [

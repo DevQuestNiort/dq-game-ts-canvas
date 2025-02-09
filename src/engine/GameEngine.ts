@@ -1,5 +1,5 @@
 import {GameConfiguration} from "./model/configuration/GameConfiguration.ts";
-import {draw, init as initGraphicsEngine} from "./GraphicsEngine.ts";
+import {draw, init as initGraphicsEngine, notifyViewportChanged} from "./GraphicsEngine.ts";
 import {GameState} from "./model/state/GameState.ts";
 import {PlayerState} from "./model/state/PlayerState.ts";
 import {ViewportState} from "./model/state/ViewportState.ts";
@@ -10,12 +10,15 @@ import {init as initAssetLibrary} from "./AssetLibrary.ts";
 import {gameConfiguration, gameState, setCanvas, setGameConfiguration, setGameState} from "./GameDataService.ts";
 import {
     actionKeyPressed,
-    downKeyPressed, leftKeyPressed,
+    downKeyPressed, interactKeyPressed, inventoryKeyPressed, leftKeyPressed,
     pickUpKeyPressed,
     rightKeyPressed,
     upKeyPressed
 } from "./PlayerManager.ts";
 import {Options} from "./model/state/Options.ts";
+import {getItemInFrontOfPlayer} from "./MapManager.ts";
+import {PNJItem} from "./model/item/PNJItem.ts";
+import {DecorativeItem} from "./model/item/DecorativeItem.ts";
 
 export const init = async (gameCfg: GameConfiguration) => {
     setCanvas(document.getElementById("gameCanvas") as HTMLCanvasElement);
@@ -45,34 +48,77 @@ const bindKeys = () => {
             case "ArrowUp":
             case "z":
             case "Z":
+
+                if( ! gameState.isOnMap ) {
+                    break
+                }
                 upKeyPressed();
                 break;
             case "ArrowDown":
             case "s":
             case "S":
+                if( ! gameState.isOnMap ) {
+                    break
+                }
                 downKeyPressed();
                 break;
             case "ArrowLeft":
             case "q":
             case "Q":
+                if( ! gameState.isOnMap ) {
+                    break
+                }
                 leftKeyPressed();
                 break;
             case "ArrowRight":
             case "d":
             case "D":
+                if( ! gameState.isOnMap ) {
+                    break
+                }
                 rightKeyPressed();
                 break;
             case "f":
             case "F":
+                if( ! gameState.isOnMap ) {
+                    break
+                }
                 actionKeyPressed();
                 break;
             case "t":
             case "T":
+                if( ! gameState.isOnMap ) {
+                    break
+                }
                 pickUpKeyPressed();
                 break;
             case "m":
             case "M":
                 muteSwitch();
+                break;
+
+            case "i":
+            case "I":
+                inventoryKeyPressed()
+                break;
+
+            case "r":
+            case "R":
+
+
+                interactKeyPressed()
+                // const itemInFrontOfPlayer = getItemInFrontOfPlayer();
+                // if ( itemInFrontOfPlayer && itemInFrontOfPlayer instanceof DecorativeItem ) {
+                //
+                //     if (itemInFrontOfPlayer.interaction){
+                //         gameState.isOnMap = ! gameState.isOnMap
+                //         gameState.openMenu = ! gameState.openMenu
+                //         notifyViewportChanged()
+                //
+                //     }
+                //
+                // }
+
                 break;
         }
 

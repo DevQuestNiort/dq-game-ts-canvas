@@ -1,12 +1,12 @@
 import {gameState, getCurrentMap} from "./GameDataService.ts";
 import {Position} from "./model/Position.ts";
-import {ItemType} from "./model/Item.ts";
+import {ItemType} from "./model/item/Item.ts";
 import {Orientation} from "./model/Orientation.ts";
-import {DoorItem} from "./model/DoorItem.ts";
+import {DoorItem} from "./model/item/DoorItem.ts";
 
 export const isTileAccessible = (x: number, y: number) => {
     const tileType = getCurrentMap().grid.getCase(x, y)
-    if (tileType === "l") {
+    if (tileType === "l" && ! gameState.player.inventory.hasItemBy("redStone")) {
         console.log("aie ca brule")
         return false;
     } else if (["T", "║", "═", "╝", "╗", "╔", "╚", "╩", "╦", "╠", "╣", "╬", "■"].includes(tileType)) {
