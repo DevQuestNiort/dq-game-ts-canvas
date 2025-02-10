@@ -10,32 +10,17 @@ import {Position} from "./engine/model/Position.ts";
 import {ViewportConfiguration} from "./engine/model/configuration/ViewportConfiguration.ts";
 import {TwoDimensionalSize} from "./engine/model/TwoDimensionalSize.ts";
 import {DeadZone} from "./engine/model/configuration/DeadZone.ts";
+import {STABLE_ZONE_SIZE_X, STABLE_ZONE_SIZE_Y, VIEWPORT_SIZE_X, VIEWPORT_SIZE_y} from "./engine/constants.ts";
 
 
 
 
-/* Configureation
- taille du canva de jeux
- vieportSizeX vieportSizeY
- */
 
-/*
-definit la largeur du view port en Pitch de 32 px doit être impair
- */
-const vieportSizeX =35
-/*
-definit la hauteur du view port en Pitch de 32 px doit être impair
- */
-const vieportSizeY =23
-/*
-definit la largeur de la zone de deplacement stable ( centre au centre) doit être impair
- */
-const stableZoneSizeX  = 3
-/*
-definit la hauteur de la zone de deplacement stable ( centre au centre) doit être impair
- */
-const stableZoneSizeY  =3
 
+const vieportSizeX =VIEWPORT_SIZE_X
+const vieportSizeY =VIEWPORT_SIZE_y
+const stableZoneSizeX  = STABLE_ZONE_SIZE_X
+const stableZoneSizeY  =STABLE_ZONE_SIZE_Y
 const stableZonedebutZoneX = (vieportSizeX -  stableZoneSizeX) / 2
 const stableZonedebutZoneY = (vieportSizeY -  stableZoneSizeY) / 2
 
