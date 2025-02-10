@@ -24,8 +24,9 @@ export class PNJItem extends AbstractItem {
 
 
     death(stateContext : GameState){
-        this.onDeath(stateContext);
         stateContext.mapStates[stateContext.currentMap].items.removeItemByUid(this.uid)
+        this.onDeath(stateContext);
+
     }
 
 }
