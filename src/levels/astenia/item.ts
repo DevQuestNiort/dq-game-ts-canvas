@@ -46,7 +46,9 @@ export const items = [
     new DecorativeItem("cm6ux31s6000nvs63zvk1aj1s", "Carte", new Position(2, 20), "panneau", "", "panneau",
         new ModalTemplate("CastelGori",["Propriete du grand chaman El Paco Tille","ne supporte pas la salade et les elfes"])),
 
-
+    new PNJItem("cm6v5vbc4000ovs633vgd1cdb", "arbre", new Position(78, 33), 1, 0, 0, (player) => {
+        movePlayerToPositionAndMap(23, 26,"castelm01");// 18 / 14
+    },"","","arbre"),
 
 
     new DecorativeItem("cm6uhwsdo0005vs630x547dy7", "tonneau", new Position(8, 13), "Tonneau", "", "tonneau"),
