@@ -151,6 +151,9 @@ function paintMenuModalSimple(modal:ModalTemplate){
     canvasContext.drawImage(patternCanvas, GRID_PITCH * 0 , GRID_PITCH * 0);
 }
 
+
+
+
 function paintItemCadre( item : AbstractItem){
 
 

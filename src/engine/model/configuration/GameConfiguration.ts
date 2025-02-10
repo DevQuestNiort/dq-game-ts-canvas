@@ -7,6 +7,7 @@ export class GameConfiguration {
     public maps: Record<string, MapConfiguration>;
     public initialMap: string;
     public viewport: ViewportConfiguration;
+    public debugMod : boolean = false
 
     constructor(maps: Record<string, MapConfiguration>, initialMap: string, player: PlayerConfiguration, viewport: ViewportConfiguration) {
         this.maps = maps;

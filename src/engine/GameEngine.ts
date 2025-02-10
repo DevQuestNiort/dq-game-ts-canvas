@@ -44,6 +44,11 @@ const buildInitialGameState: (initialPlayerState: PlayerState, initialMap: strin
 
 const bindKeys = () => {
     addEventListener("keydown", (evt) => {
+        if (evt.ctrlKey && evt.shiftKey && evt.key.toLowerCase() === "a"){
+            evt.preventDefault();
+            gameConfiguration.debugMod = ! gameConfiguration.debugMod
+        }
+
         switch (evt.key) {
             case "ArrowUp":
             case "z":
@@ -107,19 +112,10 @@ const bindKeys = () => {
 
 
                 interactKeyPressed()
-                // const itemInFrontOfPlayer = getItemInFrontOfPlayer();
-                // if ( itemInFrontOfPlayer && itemInFrontOfPlayer instanceof DecorativeItem ) {
-                //
-                //     if (itemInFrontOfPlayer.interaction){
-                //         gameState.isOnMap = ! gameState.isOnMap
-                //         gameState.openMenu = ! gameState.openMenu
-                //         notifyViewportChanged()
-                //
-                //     }
-                //
-                // }
+
 
                 break;
+
         }
 
     })

@@ -175,6 +175,7 @@ const comsumnItem = (item: ComsumableItem) => {
 const useItem = (item: UsableItem) => {
     console.log("useItem")
     item.playerModificator(gameState.player)
+    computeViewportPosition()
     notifyViewportChanged()
 
 }

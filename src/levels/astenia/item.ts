@@ -30,9 +30,8 @@ export const items = [
         playSound("jump")
     }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "vortex"),
     new UsableItem("cm6v5vbc4000ovs633vgd1cdb", "Vortex", new Position(30, 13), (player) => {
-        movePlayerToPositionAndMap(23, 17,"castelm01");// 18 / 14
-        playSound("jump")
-    }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "trapp"),
+        movePlayerToPositionAndMap(23, 26,"castelm01");// 18 / 14
+    }, "Vortex dimensionel", "Press T pour entrer dans la trappe", "trapp"),
 
     new PNJItem("cm6uj11q4000lvs63d6xka7h4", "Vincent", new Position(13, 10), 10, 3, 2, (stateContext) => {
         stateContext.mapStates[stateContext.currentMap].items.addItem(new ComsumableItem("cm6ul464y000mvs630qlpu3ik", "Potion", new Position(13, 10), (player) => player.life += 15, "Potion de soin +15", "", "potion"),)

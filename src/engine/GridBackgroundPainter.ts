@@ -5,7 +5,7 @@ import {TwoDimensionalSize} from "./model/TwoDimensionalSize.ts";
 import {getFiller, init as initGridBackgroundFillers} from "./GridBackgroundFillers.ts";
 import {Position} from "./model/Position.ts";
 import {getImage, init as initAssetLibrary} from "./AssetLibrary.ts";
-import {canvasContext} from "./GameDataService.ts";
+import {canvasContext, gameConfiguration} from "./GameDataService.ts";
 
 
 export const init = async () => {
@@ -25,6 +25,16 @@ export const paintBackground = (grid: Grid, viewportState: ViewportState, viewpo
             paintBackgroundTile(tile.x - viewportState.position.x, tile.y - viewportState.position.y, grid.getCase(tile.x, tile.y));
         }
     }
+
+    if (gameConfiguration.debugMod) {
+        canvasContext.strokeStyle = "#c400ff";
+        canvasContext.strokeRect(gameConfiguration.viewport.deadZone.position.x * GRID_PITCH,
+            gameConfiguration.viewport.deadZone.position.y * GRID_PITCH,
+            gameConfiguration.viewport.deadZone.dimension.width * GRID_PITCH,
+            gameConfiguration.viewport.deadZone.dimension.height * GRID_PITCH);
+    }
+
+
 }
 
 const paintBackgroundTile = (x: number, y: number, type: string) => {
@@ -35,8 +45,8 @@ const paintBackgroundTile = (x: number, y: number, type: string) => {
             case "h" :
                 return getFiller("grass");
             case " ":
-               // return "rgb(255,255,255)";
-               return getFiller("dalle");
+                // return "rgb(255,255,255)";
+                return getFiller("dalle");
             case "l":
                 return getFiller("lava");
             case "B":
@@ -57,9 +67,9 @@ const paintBackgroundTile = (x: number, y: number, type: string) => {
             case "■":
                 return getFiller("wall");
             case "x":
-                return  "rgb(0,0,0)";
+                return "rgb(0,0,0)";
             case "p":
-                return  "rgb(0,0,0)";
+                return "rgb(0,0,0)";
             case "S" :
                 return getFiller("sand");
             default :
