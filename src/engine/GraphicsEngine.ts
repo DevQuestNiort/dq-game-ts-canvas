@@ -43,7 +43,7 @@ export const draw = () => {
     if (elapsedTimeSinceLastFrame > fpsInterval) {
 
 
-        gameDebug.innerHTML = Debug(gameState)
+        gameDebug.innerHTML = Debug(gameState,gameConfiguration)
         // on met à jour la date de la dernière frame en tenant compte du fait qu'une frame n'est pas forcément déssinée pile à 1 fpsInterval de l'ancienne fraùe
         lastFrameTime = currentTime - (elapsedTimeSinceLastFrame % fpsInterval);
 
@@ -62,11 +62,6 @@ export const draw = () => {
             }
             drawPlayer();
         }
-
-
-
-
-
 
 
 

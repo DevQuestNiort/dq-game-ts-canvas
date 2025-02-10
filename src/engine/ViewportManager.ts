@@ -12,15 +12,16 @@ export const computeViewportPosition = () => {
     if (gameState.player.position.y < (gameState.viewport.position.y + gameConfiguration.viewport.deadZone.position.y)) {
         setViewportPositionWithinMapY(gameState.player.position.y - gameConfiguration.viewport.deadZone.position.y);
         // bottom boundary
-    } else if (gameState.player.position.y > (gameState.viewport.position.y + gameConfiguration.viewport.deadZone.position.y + gameConfiguration.viewport.deadZone.dimension.height)) {
+    } else if (gameState.player.position.y >= (gameState.viewport.position.y + gameConfiguration.viewport.deadZone.position.y + gameConfiguration.viewport.deadZone.dimension.height)) {
         setViewportPositionWithinMapY(gameState.player.position.y - gameConfiguration.viewport.deadZone.position.y - gameConfiguration.viewport.deadZone.dimension.height);
+        setViewportPositionWithinMapY(gameState.player.position.y - gameConfiguration.viewport.deadZone.position.y - gameConfiguration.viewport.deadZone.dimension.height +1 );
     }
     // left boundary
     if (gameState.player.position.x < (gameState.viewport.position.x + gameConfiguration.viewport.deadZone.position.x)) {
         setViewportPositionWithinMapX(gameState.player.position.x - gameConfiguration.viewport.deadZone.position.x);
         // right boundary
-    } else if (gameState.player.position.x > (gameState.viewport.position.x + gameConfiguration.viewport.deadZone.position.x + gameConfiguration.viewport.deadZone.dimension.width)) {
-        setViewportPositionWithinMapX(gameState.player.position.x - gameConfiguration.viewport.deadZone.position.x - gameConfiguration.viewport.deadZone.dimension.width);
+    } else if (gameState.player.position.x >= (gameState.viewport.position.x + gameConfiguration.viewport.deadZone.position.x + gameConfiguration.viewport.deadZone.dimension.width)) {
+        setViewportPositionWithinMapX(gameState.player.position.x - gameConfiguration.viewport.deadZone.position.x - gameConfiguration.viewport.deadZone.dimension.width+ 1);
     }
 }
 
