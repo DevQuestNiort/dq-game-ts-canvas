@@ -39,7 +39,7 @@ const buildInitialGameState: (initialPlayerState: PlayerState, initialMap: strin
         acc[map.name] = map.mapState;
         return acc;
     }, {})
-    return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates,new Options(false));
+    return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates,new Options((localStorage.getItem("sound")|| "ON") === "OFF" ));
 }
 
 const bindKeys = () => {
@@ -100,6 +100,7 @@ const bindKeys = () => {
             case "m":
             case "M":
                 muteSwitch();
+
                 break;
 
             case "i":
@@ -123,8 +124,9 @@ const bindKeys = () => {
 
 
 function muteSwitch() {
-    gameState.options.mute = !gameState.options.mute
 
+    gameState.options.mute = !gameState.options.mute
+    localStorage.setItem("sound",gameState.options.mute ? "OFF": "ON" )
 }
 
 export const run = async () => {
