@@ -2,6 +2,7 @@ import {init as initGameEngine, run} from "./engine/GameEngine.ts";
 import {GameConfiguration} from "./engine/model/configuration/GameConfiguration.ts";
 import asteniaConfiguration from "./levels/astenia/astenia.ts";
 import castelm01Configuration  from './levels/castelm01/castelm01.ts'
+import endConfifuration from './levels/end/end.ts'
 import {Orientation} from "./engine/model/Orientation.ts";
 import {PlayerConfiguration} from "./engine/model/configuration/PlayerConfiguration.ts";
 import {PlayerState} from "./engine/model/state/PlayerState.ts";
@@ -43,11 +44,12 @@ const stableZonedebutZoneY = (vieportSizeY -  stableZoneSizeY) / 2
 window.onload = async function () {
     const mapsConfiguration = {
         astenia: asteniaConfiguration,
-        castelm01: castelm01Configuration
+        castelm01: castelm01Configuration,
+        end: endConfifuration
     };
     const initialMap = "astenia";
     const playerConfiguration = new PlayerConfiguration(
-        new PlayerState(new Position(71, 10), Orientation.RIGHT, 3, 2, 25),
+        new PlayerState(new Position(10, 10), Orientation.RIGHT, 3, 2, 25),
         "./assets/player-sprite.png")
     const viewportConfiguration = new ViewportConfiguration(
         new TwoDimensionalSize(vieportSizeX, vieportSizeY),

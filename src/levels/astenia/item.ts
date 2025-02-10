@@ -29,6 +29,12 @@ export const items = [
         movePlayerToPosition(13, 22);
         playSound("jump")
     }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "vortex"),
+
+    new UsableItem("cm6uiryd9000kvs6308ahv6nm", "Vortex", new Position(21, 7), (player) => {
+        movePlayerToPositionAndMap(27, 11,"end");
+        playSound("jump")
+    }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "vortex"),
+
     new UsableItem("cm6v5vbc4000ovs633vgd1cdb", "Vortex", new Position(30, 13), (player) => {
         movePlayerToPositionAndMap(23, 26,"castelm01");// 18 / 14
     }, "Vortex dimensionel", "Press T pour entrer dans la trappe", "trapp"),
