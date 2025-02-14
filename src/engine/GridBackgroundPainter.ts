@@ -81,8 +81,40 @@ const paintBackgroundTile = (x: number, y: number, type: string) => {
     // build couche items
     switch (type) {
         case "T" :
+            canvasContext.drawImage(getImage("bg-herbe"), x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
             canvasContext.drawImage(getImage("arbre"), x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
+            break;
+        case "h" :
+            canvasContext.drawImage(getImage("bg-herbe"), x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
+
+            break;
+        case "l" :
+            canvasContext.drawImage(getImage("bg-lava"), x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
             break
 
+        case "║":
+        case "═":
+        case "╝":
+        case "╗":
+        case "╔":
+        case "╚":
+        case "╩":
+        case "╦":
+        case "╠":
+        case "╣":
+        case "╬":
+        case "■":
+            canvasContext.drawImage(getImage("bg-mur"), x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
+            break
+        case " ":
+            canvasContext.drawImage(getImage("bg-sol"), x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
+            break
+        case "w":
+            canvasContext.drawImage(getImage("bg-water"), x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
+            break
+        case "S":
+            canvasContext.drawImage(getImage("bg-chemin"), x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
+
+            break
     }
 }

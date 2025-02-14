@@ -44,8 +44,9 @@ const buildInitialGameState: (initialPlayerState: PlayerState, initialMap: strin
 
 const bindKeys = () => {
     addEventListener("keydown", (evt) => {
+
+        evt.preventDefault();
         if (evt.ctrlKey && evt.shiftKey && evt.key.toLowerCase() === "a"){
-            evt.preventDefault();
             gameConfiguration.debugMod = ! gameConfiguration.debugMod
         }
 
@@ -100,21 +101,14 @@ const bindKeys = () => {
             case "m":
             case "M":
                 muteSwitch();
-
                 break;
-
             case "i":
             case "I":
                 inventoryKeyPressed()
                 break;
-
             case "r":
             case "R":
-
-
                 interactKeyPressed()
-
-
                 break;
 
         }
@@ -124,7 +118,6 @@ const bindKeys = () => {
 
 
 function muteSwitch() {
-
     gameState.options.mute = !gameState.options.mute
     localStorage.setItem("sound",gameState.options.mute ? "OFF": "ON" )
 }

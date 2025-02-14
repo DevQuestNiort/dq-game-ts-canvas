@@ -1,4 +1,4 @@
-import {GRID_PITCH} from "./constants.ts";
+import {GRID_PITCH, VIEWPORT_SIZE_X, VIEWPORT_SIZE_Y} from "./constants.ts";
 import {init as initGridBackgroundPainter, paintBackground} from "./GridBackgroundPainter.ts";
 import {Position} from "./model/Position.ts";
 import {paintItemsLayer} from "./ItemsLayerPainter.ts";
@@ -90,18 +90,22 @@ function paintAllMenu( modal :AbstractModalTemplate  ){
 
 function paintInventaire(){
 const patternCanvas = document.createElement("canvas");
-patternCanvas.width = GRID_PITCH * 35;
-patternCanvas.height =  GRID_PITCH *23;
+patternCanvas.width = GRID_PITCH * VIEWPORT_SIZE_X;
+patternCanvas.height =  GRID_PITCH *VIEWPORT_SIZE_Y;
 
 const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
-pCtx.fillStyle = "#245a5a";
-pCtx.fillRect(0, 0, GRID_PITCH * 35, GRID_PITCH *23);
 
+// tracer le background
+pCtx.fillStyle = "#245a5a";
+pCtx.fillRect(0, 0, GRID_PITCH * VIEWPORT_SIZE_X, GRID_PITCH *VIEWPORT_SIZE_Y);
+
+// tracer le cadre avec 3 de padding
 pCtx.strokeStyle = "#ffffff"; // Définition de la couleur du contour
 pCtx.lineWidth = 4; // Épaisseur du contour
+pCtx.strokeRect( 0 + 3, 0 +3 , GRID_PITCH * VIEWPORT_SIZE_X -6, GRID_PITCH *VIEWPORT_SIZE_Y - 6);
 
-pCtx.strokeRect( 0 + 3, 0 +3 , GRID_PITCH * 35 -6, GRID_PITCH *23 - 6);
 
+// Ecrire
 pCtx.font = "20px gamms";
 pCtx.fillStyle = "#fff";
 
@@ -114,7 +118,7 @@ pCtx.fillText("Inventaire", GRID_PITCH * 3, GRID_PITCH*1,GRID_PITCH *23 - 10 )
     })
 
 
-canvasContext.drawImage(patternCanvas, GRID_PITCH * 0 , GRID_PITCH * 0);
+canvasContext.drawImage(patternCanvas, 0,  0);
 
 }
 

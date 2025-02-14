@@ -6,7 +6,7 @@ export const init = async () => {
     await loadAsset("chicken", "chicken.png");
     await loadAsset("anneau", "anneau.png");
     await loadAsset("appareil", "appareil.png");
-    await loadAsset("arbre", "arbre.png");
+    await loadAsset("arbre", "arbre1.png");
     await loadAsset("archer", "archer.png");
     await loadAsset("armure", "armure.png");
     await loadAsset("backpack", "backpack.png");
@@ -78,7 +78,12 @@ export const init = async () => {
     await loadAsset("vortex", "vortex.png");
     await loadAsset("wizard", "wizard.png");
     await loadAsset("bg-carrelage", "bg/carrelage.png");
-    await loadAsset("bg-lava", "bg/lava.png");
+    await loadAsset("bg-lava", "bg/lave.png");
+    await loadAsset("bg-mur", "bg/mur-donjon.png");
+    await loadAsset("bg-sol", "bg/sol-interieur.png");
+    await loadAsset("bg-water", "bg/eau.png");
+    await loadAsset("bg-herbe", "bg/herbe.png");
+    await loadAsset("bg-chemin", "bg/chemin.png");
     await loadAsset("echelle", "echelle.png");
     await loadAsset("trapp", "trapp.png");
 
