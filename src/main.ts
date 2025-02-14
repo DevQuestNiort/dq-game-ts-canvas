@@ -1,9 +1,9 @@
 import {init as initGameEngine, run} from "./engine/GameEngine.ts";
 import {GameConfiguration} from "./engine/model/configuration/GameConfiguration.ts";
-import asteniaConfiguration from "./levels/astenia/astenia.ts";
-import castelm01Configuration  from './levels/castelm01/castelm01.ts'
-import endConfifuration from './levels/end/end.ts'
-import ileConfiguration from './levels/ile/ile.ts'
+
+
+import mapsConfigurations from './levels/index.ts'
+
 import {Orientation} from "./engine/model/Orientation.ts";
 import {PlayerConfiguration} from "./engine/model/configuration/PlayerConfiguration.ts";
 import {PlayerState} from "./engine/model/state/PlayerState.ts";
@@ -28,12 +28,8 @@ const stableZonedebutZoneY = (vieportSizeY -  stableZoneSizeY) / 2
 
 
 window.onload = async function () {
-    const mapsConfiguration = {
-        astenia: asteniaConfiguration,
-        castelm01: castelm01Configuration,
-        end: endConfifuration,
-        ile:ileConfiguration
-    };
+
+    console.log("Chargement des maps", mapsConfigurations)
     const initialMap = "astenia";
     const playerConfiguration = new PlayerConfiguration(
         new PlayerState(new Position(10, 10), Orientation.RIGHT, 3, 2, 25),
@@ -42,7 +38,7 @@ window.onload = async function () {
         new TwoDimensionalSize(vieportSizeX, vieportSizeY),
         new DeadZone(new Position(stableZonedebutZoneX, stableZonedebutZoneY), new TwoDimensionalSize(stableZoneSizeX, stableZoneSizeY)),
         30)
-    const configuration = new GameConfiguration(mapsConfiguration, initialMap, playerConfiguration, viewportConfiguration);
+    const configuration = new GameConfiguration(mapsConfigurations, initialMap, playerConfiguration, viewportConfiguration);
     await initGameEngine(configuration);
     console.log("engine created, starting loop");
     run();
