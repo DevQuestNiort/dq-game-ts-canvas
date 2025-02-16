@@ -9,7 +9,6 @@ import {getImage} from "./AssetLibrary.ts";
 import {getItemAtPlayerPosition, getItemInFrontOfPlayer} from "./MapManager.ts";
 import {PNJItem} from "./model/item/PNJItem.ts";
 import {AbstractItem} from "./model/item/AbstractItem.ts";
-import {DecorativeItem} from "./model/item/DecorativeItem.ts";
 import {ModalTemplate} from "./model/modalTemplate/ModalTemplate.ts";
 import {AbstractModalTemplate, TypeModal} from "./model/modalTemplate/AbstractModalTemplate.ts";
 

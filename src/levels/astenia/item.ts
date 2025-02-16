@@ -6,7 +6,7 @@ import {UsableItem} from "../../engine/model/item/UsableItem.ts";
 import {movePlayer, movePlayerToPosition, movePlayerToPositionAndMap} from "../../engine/PlayerManager.ts";
 import {PNJItem} from "../../engine/model/item/PNJItem.ts";
 import {gameState, getCurrentMap} from "../../engine/GameDataService.ts";
-import {playSound, soundJump} from "../../engine/SoundManager.ts";
+import {playSound, soundJump} from "../../engine/SoundEngine.ts";
 import {DoorItem} from "../../engine/model/item/DoorItem.ts";
 import {ModalTemplate} from "../../engine/model/modalTemplate/ModalTemplate.ts";
 

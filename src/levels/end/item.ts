@@ -1,7 +1,7 @@
 import {UsableItem} from "../../engine/model/item/UsableItem.ts";
 import {Position} from "../../engine/model/Position.ts";
 import {movePlayerToPositionAndMap} from "../../engine/PlayerManager.ts";
-import {playSound} from "../../engine/SoundManager.ts";
+import {playSound} from "../../engine/SoundEngine.ts";
 import {DoorItem} from "../../engine/model/item/DoorItem.ts";
 
 

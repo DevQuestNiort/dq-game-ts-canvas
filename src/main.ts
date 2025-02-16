@@ -13,19 +13,8 @@ import {TwoDimensionalSize} from "./engine/model/TwoDimensionalSize.ts";
 import {DeadZone} from "./engine/model/configuration/DeadZone.ts";
 import {STABLE_ZONE_SIZE_X, STABLE_ZONE_SIZE_Y, VIEWPORT_SIZE_X, VIEWPORT_SIZE_Y} from "./engine/constants.ts";
 
-
-
-
-
-
-const vieportSizeX =VIEWPORT_SIZE_X
-const vieportSizeY =VIEWPORT_SIZE_Y
-const stableZoneSizeX  = STABLE_ZONE_SIZE_X
-const stableZoneSizeY  =STABLE_ZONE_SIZE_Y
-const stableZonedebutZoneX = (vieportSizeX -  stableZoneSizeX) / 2
-const stableZonedebutZoneY = (vieportSizeY -  stableZoneSizeY) / 2
-
-
+const stableZonePositionX = (VIEWPORT_SIZE_X - STABLE_ZONE_SIZE_X) / 2
+const stableZonePositionY = (VIEWPORT_SIZE_Y - STABLE_ZONE_SIZE_Y) / 2
 
 window.onload = async function () {
 
@@ -35,8 +24,8 @@ window.onload = async function () {
         new PlayerState(new Position(10, 10), Orientation.RIGHT, 3, 2, 25),
         "./assets/player-sprite.png")
     const viewportConfiguration = new ViewportConfiguration(
-        new TwoDimensionalSize(vieportSizeX, vieportSizeY),
-        new DeadZone(new Position(stableZonedebutZoneX, stableZonedebutZoneY), new TwoDimensionalSize(stableZoneSizeX, stableZoneSizeY)),
+        new TwoDimensionalSize(VIEWPORT_SIZE_X, VIEWPORT_SIZE_Y),
+        new DeadZone(new Position(stableZonePositionX, stableZonePositionY), new TwoDimensionalSize(STABLE_ZONE_SIZE_X, STABLE_ZONE_SIZE_Y)),
         30)
     const configuration = new GameConfiguration(mapsConfigurations, initialMap, playerConfiguration, viewportConfiguration);
     await initGameEngine(configuration);

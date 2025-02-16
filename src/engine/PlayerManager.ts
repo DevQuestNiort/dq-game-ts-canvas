@@ -14,7 +14,7 @@ import {PickableItem} from "./model/item/PickableItem.ts";
 import {ComsumableItem} from "./model/item/ComsumableItem.ts";
 import {UsableItem} from "./model/item/UsableItem.ts";
 import {PNJItem} from "./model/item/PNJItem.ts";
-import {playSound, soundKillEnnely} from "./SoundManager.ts";
+import {playSound, soundKillEnnemy} from "./SoundEngine.ts";
 import {DecorativeItem} from "./model/item/DecorativeItem.ts";
 import {InventaireTemplate} from "./model/modalTemplate/InventaireTemplate.ts";
 
@@ -94,7 +94,7 @@ const attak = (pnj: PNJItem) => {
 
         console.log('death of ', pnj.name)
         pnj.death(gameState)
-        soundKillEnnely()
+        soundKillEnnemy()
     } else {
 
         let degatToPlayer = pnj.attack - gameState.player.defense

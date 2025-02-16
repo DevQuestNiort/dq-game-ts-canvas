@@ -1,5 +1,5 @@
 import {GameConfiguration} from "./model/configuration/GameConfiguration.ts";
-import {draw, init as initGraphicsEngine, notifyViewportChanged} from "./GraphicsEngine.ts";
+import {draw, init as initGraphicsEngine} from "./GraphicsEngine.ts";
 import {GameState} from "./model/state/GameState.ts";
 import {PlayerState} from "./model/state/PlayerState.ts";
 import {ViewportState} from "./model/state/ViewportState.ts";
@@ -10,20 +10,21 @@ import {init as initAssetLibrary} from "./AssetLibrary.ts";
 import {gameConfiguration, gameState, setCanvas, setGameConfiguration, setGameState} from "./GameDataService.ts";
 import {
     actionKeyPressed,
-    downKeyPressed, interactKeyPressed, inventoryKeyPressed, leftKeyPressed,
+    downKeyPressed,
+    interactKeyPressed,
+    inventoryKeyPressed,
+    leftKeyPressed,
     pickUpKeyPressed,
     rightKeyPressed,
     upKeyPressed
 } from "./PlayerManager.ts";
-import {Options} from "./model/state/Options.ts";
-import {getItemInFrontOfPlayer} from "./MapManager.ts";
-import {PNJItem} from "./model/item/PNJItem.ts";
-import {DecorativeItem} from "./model/item/DecorativeItem.ts";
+import {BooleanOption, loadOptionsFromLocalStorage, switchOption} from "./OptionManager.ts";
 
 export const init = async (gameCfg: GameConfiguration) => {
     setCanvas(document.getElementById("gameCanvas") as HTMLCanvasElement);
     setGameConfiguration(gameCfg);
     setGameState(buildInitialGameState(gameConfiguration.player.initialState, gameConfiguration.initialMap));
+    loadOptionsFromLocalStorage();
     await initAssetLibrary();
     await initGraphicsEngine();
     bindKeys();
@@ -39,7 +40,7 @@ const buildInitialGameState: (initialPlayerState: PlayerState, initialMap: strin
         acc[map.name] = map.mapState;
         return acc;
     }, {})
-    return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates,new Options((localStorage.getItem("sound")|| "ON") === "OFF" ));
+    return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates);
 }
 
 const bindKeys = () => {
@@ -100,7 +101,7 @@ const bindKeys = () => {
                 break;
             case "m":
             case "M":
-                muteSwitch();
+                switchOption(BooleanOption.SOUND_MUTED);
                 break;
             case "i":
             case "I":
@@ -114,12 +115,6 @@ const bindKeys = () => {
         }
 
     })
-}
-
-
-function muteSwitch() {
-    gameState.options.mute = !gameState.options.mute
-    localStorage.setItem("sound",gameState.options.mute ? "OFF": "ON" )
 }
 
 export const run = async () => {
