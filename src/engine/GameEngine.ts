@@ -43,78 +43,121 @@ const buildInitialGameState: (initialPlayerState: PlayerState, initialMap: strin
     return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates);
 }
 
+
+
+
+
 const bindKeys = () => {
-    addEventListener("keydown", (evt) => {
 
-        evt.preventDefault();
-        if (evt.ctrlKey && evt.shiftKey && evt.key.toLowerCase() === "a"){
-            gameConfiguration.debugMod = ! gameConfiguration.debugMod
-        }
 
-        switch (evt.key) {
-            case "ArrowUp":
-            case "z":
-            case "Z":
+    const ws = new WebSocket('wss://quest.dev-in.fr/ws');
 
-                if( ! gameState.isOnMap ) {
-                    break
-                }
-                upKeyPressed();
-                break;
-            case "ArrowDown":
-            case "s":
-            case "S":
-                if( ! gameState.isOnMap ) {
-                    break
-                }
-                downKeyPressed();
-                break;
-            case "ArrowLeft":
-            case "q":
-            case "Q":
-                if( ! gameState.isOnMap ) {
-                    break
-                }
-                leftKeyPressed();
-                break;
-            case "ArrowRight":
-            case "d":
-            case "D":
-                if( ! gameState.isOnMap ) {
-                    break
-                }
-                rightKeyPressed();
-                break;
-            case "f":
-            case "F":
-                if( ! gameState.isOnMap ) {
-                    break
-                }
-                actionKeyPressed();
-                break;
-            case "t":
-            case "T":
-                if( ! gameState.isOnMap ) {
-                    break
-                }
-                pickUpKeyPressed();
-                break;
-            case "m":
-            case "M":
-                switchOption(BooleanOption.SOUND_MUTED);
-                break;
-            case "i":
-            case "I":
-                inventoryKeyPressed()
-                break;
-            case "r":
-            case "R":
-                interactKeyPressed()
-                break;
 
-        }
+    ws.onmessage = (event) => {
+        const { action, data } = JSON.parse(event.data);
+        if (action === 'game_vote') {
 
-    })
+            switch (data) {
+                case "haut":
+
+                    if( ! gameState.isOnMap ) {
+                        break
+                    }
+                    upKeyPressed();
+                    break;
+                case "bas":
+                    if( ! gameState.isOnMap ) {
+                        break
+                    }
+                    downKeyPressed();
+                    break;
+                case "gauche":
+                    if( ! gameState.isOnMap ) {
+                        break
+                    }
+                    leftKeyPressed();
+                    break;
+                case "droite":
+                    if( ! gameState.isOnMap ) {
+                        break
+                    }
+                    rightKeyPressed();
+                    break;
+
+        }}
+    };
+    //
+    // addEventListener("keydown", (evt) => {
+    //
+    //     evt.preventDefault();
+    //     if (evt.ctrlKey && evt.shiftKey && evt.key.toLowerCase() === "a"){
+    //         gameConfiguration.debugMod = ! gameConfiguration.debugMod
+    //     }
+    //
+    //     switch (evt.key) {
+    //         case "ArrowUp":
+    //         case "z":
+    //         case "Z":
+    //
+    //             if( ! gameState.isOnMap ) {
+    //                 break
+    //             }
+    //             upKeyPressed();
+    //             break;
+    //         case "ArrowDown":
+    //         case "s":
+    //         case "S":
+    //             if( ! gameState.isOnMap ) {
+    //                 break
+    //             }
+    //             downKeyPressed();
+    //             break;
+    //         case "ArrowLeft":
+    //         case "q":
+    //         case "Q":
+    //             if( ! gameState.isOnMap ) {
+    //                 break
+    //             }
+    //             leftKeyPressed();
+    //             break;
+    //         case "ArrowRight":
+    //         case "d":
+    //         case "D":
+    //             if( ! gameState.isOnMap ) {
+    //                 break
+    //             }
+    //             rightKeyPressed();
+    //             break;
+    //         case "f":
+    //         case "F":
+    //             if( ! gameState.isOnMap ) {
+    //                 break
+    //             }
+    //             actionKeyPressed();
+    //             break;
+    //         case "t":
+    //         case "T":
+    //             if( ! gameState.isOnMap ) {
+    //                 break
+    //             }
+    //             pickUpKeyPressed();
+    //             break;
+    //         case "m":
+    //         case "M":
+    //             switchOption(BooleanOption.SOUND_MUTED);
+    //             break;
+    //         case "i":
+    //         case "I":
+    //             inventoryKeyPressed()
+    //             break;
+    //         case "r":
+    //         case "R":
+    //             interactKeyPressed()
+    //             break;
+    //
+    //     }
+    //
+    // })
 }
 
 export const run = async () => {
