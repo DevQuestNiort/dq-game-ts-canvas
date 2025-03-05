@@ -7,7 +7,7 @@ export class DecorativeItem extends AbstractItem {
 
     interaction:ModalTemplate | undefined
 
-    constructor(uid: string, name: string, position: Position, description: string, instructions: string, image: string,interaction:ModalTemplate = undefined) {
+    constructor(uid: string, name: string, position: Position, description: string, instructions: string, image: string, interaction: ModalTemplate = undefined) {
         super(uid, name, ItemType.DECORATIF, position, description, instructions, image);
         this.interaction = interaction
     }
