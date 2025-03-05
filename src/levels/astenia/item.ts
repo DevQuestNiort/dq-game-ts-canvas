@@ -18,20 +18,21 @@ export const items = [
     new PickableItem("cm6uhwsdn0003vs63vjx18npm", "bouclier", new Position(9, 13), (player) => player.defense += 5, "Bouclier D' Agnes, +5 en defense", "press T pour prendre", "bouclier"),
 
     new PickableItem("cleRouge", "cle", new Position(8, 16), (player) => {}, "Une cle Rouge", "press T pour prendre", "cleRed"),
-    new PickableItem("redStone", "Red Stone", new Position(25, 13), (player) => {}, "Diamand rendant insensible à la chaleur", "press T pour prendre", "gem"),
+    new PickableItem("redStone", "Red Stone", new Position(25, 13), (player) => {}, "Diamant rendant insensible à la chaleur", "press T pour prendre", "gem"),
+    new PickableItem("blueStone", "Blue Stone", new Position(11, 11), (player) => {}, "Diamant permettant de marcher sur l'eau", "press T pour prendre", "gem"),
 
     new ComsumableItem("cm6uhwsdn0004vs63z2xh2hfh", "Potion", new Position(16, 16), (player) => player.life += 15, "Potion de soin +15", "press T pour Boise", "potion"),
-    new UsableItem("cm6uiav5h000jvs633dm9oyj9", "Vortex", new Position(13, 22), (player) => {
-        movePlayerToPosition(36, 5);
+    new UsableItem("cm6uiav5h000jvs633dm9oyj9", "Vortex", new Position(110, 29), (player) => {
+        movePlayerToPositionAndMap(8, 10, "labyrinthe");
         playSound("jump")
     }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "vortex"),
-    new UsableItem("cm6uiryd9000kvs6308ahv6nm", "Vortex", new Position(36, 5), (player) => {
-        movePlayerToPosition(13, 22);
+    new UsableItem("cm6uiryd9000kvs6308ahv6nm", "Vortex", new Position(124, 23), (player) => {
+        movePlayerToPosition(56, 3);
         playSound("jump")
     }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "vortex"),
 
-    new UsableItem("cm6uiryd9000kvs6308ahv6nm", "Vortex", new Position(21, 7), (player) => {
-        movePlayerToPositionAndMap(27, 11,"end");
+    new UsableItem("cm6uiryd9000kvs6308ahv6nm", "Vortex", new Position(53, 3), (player) => {
+        movePlayerToPosition(111, 29);
         playSound("jump")
     }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "vortex"),
 

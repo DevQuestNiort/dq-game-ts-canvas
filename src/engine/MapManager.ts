@@ -9,11 +9,11 @@ export const isTileAccessible = (x: number, y: number) => {
     if (tileType === "l" && ! gameState.player.inventory.hasItemBy("redStone")) {
         console.log("aie ca brule")
         return false;
+    } else if (tileType === "w" && ! gameState.player.inventory.hasItemBy("blueStone")) {
+        console.log("ca a l'air profond")
+        return false;
     } else if (["T", "║", "═", "╝", "╗", "╔", "╚", "╩", "╦", "╠", "╣", "╬", "■"].includes(tileType)) {
         console.log("poc");
-        return false;
-    } else if (tileType === "w") {
-        console.log("je vais me noyer")
         return false;
     }
     return true;
