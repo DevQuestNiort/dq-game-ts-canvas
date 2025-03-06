@@ -52,6 +52,10 @@ const paintPnjDialog = () => {
         pCtx.fillText("Defense :  " + itemInFrontOfPlayer.defense, 350, 25, 125)
         pCtx.fillText("name  :" + itemInFrontOfPlayer.name, 10, 57, 125)
     }
+    else {
+            pCtx.fillStyle = "#fff";
+            pCtx.fillText("Taper I pour ouvrir menu Inventaire/Help " , 10, 25, 500)
+    }
     drawDialog(new Position(GRID_PITCH * VIEWPORT_SIZE_X / 2, GRID_PITCH * VIEWPORT_SIZE_Y), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X / 2, 110), patternCanvas);
 }
 
