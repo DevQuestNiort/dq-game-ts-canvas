@@ -6,6 +6,7 @@ import {Orientation} from "./model/Orientation.ts";
 import {Debug} from "../component/Debug.ts";
 import {canvas, canvasContext, gameConfiguration, gameState, getCurrentMap} from "./GameDataService.ts";
 import {paintDialogs} from "./DialogPainter.ts";
+import {paintFog} from "./FogPainter.ts";
 
 
 let gameDebug: HTMLElement
@@ -41,12 +42,12 @@ export const draw = () => {
         // on met à jour la date de la dernière frame en tenant compte du fait qu'une frame n'est pas forcément déssinée pile à 1 fpsInterval de l'ancienne fraùe
         lastFrameTime = currentTime - (elapsedTimeSinceLastFrame % fpsInterval);
         paintBackground(getCurrentMap().grid, gameState.viewport, gameConfiguration.viewport.dimension, tilesChanged, viewportChanged)
-        paintItemsLayer(getCurrentMapState().items);
+        paintItemsLayer(getCurrentMapState().items, tilesChanged, viewportChanged);
         drawPlayer();
+        paintFog(tilesChanged, viewportChanged);
         paintDialogs();
         tilesChanged = [];
         viewportChanged = false;
-
     }
 }
 

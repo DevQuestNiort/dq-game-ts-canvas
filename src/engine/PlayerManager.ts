@@ -215,7 +215,19 @@ export const movePlayerToPosition = (playerX: number, playerY: number) => {
         }
 
         notifyChangedTile(oldPosition);
-        notifyChangedTile(new Position(playerX, playerY));
+        const fog = getCurrentMap().fog;
+        if (fog === undefined) {
+            notifyChangedTile(new Position(playerX, playerY));
+        } else {
+            for(let x = playerX - fog.distance - 1; x <= playerX + fog.distance + 1; x++) {
+                for(let y = playerY - fog.distance - 1; y <= playerY + fog.distance + 1; y++) {
+                    if (x >= 0 && x < getCurrentMap().grid.getWidth() && y >= 0 && y < getCurrentMap().grid.getHeight()) {
+                        notifyChangedTile(new Position(x, y));
+                    }
+                }
+            }
+        }
+
         console.debug(`player moved to ${playerX}, ${playerY}`);
         computeViewportPosition();
         return true
