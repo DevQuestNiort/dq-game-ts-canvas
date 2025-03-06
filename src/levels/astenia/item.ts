@@ -19,7 +19,7 @@ export const items = [
 
     new PickableItem("cleRouge", "cle", new Position(8, 16), (player) => {}, "Une cle Rouge", "press T pour prendre", "cleRed"),
     new PickableItem("redStone", "Red Stone", new Position(25, 13), (player) => {}, "Diamant rendant insensible à la chaleur", "press T pour prendre", "gem"),
-    new PickableItem("blueStone", "Blue Stone", new Position(11, 11), (player) => {}, "Diamant permettant de marcher sur l'eau", "press T pour prendre", "gem"),
+    new PickableItem("blueStone", "Blue Stone", new Position(11, 11), (player) => {}, "Diamant permettant de marcher sur l'eau", "press T pour prendre", "diamantBleu"),
 
     new ComsumableItem("cm6uhwsdn0004vs63z2xh2hfh", "Potion", new Position(16, 16), (player) => player.life += 15, "Potion de soin +15", "press T pour Boise", "potion"),
     new UsableItem("cm6uiav5h000jvs633dm9oyj9", "Vortex", new Position(110, 29), (player) => {

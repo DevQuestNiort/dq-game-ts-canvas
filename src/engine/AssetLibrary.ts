@@ -22,7 +22,8 @@ export const init = async () => {
     await loadAsset("cleRed", "cleRed.png");
     await loadAsset("communsword", "communsword.png");
     await loadAsset("cor-des-alpes", "cor-des-alpes.png");
-    await loadAsset("diamond ", "diamond .png");
+    await loadAsset("diamantRouge", "diamantRouge.png");
+    await loadAsset("diamantBleu", "diamantBleu.png");
     await loadAsset("doorleft", "doorleft.png");
     await loadAsset("doorright", "doorright.png");
     await loadAsset("dragon", "dragon.png");
