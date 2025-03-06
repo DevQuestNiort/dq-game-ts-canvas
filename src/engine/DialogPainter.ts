@@ -91,16 +91,42 @@ const paintInventaireFullDialog = () => {
         pCtx.font = "20px gamms";
         pCtx.fillStyle = "#fff";
 
-        pCtx.fillText("Inventaire", GRID_PITCH * 3, GRID_PITCH, GRID_PITCH * 23 - 10)
+        const listeHelp=[
+            "Touche Z Q S D : Monter, Gauche, Descendre, Droite ",
+            "Touche I : Ouvrir l'inventaire ",
+            "Touche T : Prendre ou interragir avec un objet ",
+            "Touche F : Frapper un objet ou un personnage ",
+            "Touche R : Parler avec un PNJ ",
+            "Touche M : Couper/Activer le son ",
+            "Alt + F4 : Ragequit  "
+        ]
+
+        const ligneDebutHelp = 14
+
+        pCtx.fillText("Aide", GRID_PITCH * 3, GRID_PITCH*ligneDebutHelp, GRID_PITCH * 23 - 10)
+
+
+        listeHelp.forEach((text, index) => {
+            pCtx.fillText(text, GRID_PITCH * 4, (GRID_PITCH * ligneDebutHelp) + GRID_PITCH * (index + 1) + 20, GRID_PITCH * 20)
+              })
+
+
+
+        const LigneDebutListeInventaire = 1
+        pCtx.fillText("Inventaire", GRID_PITCH * 3, GRID_PITCH*LigneDebutListeInventaire, GRID_PITCH * 23 - 10)
+
+
 
         gameState.player.inventory.get().forEach((item, index) => {
-            pCtx.drawImage(getImage(item.image), (GRID_PITCH * 2), (GRID_PITCH * 4) + GRID_PITCH * (index + 1), GRID_PITCH, GRID_PITCH)
-            pCtx.fillText(item.name, GRID_PITCH * 4, (GRID_PITCH * 4) + GRID_PITCH * (index + 1) + 20, GRID_PITCH * 10 - 10)
-            pCtx.fillText(item.description, GRID_PITCH * 10, (GRID_PITCH * 4) + GRID_PITCH * (index + 1) + 20, GRID_PITCH * 12 - 10)
+            pCtx.drawImage(getImage(item.image), (GRID_PITCH * 2), (GRID_PITCH * LigneDebutListeInventaire) + GRID_PITCH * (index + 1), GRID_PITCH, GRID_PITCH)
+            pCtx.fillText(item.name, GRID_PITCH * 4, (GRID_PITCH * LigneDebutListeInventaire) + GRID_PITCH * (index + 1) + 20, GRID_PITCH * 10 - 10)
+            pCtx.fillText(item.description, GRID_PITCH * 10, (GRID_PITCH * LigneDebutListeInventaire) + GRID_PITCH * (index + 1) + 20, GRID_PITCH * 12 - 10)
         })
+
         drawDialog(new Position(0, 0), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X, GRID_PITCH * VIEWPORT_SIZE_Y), patternCanvas);
     }
 }
+
 
 /**
  * imprime la popup d'interaction
