@@ -87,13 +87,15 @@ export const init = async () => {
     await loadAsset("bg-chemin", "bg/chemin.png");
     await loadAsset("echelle", "echelle.png");
     await loadAsset("trapp", "trapp.png");
+    await loadAsset("question", "question.png");
+
 
 
 }
 
 
 export const getImage = (id: string) => {
-    return assets[id];
+    return assets[id]||assets["question"];
 }
 
 
