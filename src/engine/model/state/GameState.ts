@@ -1,7 +1,10 @@
 import {PlayerState} from "./PlayerState.ts";
 import {ViewportState} from "./ViewportState.ts";
 import {MapState} from "./MapState.ts";
-import {MainMenuState} from "./MainMenuState.ts";
+import {MainMenuState} from "./menu/MainMenuState.ts";
+import {InventoryMenuState} from "./menu/InventoryMenuState.ts";
+import {MenuState} from "./menu/MenuState.ts";
+import {HelpMenuState} from "./menu/HelpMenuState.ts";
 
 export class GameState {
     public player: PlayerState;
@@ -12,19 +15,28 @@ export class GameState {
     public isOnMap: boolean = true;
     public openMenu: boolean = false
     public contentMenu: any = undefined
-    public mainmenu : MainMenuState
+    public menusStates: Record<string, MenuState>;
 
-    constructor(player: PlayerState, viewport: ViewportState, currentMap: string, mapStates: Record<string, MapState>,menu : MainMenuState) {
+    constructor(player: PlayerState, viewport: ViewportState, currentMap: string, mapStates: Record<string, MapState>) {
         this.player = player;
         this.viewport = viewport;
         this.currentMap = currentMap;
         this.mapStates = mapStates;
-        this.mainmenu = menu
+        this.menusStates = {"mainMenu": new MainMenuState(), "inventoryMenu" : new InventoryMenuState(), [viewEnum.HELPMENU] :new HelpMenuState() }
+
+    }
+
+
+    getCurrentView(){
+        console.log("menus",this.menusStates[this.view], this.view)
+        return this.menusStates[this.view]
     }
 }
 
 export enum viewEnum {
     MAP,
-    MAINMENU
+    MAINMENU ="mainMenu",
+    INVENTORYMENU ="inventoryMenu",
+    HELPMENU="helpMenu"
 
 }

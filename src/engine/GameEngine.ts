@@ -20,8 +20,9 @@ import {
 } from "./PlayerManager.ts";
 import {BooleanOption, loadOptionsFromLocalStorage, switchOption} from "./OptionManager.ts";
 import {IhmEntry} from "./model/menu/IhmEntry.ts";
-import {MainMenuState} from "./model/state/MainMenuState.ts";
+import {MainMenuState} from "./model/state/menu/MainMenuState.ts";
 import {GRID_PITCH, VIEWPORT_SIZE_X} from "./constants.ts";
+import {InventoryMenuState} from "./model/state/menu/InventoryMenuState.ts";
 
 export const init = async (gameCfg: GameConfiguration) => {
     setCanvas(document.getElementById("gameCanvas") as HTMLCanvasElement);
@@ -45,115 +46,101 @@ const buildInitialGameState: (initialPlayerState: PlayerState, initialMap: strin
     }, {})
 
 
-
-    const mainMenu = new MainMenuState()
-
-
-    return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates,mainMenu);
+    return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates);
 }
 
 
-
-export function  newGame(){
-    gameState.view =viewEnum.MAP
+export function newGame() {
+    gameState.view = viewEnum.MAP
     notifyViewportChanged()
 }
+
 const bindKeys = () => {
     addEventListener("keydown", (evt) => {
 
         evt.preventDefault();
-        if (evt.ctrlKey && evt.shiftKey && evt.key.toLowerCase() === "a"){
-            gameConfiguration.debugMod = ! gameConfiguration.debugMod
+        if (evt.ctrlKey && evt.shiftKey && evt.key.toLowerCase() === "a") {
+            gameConfiguration.debugMod = !gameConfiguration.debugMod
         }
-        if (gameState.player.isDead()){
-            return 
+        if (gameState.player.isDead()) {
+            return
         }
 
-        if (gameState.view===viewEnum.MAINMENU) {
+        if (gameState.view !== viewEnum.MAP) {
+            gameState.getCurrentView().build(evt)
+
+
+        }
+
+        if (gameState.view === viewEnum.MAP) {
             switch (evt.key) {
                 case "ArrowUp":
                 case "z":
                 case "Z":
 
-                    gameState.mainmenu.up()
+                    if (!gameState.isOnMap) {
+                        break
+                    }
+                    upKeyPressed();
                     break;
                 case "ArrowDown":
                 case "s":
                 case "S":
-                    gameState.mainmenu.down()
+                    if (!gameState.isOnMap) {
+                        break
+                    }
+                    downKeyPressed();
                     break;
-                case "Enter":
-                    gameState.mainmenu.execute()
-                    break
+                case "ArrowLeft":
+                case "q":
+                case "Q":
+                    if (!gameState.isOnMap) {
+                        break
+                    }
+                    leftKeyPressed();
+                    break;
+                case "ArrowRight":
+                case "d":
+                case "D":
+                    if (!gameState.isOnMap) {
+                        break
+                    }
+                    rightKeyPressed();
+                    break;
+                case "f":
+                case "F":
+                    if (!gameState.isOnMap) {
+                        break
+                    }
+                    actionKeyPressed();
+                    break;
+                case "t":
+                case "T":
+                    if (!gameState.isOnMap) {
+                        break
+                    }
+                    pickUpKeyPressed();
+                    break;
+                case "m":
+                case "M":
+                    switchOption(BooleanOption.SOUND_MUTED);
+                    break;
+                case "i":
+                case "I":
+                    inventoryKeyPressed()
+                    break;
+                case "h":
+                case "H":
+                    gameState.view=viewEnum.HELPMENU
+                    notifyViewportChanged()
+                    break;
+                case "r":
+                case "R":
+                    interactKeyPressed()
+                    break;
+
             }
-
-
         }
-
-if (gameState.view===viewEnum.MAP){
-        switch (evt.key) {
-            case "ArrowUp":
-            case "z":
-            case "Z":
-
-                if( ! gameState.isOnMap ) {
-                    break
-                }
-                upKeyPressed();
-                break;
-            case "ArrowDown":
-            case "s":
-            case "S":
-                if( ! gameState.isOnMap ) {
-                    break
-                }
-                downKeyPressed();
-                break;
-            case "ArrowLeft":
-            case "q":
-            case "Q":
-                if( ! gameState.isOnMap ) {
-                    break
-                }
-                leftKeyPressed();
-                break;
-            case "ArrowRight":
-            case "d":
-            case "D":
-                if( ! gameState.isOnMap ) {
-                    break
-                }
-                rightKeyPressed();
-                break;
-            case "f":
-            case "F":
-                if( ! gameState.isOnMap ) {
-                    break
-                }
-                actionKeyPressed();
-                break;
-            case "t":
-            case "T":
-                if( ! gameState.isOnMap ) {
-                    break
-                }
-                pickUpKeyPressed();
-                break;
-            case "m":
-            case "M":
-                switchOption(BooleanOption.SOUND_MUTED);
-                break;
-            case "i":
-            case "I":
-                inventoryKeyPressed()
-                break;
-            case "r":
-            case "R":
-                interactKeyPressed()
-                break;
-
-        }
-}
     })
 }
 

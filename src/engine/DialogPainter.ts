@@ -1,7 +1,7 @@
 import {canvasContext, gameState} from "./GameDataService.ts";
 import {TwoDimensionalSize} from "./model/TwoDimensionalSize.ts";
 import {Position} from "./model/Position.ts";
-import {GRID_PITCH, VIEWPORT_SIZE_X, VIEWPORT_SIZE_Y} from "./constants.ts";
+import {GRID_PITCH, TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y, VIEWPORT_SIZE_X, VIEWPORT_SIZE_Y} from "./constants.ts";
 import {getImage} from "./AssetLibrary.ts";
 import {getItemAtPlayerPosition, getItemInFrontOfPlayer} from "./MapManager.ts";
 import {PNJItem} from "./model/item/PNJItem.ts";
@@ -24,8 +24,8 @@ export const paintDialogs = () => {
 const paintDeathView = () => {
     if (gameState.player.isDead() ) {
         const patternCanvas = document.createElement("canvas");
-        patternCanvas.width = GRID_PITCH * VIEWPORT_SIZE_X;
-        patternCanvas.height = GRID_PITCH * VIEWPORT_SIZE_Y;
+        patternCanvas.width = TOTAL_PX_SIZE_X;
+        patternCanvas.height = TOTAL_PX_SIZE_Y ;
 
         const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
         pCtx.font = "50px gamms";
@@ -34,14 +34,14 @@ const paintDeathView = () => {
 
         pCtx.textAlign = "center";
         pCtx.fillText("GAME OVER", (GRID_PITCH *  VIEWPORT_SIZE_X)/2 , (GRID_PITCH * VIEWPORT_SIZE_Y) /2, GRID_PITCH * 23 - 10)
-        drawDialog(new Position(0, 0), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X, GRID_PITCH * VIEWPORT_SIZE_Y), patternCanvas);
+        drawDialog(new Position(0, 0), new TwoDimensionalSize(TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y), patternCanvas);
     }
 }
 
 
 const paintMainMenu = () => {
-    if (gameState.view === viewEnum.MAINMENU ) {
-        drawDialog(new Position(0, 0), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X, GRID_PITCH * VIEWPORT_SIZE_Y+ GRID_PITCH*3), gameState.mainmenu.paint());
+    if (gameState.view !== viewEnum.MAP ) {
+        drawDialog(new Position(0, 0), new TwoDimensionalSize(TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y), gameState.getCurrentView().paint());
     }
 }
 
@@ -117,8 +117,8 @@ const paintPopupItemInfoDialog = () => {
 const paintInventaireFullDialog = () => {
     if (gameState.openMenu && gameState.contentMenu.type === TypeModal.INVENTAIRE) {
         const patternCanvas = document.createElement("canvas");
-        patternCanvas.width = GRID_PITCH * VIEWPORT_SIZE_X;
-        patternCanvas.height = GRID_PITCH * VIEWPORT_SIZE_Y;
+        patternCanvas.width = TOTAL_PX_SIZE_X;
+        patternCanvas.height = TOTAL_PX_SIZE_Y;
 
         const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
         pCtx.font = "20px gamms";
@@ -134,7 +134,7 @@ const paintInventaireFullDialog = () => {
             "Alt + F4 : Ragequit  "
         ]
 
-        const ligneDebutHelp = 14
+        const ligneDebutHelp = 4
 
         pCtx.fillText("Aide", GRID_PITCH * 3, GRID_PITCH*ligneDebutHelp, GRID_PITCH * 23 - 10)
 

@@ -1,4 +1,4 @@
-import {GRID_PITCH} from "./constants.ts";
+import {GRID_PITCH, TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y} from "./constants.ts";
 import {init as initGridBackgroundPainter, paintBackground} from "./GridBackgroundPainter.ts";
 import {Position} from "./model/Position.ts";
 import {paintItemsLayer} from "./ItemsLayerPainter.ts";
@@ -84,8 +84,8 @@ const drawPlayer = () => {
 }
 
 const prepareCanvas = () => {
-    canvas.width = gameConfiguration.viewport.dimension.width * GRID_PITCH;
-    canvas.height = gameConfiguration.viewport.dimension.height * GRID_PITCH + GRID_PITCH *3;
+    canvas.width = TOTAL_PX_SIZE_X;
+    canvas.height = TOTAL_PX_SIZE_Y;
 }
 
 const loadImage: (src: string) => Promise<HTMLImageElement> = (src: string) => {

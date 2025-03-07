@@ -4,7 +4,8 @@ import {notifyChangedTile, notifyViewportChanged} from "./GraphicsEngine.ts";
 import {Position} from "./model/Position.ts";
 import {computeViewportPosition} from "./ViewportManager.ts";
 import {
-    getItemAtPlayerPosition, getItemAtPosition,
+    getItemAtPlayerPosition,
+    getItemAtPosition,
     getItemInFrontOfPlayer,
     isTileAccessible,
     isTileIsNotObstructed,
@@ -17,6 +18,7 @@ import {PNJItem} from "./model/item/PNJItem.ts";
 import {playSound} from "./SoundEngine.ts";
 import {DecorativeItem} from "./model/item/DecorativeItem.ts";
 import {InventaireTemplate} from "./model/modalTemplate/InventaireTemplate.ts";
+import {viewEnum} from "./model/state/GameState.ts";
 
 
 export const upKeyPressed = () => {
@@ -59,7 +61,9 @@ export const interactKeyPressed = () => {
 
 
 export const inventoryKeyPressed = () => {
-    openInventory()
+
+    gameState.view=viewEnum.INVENTORYMENU
+    notifyViewportChanged()
 }
 
 

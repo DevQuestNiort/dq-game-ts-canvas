@@ -1,0 +1,113 @@
+import {IhmEntry} from "../../menu/IhmEntry.ts";
+import {Position} from "../../Position.ts";
+import {GRID_PITCH, TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y, VIEWPORT_SIZE_X, VIEWPORT_SIZE_Y} from "../../../constants.ts";
+import {gameState} from "../../../GameDataService.ts";
+import {newGame} from "../../../GameEngine.ts";
+import {playSound} from "../../../SoundEngine.ts";
+import {MenuState} from "./MenuState.ts";
+
+export class MainMenuState extends MenuState{
+
+
+    public name : string = "MainMenu"
+    public texts: IhmEntry[]
+
+
+
+
+    constructor() {
+        super()
+        const entry1  = new IhmEntry("01",new Position((GRID_PITCH *  VIEWPORT_SIZE_X)/2 , GRID_PITCH*8), 30, "Nouvelle partie",()=> newGame())
+        const entry2  = new IhmEntry("02",new Position((GRID_PITCH *  VIEWPORT_SIZE_X)/2 , GRID_PITCH*11),30, "Help info",()=> console.log("new game"))
+        const entry3  = new IhmEntry("03",new Position((GRID_PITCH *  VIEWPORT_SIZE_X)/2 , GRID_PITCH*14),30, "A Propos !",()=> alert("Created by Devquest"))
+
+        this.entrys= [entry1,entry2,entry3]
+        this.texts= [
+            new IhmEntry("title", new Position((GRID_PITCH *  VIEWPORT_SIZE_X)/2 , GRID_PITCH*2),50,"DevQuest The Game",undefined),
+            new IhmEntry("subtitle", new Position((GRID_PITCH *  VIEWPORT_SIZE_X)/2 , GRID_PITCH*3),20,"Le jeu officiel de la conference officielle de Niort",undefined)
+        ]
+    }
+
+    down(){
+        const maxItem = this.entrys.length - 1
+        const newSelected = this.selectedEntry + 1
+        if (newSelected> maxItem){
+            this.selectedEntry = 0
+        }
+        else{
+            this.selectedEntry = newSelected
+        }
+        playSound("move")
+    }
+    up(){
+        const maxItem = this.entrys.length - 1
+        const newSelected = this.selectedEntry - 1
+        if (newSelected< 0){
+            this.selectedEntry = maxItem
+        }
+        else{
+            this.selectedEntry = newSelected
+        }
+        playSound("move")
+    }
+
+    execute(){
+        this.entrys[this.selectedEntry].action()
+        playSound("pick")
+    }
+
+
+build(evt){
+
+    switch (evt.key) {
+        case "ArrowUp":
+        case "z":
+        case "Z":
+
+            this.up()
+            break;
+        case "ArrowDown":
+        case "s":
+        case "S":
+            this.down()
+            break;
+        case "Enter":
+            this.execute()
+            break
+    }
+}
+    paint(){
+        const patternCanvas = document.createElement("canvas");
+        patternCanvas.width = TOTAL_PX_SIZE_X;
+        patternCanvas.height = TOTAL_PX_SIZE_Y;
+
+        const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
+        pCtx.font = "50px gamms";
+        pCtx.fillStyle = "#fff";
+
+
+        pCtx.textAlign = "center";
+
+        this.texts.forEach((entry, index) => {
+            pCtx.font = `${entry.size}px gamms`;
+            pCtx.fillStyle = "#fff";
+            pCtx.fillText(entry.text, entry.position.x, entry.position.y+ 30, GRID_PITCH * 20)
+        })
+
+
+        pCtx.fillStyle = "#fff";
+        this.entrys.forEach((entry, index) => {
+            pCtx.font = `${entry.size}px gamms`;
+            if (index === this.selectedEntry){
+                const textWidth= pCtx.measureText(entry.text).width + 20
+                pCtx.fillRect( entry.position.x -((textWidth)/2), entry.position.y,textWidth ,entry.size+20)
+                pCtx.fillStyle = "#245a5a";
+            }
+            else {
+                pCtx.fillStyle = "#fff";
+            }
+            pCtx.fillText(entry.text, entry.position.x, entry.position.y+ 30, GRID_PITCH * 20)
+        })
+        return patternCanvas
+    }
+}
