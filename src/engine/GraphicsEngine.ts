@@ -85,7 +85,7 @@ const drawPlayer = () => {
 
 const prepareCanvas = () => {
     canvas.width = gameConfiguration.viewport.dimension.width * GRID_PITCH;
-    canvas.height = gameConfiguration.viewport.dimension.height * GRID_PITCH + 110;
+    canvas.height = gameConfiguration.viewport.dimension.height * GRID_PITCH + GRID_PITCH *3;
 }
 
 const loadImage: (src: string) => Promise<HTMLImageElement> = (src: string) => {

@@ -41,7 +41,7 @@ const paintDeathView = () => {
 
 const paintMainMenu = () => {
     if (gameState.view === viewEnum.MAINMENU ) {
-        drawDialog(new Position(0, 0), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X, GRID_PITCH * VIEWPORT_SIZE_Y+110), gameState.mainmenu.paint());
+        drawDialog(new Position(0, 0), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X, GRID_PITCH * VIEWPORT_SIZE_Y+ GRID_PITCH*3), gameState.mainmenu.paint());
     }
 }
 
@@ -51,17 +51,16 @@ const paintMainMenu = () => {
 const paintPlayerDialog = () => {
     const patternCanvas = document.createElement("canvas");
     patternCanvas.width = GRID_PITCH * VIEWPORT_SIZE_X / 2;
-    patternCanvas.height = 110;
+    patternCanvas.height = GRID_PITCH*3;
     const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
     pCtx.font = "20px gamms";
     pCtx.fillStyle = "#fff";
     pCtx.fillText("Points de Vie :  " + gameState.player.life, 10, 23, 160)
     pCtx.fillText("Attaque :  " + gameState.player.attack, 200, 23, 125)
     pCtx.fillText("Defense :  " + gameState.player.defense, 350, 23, 125)
-    pCtx.fillText("Inventaire: ", 10, 57, 125)
     gameState.player.inventory.get().map(item => getImage(item.image))
-        .forEach((image, index) => pCtx.drawImage(image, 7 + index * (GRID_PITCH + 5), 70, GRID_PITCH, GRID_PITCH))
-    drawDialog(new Position(0, GRID_PITCH * VIEWPORT_SIZE_Y), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X / 2, 110), patternCanvas);
+        .forEach((image, index) => pCtx.drawImage(image, 7 + index * (GRID_PITCH + 5), 60, GRID_PITCH, GRID_PITCH))
+    drawDialog(new Position(0, GRID_PITCH * VIEWPORT_SIZE_Y), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X / 2, GRID_PITCH*3), patternCanvas);
 }
 
 /**
@@ -70,7 +69,7 @@ const paintPlayerDialog = () => {
 const paintPnjDialog = () => {
     const patternCanvas = document.createElement("canvas");
     patternCanvas.width = GRID_PITCH * VIEWPORT_SIZE_X / 2;
-    patternCanvas.height = 110;
+    patternCanvas.height = GRID_PITCH*3;
     const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
     pCtx.fillStyle = "#fff";
     pCtx.font = "20px gamms";
@@ -86,7 +85,7 @@ const paintPnjDialog = () => {
             pCtx.fillStyle = "#fff";
             pCtx.fillText("Taper I pour ouvrir menu Inventaire/Help " , 10, 25, 500)
     }
-    drawDialog(new Position(GRID_PITCH * VIEWPORT_SIZE_X / 2, GRID_PITCH * VIEWPORT_SIZE_Y), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X / 2, 110), patternCanvas);
+    drawDialog(new Position(GRID_PITCH * VIEWPORT_SIZE_X / 2, GRID_PITCH * VIEWPORT_SIZE_Y), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X / 2, GRID_PITCH*3), patternCanvas);
 }
 
 /**
