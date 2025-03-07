@@ -94,7 +94,7 @@ const attak = (pnj: PNJItem) => {
 
         console.log('death of ', pnj.name)
         pnj.death(gameState)
-        soundKillEnnemy()
+        playSound("kill")
     } else {
 
         let degatToPlayer = pnj.attack - gameState.player.defense
