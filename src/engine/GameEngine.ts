@@ -50,6 +50,9 @@ const bindKeys = () => {
         if (evt.ctrlKey && evt.shiftKey && evt.key.toLowerCase() === "a"){
             gameConfiguration.debugMod = ! gameConfiguration.debugMod
         }
+        if (gameState.player.isDead()){
+            return 
+        }
 
         switch (evt.key) {
             case "ArrowUp":

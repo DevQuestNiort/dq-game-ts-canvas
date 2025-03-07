@@ -13,6 +13,25 @@ export const paintDialogs = () => {
     paintPopupItemInfoDialog();
     paintInventaireFullDialog();
     paintInteractionDialog();
+    paintDeathView();
+}
+
+
+const paintDeathView = () => {
+    if (gameState.player.isDead() ) {
+        const patternCanvas = document.createElement("canvas");
+        patternCanvas.width = GRID_PITCH * VIEWPORT_SIZE_X;
+        patternCanvas.height = GRID_PITCH * VIEWPORT_SIZE_Y;
+
+        const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
+        pCtx.font = "50px gamms";
+        pCtx.fillStyle = "#fff";
+
+
+        pCtx.textAlign = "center";
+        pCtx.fillText("GAME OVER", (GRID_PITCH *  VIEWPORT_SIZE_X)/2 , (GRID_PITCH * VIEWPORT_SIZE_Y) /2, GRID_PITCH * 23 - 10)
+        drawDialog(new Position(0, 0), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X, GRID_PITCH * VIEWPORT_SIZE_Y), patternCanvas);
+    }
 }
 
 /**
@@ -113,14 +132,8 @@ const paintInventaireFullDialog = () => {
         listeHelp.forEach((text, index) => {
             pCtx.fillText(text, GRID_PITCH * 4, (GRID_PITCH * ligneDebutHelp) + GRID_PITCH * (index + 1) + 20, GRID_PITCH * 20)
               })
-
-
-
         const LigneDebutListeInventaire = 1
         pCtx.fillText("Inventaire", GRID_PITCH * 3, GRID_PITCH*LigneDebutListeInventaire, GRID_PITCH * 23 - 10)
-
-
-
         gameState.player.inventory.get().forEach((item, index) => {
             pCtx.drawImage(getImage(item.image), (GRID_PITCH * 2), (GRID_PITCH * LigneDebutListeInventaire) + GRID_PITCH * (index + 1), GRID_PITCH, GRID_PITCH)
             pCtx.fillText(item.name, GRID_PITCH * 4, (GRID_PITCH * LigneDebutListeInventaire) + GRID_PITCH * (index + 1) + 20, GRID_PITCH * 10 - 10)
