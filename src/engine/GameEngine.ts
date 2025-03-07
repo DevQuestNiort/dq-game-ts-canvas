@@ -1,6 +1,6 @@
 import {GameConfiguration} from "./model/configuration/GameConfiguration.ts";
-import {draw, init as initGraphicsEngine} from "./GraphicsEngine.ts";
-import {GameState} from "./model/state/GameState.ts";
+import {draw, init as initGraphicsEngine, notifyViewportChanged} from "./GraphicsEngine.ts";
+import {GameState, viewEnum} from "./model/state/GameState.ts";
 import {PlayerState} from "./model/state/PlayerState.ts";
 import {ViewportState} from "./model/state/ViewportState.ts";
 import {Position} from "./model/Position.ts";
@@ -19,6 +19,9 @@ import {
     upKeyPressed
 } from "./PlayerManager.ts";
 import {BooleanOption, loadOptionsFromLocalStorage, switchOption} from "./OptionManager.ts";
+import {IhmEntry} from "./model/menu/IhmEntry.ts";
+import {MainMenuState} from "./model/state/MainMenuState.ts";
+import {GRID_PITCH, VIEWPORT_SIZE_X} from "./constants.ts";
 
 export const init = async (gameCfg: GameConfiguration) => {
     setCanvas(document.getElementById("gameCanvas") as HTMLCanvasElement);
@@ -40,9 +43,21 @@ const buildInitialGameState: (initialPlayerState: PlayerState, initialMap: strin
         acc[map.name] = map.mapState;
         return acc;
     }, {})
-    return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates);
+
+
+
+    const mainMenu = new MainMenuState()
+
+
+    return new GameState(initialPlayerState, new ViewportState(new Position(0, 0)), initialMap, mapStates,mainMenu);
 }
 
+
+
+export function  newGame(){
+    gameState.view =viewEnum.MAP
+    notifyViewportChanged()
+}
 const bindKeys = () => {
     addEventListener("keydown", (evt) => {
 
@@ -54,6 +69,28 @@ const bindKeys = () => {
             return 
         }
 
+        if (gameState.view===viewEnum.MAINMENU) {
+            switch (evt.key) {
+                case "ArrowUp":
+                case "z":
+                case "Z":
+
+                    gameState.mainmenu.up()
+                    break;
+                case "ArrowDown":
+                case "s":
+                case "S":
+                    gameState.mainmenu.down()
+                    break;
+                case "Enter":
+                    gameState.mainmenu.execute()
+                    break
+            }
+
+
+        }
+
+if (gameState.view===viewEnum.MAP){
         switch (evt.key) {
             case "ArrowUp":
             case "z":
@@ -116,7 +153,7 @@ const bindKeys = () => {
                 break;
 
         }
-
+}
     })
 }
 

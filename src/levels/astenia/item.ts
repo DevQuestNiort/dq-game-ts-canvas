@@ -5,8 +5,7 @@ import {ComsumableItem} from "../../engine/model/item/ComsumableItem.ts";
 import {UsableItem} from "../../engine/model/item/UsableItem.ts";
 import {movePlayer, movePlayerToPosition, movePlayerToPositionAndMap} from "../../engine/PlayerManager.ts";
 import {PNJItem} from "../../engine/model/item/PNJItem.ts";
-import {gameState, getCurrentMap} from "../../engine/GameDataService.ts";
-import {playSound, soundJump} from "../../engine/SoundEngine.ts";
+import {playSound} from "../../engine/SoundEngine.ts";
 import {DoorItem} from "../../engine/model/item/DoorItem.ts";
 import {ModalTemplate} from "../../engine/model/modalTemplate/ModalTemplate.ts";
 
@@ -40,7 +39,7 @@ export const items = [
         movePlayerToPositionAndMap(23, 26,"castelm01");// 18 / 14
     }, "Vortex dimensionel", "Press T pour entrer dans la trappe", "trapp"),
 
-    new PNJItem("cm6uj11q4000lvs63d6xka7h4", "Vincent", new Position(13, 10), 10, 3, 2, (stateContext) => {
+    new PNJItem("cm6uj11q4000lvs63d6xka7h4", "Monster", new Position(13, 10), 10, 8, 2, (stateContext) => {
         stateContext.mapStates[stateContext.currentMap].items.addItem(new ComsumableItem("cm6ul464y000mvs630qlpu3ik", "Potion", new Position(13, 10), (player) => player.life += 15, "Potion de soin +15", "", "potion"),)
     }, "niak", "", "troll"),
 

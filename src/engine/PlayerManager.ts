@@ -122,8 +122,6 @@ function interact(itemInFrontOfPlayer: DecorativeItem) {
 }
 
 function openInventory() {
-
-
     if (!gameState.openMenu) {
         gameState.contentMenu = new InventaireTemplate()
         gameState.isOnMap = false

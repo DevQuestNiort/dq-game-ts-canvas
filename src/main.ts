@@ -12,11 +12,15 @@ import {ViewportConfiguration} from "./engine/model/configuration/ViewportConfig
 import {TwoDimensionalSize} from "./engine/model/TwoDimensionalSize.ts";
 import {DeadZone} from "./engine/model/configuration/DeadZone.ts";
 import {STABLE_ZONE_SIZE_X, STABLE_ZONE_SIZE_Y, VIEWPORT_SIZE_X, VIEWPORT_SIZE_Y} from "./engine/constants.ts";
+import {MainMenuState} from "./engine/model/state/MainMenuState.ts";
+import {IhmEntry} from "./engine/model/menu/IhmEntry.ts";
 
 const stableZonePositionX = (VIEWPORT_SIZE_X - STABLE_ZONE_SIZE_X) / 2
 const stableZonePositionY = (VIEWPORT_SIZE_Y - STABLE_ZONE_SIZE_Y) / 2
 
 window.onload = async function () {
+
+
 
     console.log("Chargement des maps", mapsConfigurations)
     const initialMap = "astenia";

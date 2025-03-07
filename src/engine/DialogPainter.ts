@@ -6,15 +6,19 @@ import {getImage} from "./AssetLibrary.ts";
 import {getItemAtPlayerPosition, getItemInFrontOfPlayer} from "./MapManager.ts";
 import {PNJItem} from "./model/item/PNJItem.ts";
 import {TypeModal} from "./model/modalTemplate/AbstractModalTemplate.ts";
+import {viewEnum} from "./model/state/GameState.ts";
 
 export const paintDialogs = () => {
+
     paintPlayerDialog();
     paintPnjDialog();
     paintPopupItemInfoDialog();
     paintInventaireFullDialog();
     paintInteractionDialog();
     paintDeathView();
+    paintMainMenu();
 }
+
 
 
 const paintDeathView = () => {
@@ -31,6 +35,13 @@ const paintDeathView = () => {
         pCtx.textAlign = "center";
         pCtx.fillText("GAME OVER", (GRID_PITCH *  VIEWPORT_SIZE_X)/2 , (GRID_PITCH * VIEWPORT_SIZE_Y) /2, GRID_PITCH * 23 - 10)
         drawDialog(new Position(0, 0), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X, GRID_PITCH * VIEWPORT_SIZE_Y), patternCanvas);
+    }
+}
+
+
+const paintMainMenu = () => {
+    if (gameState.view === viewEnum.MAINMENU ) {
+        drawDialog(new Position(0, 0), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X, GRID_PITCH * VIEWPORT_SIZE_Y+110), gameState.mainmenu.paint());
     }
 }
 
