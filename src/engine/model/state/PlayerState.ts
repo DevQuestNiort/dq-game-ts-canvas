@@ -5,10 +5,6 @@ import {gameState} from "../../GameDataService.ts";
 import {playSound} from "../../SoundEngine.ts";
 import {PickableItem} from "../item/PickableItem.ts";
 import {ComsumableItem} from "../item/ComsumableItem.ts";
-import {UsableItem} from "../item/UsableItem.ts";
-import {updateStats} from "../../PlayerManager.ts";
-import {removeItemFromCurrentMapByUid} from "../../MapManager.ts";
-
 export class PlayerState {
     /** position sur la grille */
     public position: Position;
@@ -45,7 +41,7 @@ export class PlayerState {
         }
         this.life= this.life-degatToPlayer
         if (this.isDead()){
-            playSound("kill")
+            playSound("gameover")
         }
     }
 
