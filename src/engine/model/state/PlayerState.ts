@@ -1,6 +1,13 @@
 import {Position} from "../Position.ts";
 import {Orientation} from "../Orientation.ts";
 import {Items} from "../item/Items.ts";
+import {gameState} from "../../GameDataService.ts";
+import {playSound} from "../../SoundEngine.ts";
+import {PickableItem} from "../item/PickableItem.ts";
+import {ComsumableItem} from "../item/ComsumableItem.ts";
+import {UsableItem} from "../item/UsableItem.ts";
+import {updateStats} from "../../PlayerManager.ts";
+import {removeItemFromCurrentMapByUid} from "../../MapManager.ts";
 
 export class PlayerState {
     /** position sur la grille */
@@ -23,5 +30,44 @@ export class PlayerState {
         this.defense = baseDefense;
         this.life = life;
         this.inventory = new Items([])
+    }
+
+     isDead(){
+        return this.life <1
+    }
+
+    takeDamage(damage :number){
+        console.log('take damage player ', damage)
+        let degatToPlayer = damage- gameState.player.defense
+        console.log('real take damage player ', degatToPlayer)
+        if (degatToPlayer < 1) {
+            degatToPlayer = 1
+        }
+        this.life= this.life-degatToPlayer
+        if (this.isDead()){
+            playSound("kill")
+        }
+    }
+
+
+    takeItem(item: PickableItem){
+        this.inventory.addItem(item);
+        this.updateStats()
+        playSound("pick")
+    }
+    consumItem(item: ComsumableItem){
+        item.playerModificator(this)
+        playSound("pick")
+    }
+
+    /*
+    recalcul stat a partir de l'inventaire
+     */
+    updateStats = () => {
+        // recalcul attack, on parcourt les objets pour appliquer les effets
+        this.attack = this.baseAttack;
+        this.defense = this.baseDefense;
+        this.inventory.get().map(item => item as PickableItem).forEach(item => item.playerModificator(gameState.player));
+
     }
 }

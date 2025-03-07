@@ -14,7 +14,7 @@ import {PickableItem} from "./model/item/PickableItem.ts";
 import {ComsumableItem} from "./model/item/ComsumableItem.ts";
 import {UsableItem} from "./model/item/UsableItem.ts";
 import {PNJItem} from "./model/item/PNJItem.ts";
-import {playSound, soundKillEnnemy} from "./SoundEngine.ts";
+import {playSound} from "./SoundEngine.ts";
 import {DecorativeItem} from "./model/item/DecorativeItem.ts";
 import {InventaireTemplate} from "./model/modalTemplate/InventaireTemplate.ts";
 
@@ -69,7 +69,6 @@ export const pickUpKeyPressed = () => {
     if (itemAtPlayerPosition && itemAtPlayerPosition instanceof PickableItem) {
         console.log("je ramasse")
         addItemToInventory(itemAtPlayerPosition)
-        updateStats()
     } else if (itemAtPlayerPosition && itemAtPlayerPosition instanceof ComsumableItem) {
         console.log("je Consomme")
         comsumnItem(itemAtPlayerPosition)
@@ -89,28 +88,16 @@ const attak = (pnj: PNJItem) => {
     }
     pnj.life = pnj.life - degatToPnj
 
-
     if (pnj.life < 1) {
-
         console.log('death of ', pnj.name)
         pnj.death(gameState)
         playSound("kill")
     } else {
-
-        let degatToPlayer = pnj.attack - gameState.player.defense
-
-        if (degatToPlayer < 1) {
-            degatToPlayer = 1
-        }
-        gameState.player.life = gameState.player.life - degatToPlayer
+        gameState.player.takeDamage(pnj.attack)
 
     }
-
-
     notifyChangedTile(pnj.position);
-
     playSound("attack")
-
 }
 
 
@@ -154,21 +141,17 @@ function openInventory() {
 
 
 const addItemToInventory = (item: PickableItem) => {
-    gameState.player.inventory.addItem(item);
+    gameState.player.takeItem(item);
     removeItemFromCurrentMapByUid(item.uid);
-
     notifyViewportChanged()
-    playSound("pick")
-    // refresh zone inventaire
+
 }
 
 const comsumnItem = (item: ComsumableItem) => {
 
-    item.playerModificator(gameState.player)
+    gameState.player.consumItem(item)
     removeItemFromCurrentMapByUid(item.uid);
-
     notifyViewportChanged()
-    playSound("pick")
 
 }
 
@@ -261,10 +244,3 @@ export const movePlayer = (x: number, y: number) => {
 
 }
 
-export const updateStats = () => {
-    // recalcul attack, on parcourt les objets pour appliquer les effets
-    gameState.player.attack = gameState.player.baseAttack;
-    gameState.player.defense = gameState.player.baseDefense;
-    gameState.player.inventory.get().map(item => item as PickableItem).forEach(item => item.playerModificator(gameState.player));
-
-}
