@@ -1,11 +1,11 @@
 import {Grid} from "./model/configuration/Grid.ts";
-import {GRID_PITCH} from "./constants.ts";
+import {GRID_PITCH, TOTAL_PX_SIZE_X} from "./constants.ts";
 import {ViewportState} from "./model/state/ViewportState.ts";
 import {TwoDimensionalSize} from "./model/TwoDimensionalSize.ts";
 import {getFiller, init as initGridBackgroundFillers} from "./GridBackgroundFillers.ts";
 import {Position} from "./model/Position.ts";
 import {getImage, init as initAssetLibrary} from "./AssetLibrary.ts";
-import {canvasContext, gameConfiguration} from "./GameDataService.ts";
+import {canvasContext, gameConfiguration, gameState} from "./GameDataService.ts";
 
 
 export const init = async () => {
@@ -32,6 +32,16 @@ export const paintBackground = (grid: Grid, viewportState: ViewportState, viewpo
             gameConfiguration.viewport.deadZone.position.y * GRID_PITCH,
             gameConfiguration.viewport.deadZone.dimension.width * GRID_PITCH,
             gameConfiguration.viewport.deadZone.dimension.height * GRID_PITCH);
+
+        canvasContext.fillStyle = "#000";
+        const text =  `X : ${gameState.player.position.x}  Y : ${gameState.player.position.y}`
+        canvasContext.fillRect( TOTAL_PX_SIZE_X - 5*GRID_PITCH, 0 ,5*GRID_PITCH, GRID_PITCH*2 )
+        canvasContext.textBaseline = "top"
+        canvasContext.textAlign= "end"
+        canvasContext.font = "20px gamms";
+        canvasContext.fillStyle = "#fff";
+
+        canvasContext.fillText(text  ,TOTAL_PX_SIZE_X-20,22,4.5*GRID_PITCH)
     }
 
 
