@@ -89,6 +89,8 @@ export const init = async () => {
     await loadAsset("trapp", "trapp.png");
     await loadAsset("question", "question.png");
 
+    await  loadAsset("bgMenu","bgMenu.webp")
+    await  loadAsset("logodq","logo.png")
 
 
 }

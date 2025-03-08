@@ -5,6 +5,7 @@ import {gameState} from "../../../GameDataService.ts";
 import {newGame} from "../../../GameEngine.ts";
 import {playSound} from "../../../SoundEngine.ts";
 import {MenuState} from "./MenuState.ts";
+import {getImage} from "../../../AssetLibrary.ts";
 
 export class MainMenuState extends MenuState{
 
@@ -84,8 +85,9 @@ build(evt){
         const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
         pCtx.font = "50px gamms";
         pCtx.fillStyle = "#fff";
-
-
+        pCtx.drawImage(getImage("bgMenu"), (GRID_PITCH * 0), (GRID_PITCH * 0)  , TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y)
+        pCtx.fillStyle = "rgba(0,0,0,0.85)";
+        pCtx.fillRect(GRID_PITCH * 4, GRID_PITCH * 1 ,GRID_PITCH * 27 ,GRID_PITCH * 4)
         pCtx.textAlign = "center";
 
         this.texts.forEach((entry, index) => {
@@ -94,6 +96,10 @@ build(evt){
             pCtx.fillText(entry.text, entry.position.x, entry.position.y+ 30, GRID_PITCH * 20)
         })
 
+        pCtx.drawImage(getImage("logodq"), (GRID_PITCH * 5), (GRID_PITCH * 1.5)  , GRID_PITCH * 3, GRID_PITCH * 3)
+        pCtx.drawImage(getImage("logodq"), (GRID_PITCH * 27), (GRID_PITCH * 1.5)  , GRID_PITCH * 3, GRID_PITCH * 3)
+
+
 
         pCtx.fillStyle = "#fff";
         this.entrys.forEach((entry, index) => {
@@ -101,7 +107,9 @@ build(evt){
             if (index === this.selectedEntry){
                 const textWidth= pCtx.measureText(entry.text).width + 20
                 pCtx.fillRect( entry.position.x -((textWidth)/2), entry.position.y,textWidth ,entry.size+20)
-                pCtx.fillStyle = "#245a5a";
+
+                pCtx.fillStyle = "#020202";
+                pCtx.drawImage(getImage("logodq"),entry.position.x -((textWidth)/2) - GRID_PITCH * 2.0,  entry.position.y   , GRID_PITCH * 1.5, GRID_PITCH * 1.5)
             }
             else {
                 pCtx.fillStyle = "#fff";
