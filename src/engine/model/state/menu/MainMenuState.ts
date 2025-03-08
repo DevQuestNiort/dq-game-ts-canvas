@@ -85,7 +85,7 @@ build(evt){
         const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
         pCtx.font = "50px gamms";
         pCtx.fillStyle = "#fff";
-        pCtx.drawImage(getImage("bgMenu"), (GRID_PITCH * 0), (GRID_PITCH * 0)  , TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y)
+        pCtx.drawImage(getImage("bgMenu"), 0,0  , TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y)
         pCtx.fillStyle = "rgba(0,0,0,0.85)";
         pCtx.fillRect(GRID_PITCH * 4, GRID_PITCH * 1 ,GRID_PITCH * 27 ,GRID_PITCH * 4)
         pCtx.textAlign = "center";

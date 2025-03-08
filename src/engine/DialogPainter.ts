@@ -29,9 +29,11 @@ const paintDeathView = () => {
 
         const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
         pCtx.font = "50px gamms";
+
+        pCtx.drawImage(getImage("deadbg"), 0,0  , TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y)
+        pCtx.fillStyle = "rgba(0,0,0,0.8)";
+        pCtx.fillRect(0,0  , TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y)
         pCtx.fillStyle = "#fff";
-
-
         pCtx.textAlign = "center";
         pCtx.fillText("GAME OVER", (GRID_PITCH *  VIEWPORT_SIZE_X)/2 , (GRID_PITCH * VIEWPORT_SIZE_Y) /2, GRID_PITCH * 23 - 10)
         drawDialog(new Position(0, 0), new TwoDimensionalSize(TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y), patternCanvas);
