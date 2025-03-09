@@ -1,7 +1,6 @@
 import {IhmEntry} from "../../menu/IhmEntry.ts";
 import {Position} from "../../Position.ts";
-import {GRID_PITCH, TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y, VIEWPORT_SIZE_X, VIEWPORT_SIZE_Y} from "../../../constants.ts";
-import {gameState} from "../../../GameDataService.ts";
+import {GRID_PITCH, TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y, VIEWPORT_SIZE_X} from "../../../constants.ts";
 import {newGame} from "../../../GameEngine.ts";
 import {playSound} from "../../../SoundEngine.ts";
 import {MenuState} from "./MenuState.ts";

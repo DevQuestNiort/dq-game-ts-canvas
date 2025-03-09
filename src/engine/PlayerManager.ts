@@ -1,5 +1,5 @@
 import {Orientation} from "./model/Orientation.ts";
-import {gameState, getCurrentMap} from "./GameDataService.ts";
+import {gameConfiguration, gameState, getCurrentMap} from "./GameDataService.ts";
 import {notifyChangedTile, notifyViewportChanged} from "./GraphicsEngine.ts";
 import {Position} from "./model/Position.ts";
 import {computeViewportPosition} from "./ViewportManager.ts";
@@ -20,6 +20,8 @@ import {viewEnum} from "./model/state/GameState.ts";
 import {DialogueMenuState} from "./model/state/menu/DialogueMenuState.ts";
 import {AbstractTalkablePlayerItem} from "./model/item/AbstractTalkablePlayerItem.ts";
 
+
+let lastMoveDate: number = Date.now();
 
 export const upKeyPressed = () => {
     rotatePlayer(Orientation.UP);
@@ -202,6 +204,11 @@ export const movePlayerToPosition = (playerX: number, playerY: number) => {
 }
 
 export const movePlayer = (x: number, y: number) => {
+    if (! gameConfiguration.debugMod) {
+        if (lastMoveDate + 80 > Date.now()) {
+            return
+        }
+    }
     let playerX = gameState.player.position.x + x;
     if (playerX < 0) {
         playerX = 0;
@@ -217,6 +224,7 @@ export const movePlayer = (x: number, y: number) => {
     if (playerY >= getCurrentMap().grid.getHeight()) {
         playerY = getCurrentMap().grid.getHeight() - 1;
     }
+
     const boolean = movePlayerToPosition(playerX, playerY);
     if (boolean) {
         playSound("move")
@@ -224,5 +232,6 @@ export const movePlayer = (x: number, y: number) => {
         playSound("error")
     }
 
+    lastMoveDate = Date.now();
 }
 

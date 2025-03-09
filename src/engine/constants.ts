@@ -2,7 +2,6 @@
 export const GRID_PITCH = 32
 
 
-
 // definit la largeur du view port en Pitch de 32 px doit être impair
 
 export const VIEWPORT_SIZE_X =35

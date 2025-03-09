@@ -1,4 +1,3 @@
-import {AbstractItem} from "./AbstractItem.ts";
 import {ItemType} from "./Item.ts";
 import {Position} from "../Position.ts";
 import {ModalTemplate} from "../modalTemplate/ModalTemplate.ts";

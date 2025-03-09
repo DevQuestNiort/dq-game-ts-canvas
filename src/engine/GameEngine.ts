@@ -19,10 +19,6 @@ import {
     upKeyPressed
 } from "./PlayerManager.ts";
 import {BooleanOption, loadOptionsFromLocalStorage, switchOption} from "./OptionManager.ts";
-import {IhmEntry} from "./model/menu/IhmEntry.ts";
-import {MainMenuState} from "./model/state/menu/MainMenuState.ts";
-import {GRID_PITCH, VIEWPORT_SIZE_X} from "./constants.ts";
-import {InventoryMenuState} from "./model/state/menu/InventoryMenuState.ts";
 
 export const init = async (gameCfg: GameConfiguration) => {
     setCanvas(document.getElementById("gameCanvas") as HTMLCanvasElement);
@@ -69,8 +65,6 @@ const bindKeys = () => {
 
         if (gameState.view !== viewEnum.MAP) {
             gameState.getCurrentView().build(evt)
-
-
         }
 
         if (gameState.view === viewEnum.MAP) {
