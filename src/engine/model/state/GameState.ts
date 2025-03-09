@@ -37,6 +37,6 @@ export enum viewEnum {
     MAP,
     MAINMENU ="mainMenu",
     INVENTORYMENU ="inventoryMenu",
-    HELPMENU="helpMenu"
-
+    HELPMENU="helpMenu",
+    DIALOGUEMENU="dialogueMenu"
 }

@@ -187,6 +187,9 @@ const paintInteractionDialog = () => {
     }
 }
 
+
+
+
 const drawDialog = (position: Position, size: TwoDimensionalSize, content: any) => {
     const patternCanvas = document.createElement("canvas");
     patternCanvas.width = size.width;
@@ -203,4 +206,22 @@ const drawDialog = (position: Position, size: TwoDimensionalSize, content: any) 
     // contenu
     pCtx.drawImage(content, 9, 9, size.width - 18, size.height - 18);
     canvasContext.drawImage(patternCanvas, position.x, position.y);
+}
+
+
+
+export function splittext(context, text,length){
+    const tableword = text.split(" ")
+
+    return tableword.reduce((agr,word)=>{
+        if (context.measureText( agr[agr.length-1]+word).width < length ){
+            agr[agr.length-1] = agr[agr.length-1] +" " + word
+        }
+        else {
+            agr.push(word)
+        }
+        return agr
+    },[""])
+
+
 }

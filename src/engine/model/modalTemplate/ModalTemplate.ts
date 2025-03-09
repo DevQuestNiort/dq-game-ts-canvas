@@ -3,11 +3,13 @@ import {AbstractModalTemplate, TypeModal} from "./AbstractModalTemplate.ts";
 export class ModalTemplate  extends AbstractModalTemplate{
 
     title : string
-    texts :string[]
+    image : string
+    text :string
 
-    constructor(title: string, texts: string[]) {
+    constructor(title: string,image:string,  text: string) {
         super(TypeModal.DETAILSIMPLE)
         this.title = title;
-        this.texts = texts;
+        this.image=image;
+        this.text = text;
     }
 }

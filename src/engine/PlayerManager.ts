@@ -19,6 +19,7 @@ import {playSound} from "./SoundEngine.ts";
 import {DecorativeItem} from "./model/item/DecorativeItem.ts";
 import {InventaireTemplate} from "./model/modalTemplate/InventaireTemplate.ts";
 import {viewEnum} from "./model/state/GameState.ts";
+import {DialogueMenuState} from "./model/state/menu/DialogueMenuState.ts";
 
 
 export const upKeyPressed = () => {
@@ -106,18 +107,14 @@ const attak = (pnj: PNJItem) => {
 
 
 function interact(itemInFrontOfPlayer: DecorativeItem) {
+
+    const dialogue = new DialogueMenuState()
+
     if (itemInFrontOfPlayer.interaction) {
 
-
-        if (!gameState.openMenu) {
-            gameState.contentMenu = itemInFrontOfPlayer.interaction
-            gameState.isOnMap = false
-            gameState.openMenu = true
-        } else {
-            gameState.contentMenu = undefined
-            gameState.isOnMap = true
-            gameState.openMenu = false
-        }
+        dialogue.setTemplate(itemInFrontOfPlayer.interaction)
+        gameState.menusStates[viewEnum.DIALOGUEMENU]=dialogue
+        gameState.view=viewEnum.DIALOGUEMENU
 
         notifyViewportChanged()
 
