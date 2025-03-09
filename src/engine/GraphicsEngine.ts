@@ -1,12 +1,13 @@
-import {GRID_PITCH} from "./constants.ts";
+import {GRID_PITCH, TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y} from "./constants.ts";
 import {init as initGridBackgroundPainter, paintBackground} from "./GridBackgroundPainter.ts";
 import {Position} from "./model/Position.ts";
 import {paintItemsLayer} from "./ItemsLayerPainter.ts";
 import {Orientation} from "./model/Orientation.ts";
 import {Debug} from "../component/Debug.ts";
 import {canvas, canvasContext, gameConfiguration, gameState, getCurrentMap} from "./GameDataService.ts";
-import {paintDialogs} from "./DialogPainter.ts";
+import {paintDialogOnMap, paintDialogs} from "./DialogPainter.ts";
 import {paintFog} from "./FogPainter.ts";
+import {viewEnum} from "./model/state/GameState.ts";
 
 
 let gameDebug: HTMLElement
@@ -43,11 +44,21 @@ export const draw = () => {
         }
         // on met à jour la date de la dernière frame en tenant compte du fait qu'une frame n'est pas forcément déssinée pile à 1 fpsInterval de l'ancienne fraùe
         lastFrameTime = currentTime - (elapsedTimeSinceLastFrame % fpsInterval);
-        paintBackground(getCurrentMap().grid, gameState.viewport, gameConfiguration.viewport.dimension, tilesChanged, viewportChanged)
-        paintItemsLayer(getCurrentMapState().items, tilesChanged, viewportChanged);
-        drawPlayer();
-        paintFog(tilesChanged, viewportChanged);
-        paintDialogs();
+
+
+        // paint Ecran jeux
+        if (gameState.view === viewEnum.MAP){
+            paintBackground(getCurrentMap().grid, gameState.viewport, gameConfiguration.viewport.dimension, tilesChanged, viewportChanged)
+            paintItemsLayer(getCurrentMapState().items, tilesChanged, viewportChanged);
+            drawPlayer();
+            paintFog(tilesChanged, viewportChanged);
+            paintDialogOnMap()
+        }
+        else {
+            //sinon les dialogs en pleine ecran
+            paintDialogs();
+        }
+
         tilesChanged = [];
         viewportChanged = false;
     }
@@ -84,8 +95,8 @@ const drawPlayer = () => {
 }
 
 const prepareCanvas = () => {
-    canvas.width = gameConfiguration.viewport.dimension.width * GRID_PITCH;
-    canvas.height = gameConfiguration.viewport.dimension.height * GRID_PITCH + 110;
+    canvas.width = TOTAL_PX_SIZE_X;
+    canvas.height = TOTAL_PX_SIZE_Y;
 }
 
 const loadImage: (src: string) => Promise<HTMLImageElement> = (src: string) => {

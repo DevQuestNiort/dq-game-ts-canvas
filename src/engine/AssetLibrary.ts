@@ -91,6 +91,11 @@ export const init = async () => {
 
 
 
+    await  loadAsset("deadbg","deadBg.webp")
+    await  loadAsset("bgMenu","bgMenu.webp")
+    await  loadAsset("logodq","logo.png")
+
+
 }
 
 

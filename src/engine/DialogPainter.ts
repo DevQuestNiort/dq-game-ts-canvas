@@ -1,36 +1,53 @@
 import {canvasContext, gameState} from "./GameDataService.ts";
 import {TwoDimensionalSize} from "./model/TwoDimensionalSize.ts";
 import {Position} from "./model/Position.ts";
-import {GRID_PITCH, VIEWPORT_SIZE_X, VIEWPORT_SIZE_Y} from "./constants.ts";
+import {GRID_PITCH, TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y, VIEWPORT_SIZE_X, VIEWPORT_SIZE_Y} from "./constants.ts";
 import {getImage} from "./AssetLibrary.ts";
 import {getItemAtPlayerPosition, getItemInFrontOfPlayer} from "./MapManager.ts";
-import {PNJItem} from "./model/item/PNJItem.ts";
-import {TypeModal} from "./model/modalTemplate/AbstractModalTemplate.ts";
+import {PNJItem} from "./model/item/PNJItem.ts"
+import {viewEnum} from "./model/state/GameState.ts";
+import {AbstractTalkablePlayerItem} from "./model/item/AbstractTalkablePlayerItem.ts";
+
+
+
 
 export const paintDialogs = () => {
-    paintPlayerDialog();
-    paintPnjDialog();
-    paintPopupItemInfoDialog();
-    paintInventaireFullDialog();
-    paintInteractionDialog();
-    paintDeathView();
+
+    paintMenuFullPage();
 }
+
+export const paintDialogOnMap = () =>{
+    paintDeathView();
+    paintPlayerDialog();
+    paintInteractionDialog();
+    paintPopupItemInfoDialog();
+}
+
 
 
 const paintDeathView = () => {
     if (gameState.player.isDead() ) {
         const patternCanvas = document.createElement("canvas");
-        patternCanvas.width = GRID_PITCH * VIEWPORT_SIZE_X;
-        patternCanvas.height = GRID_PITCH * VIEWPORT_SIZE_Y;
+        patternCanvas.width = TOTAL_PX_SIZE_X;
+        patternCanvas.height = TOTAL_PX_SIZE_Y ;
 
         const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
         pCtx.font = "50px gamms";
+
+        pCtx.drawImage(getImage("deadbg"), 0,0  , TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y)
+        pCtx.fillStyle = "rgba(0,0,0,0.8)";
+        pCtx.fillRect(0,0  , TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y)
         pCtx.fillStyle = "#fff";
-
-
         pCtx.textAlign = "center";
         pCtx.fillText("GAME OVER", (GRID_PITCH *  VIEWPORT_SIZE_X)/2 , (GRID_PITCH * VIEWPORT_SIZE_Y) /2, GRID_PITCH * 23 - 10)
-        drawDialog(new Position(0, 0), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X, GRID_PITCH * VIEWPORT_SIZE_Y), patternCanvas);
+        drawDialog(new Position(0, 0), new TwoDimensionalSize(TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y), patternCanvas);
+    }
+}
+
+
+const paintMenuFullPage = () => {
+    if (gameState.view !== viewEnum.MAP ) {
+        drawDialog(new Position(0, 0), new TwoDimensionalSize(TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y), gameState.getCurrentView().paint());
     }
 }
 
@@ -40,26 +57,25 @@ const paintDeathView = () => {
 const paintPlayerDialog = () => {
     const patternCanvas = document.createElement("canvas");
     patternCanvas.width = GRID_PITCH * VIEWPORT_SIZE_X / 2;
-    patternCanvas.height = 110;
+    patternCanvas.height = GRID_PITCH*3;
     const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
     pCtx.font = "20px gamms";
     pCtx.fillStyle = "#fff";
     pCtx.fillText("Points de Vie :  " + gameState.player.life, 10, 23, 160)
     pCtx.fillText("Attaque :  " + gameState.player.attack, 200, 23, 125)
     pCtx.fillText("Defense :  " + gameState.player.defense, 350, 23, 125)
-    pCtx.fillText("Inventaire: ", 10, 57, 125)
     gameState.player.inventory.get().map(item => getImage(item.image))
-        .forEach((image, index) => pCtx.drawImage(image, 7 + index * (GRID_PITCH + 5), 70, GRID_PITCH, GRID_PITCH))
-    drawDialog(new Position(0, GRID_PITCH * VIEWPORT_SIZE_Y), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X / 2, 110), patternCanvas);
+        .forEach((image, index) => pCtx.drawImage(image, 7 + index * (GRID_PITCH + 5), 60, GRID_PITCH, GRID_PITCH))
+    drawDialog(new Position(0, GRID_PITCH * VIEWPORT_SIZE_Y), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X / 2, GRID_PITCH*3), patternCanvas);
 }
 
 /**
  * imprime le cadre en bas a droite avec les infos du pnj devant le joueur
  */
-const paintPnjDialog = () => {
+const paintInteractionDialog = () => {
     const patternCanvas = document.createElement("canvas");
     patternCanvas.width = GRID_PITCH * VIEWPORT_SIZE_X / 2;
-    patternCanvas.height = 110;
+    patternCanvas.height = GRID_PITCH*3;
     const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
     pCtx.fillStyle = "#fff";
     pCtx.font = "20px gamms";
@@ -70,12 +86,28 @@ const paintPnjDialog = () => {
         pCtx.fillText("Attaque :  " + itemInFrontOfPlayer.attack, 200, 25, 125)
         pCtx.fillText("Defense :  " + itemInFrontOfPlayer.defense, 350, 25, 125)
         pCtx.fillText("name  :" + itemInFrontOfPlayer.name, 10, 57, 125)
+        if (itemInFrontOfPlayer.underAttack){
+            pCtx.textAlign = "end"
+            pCtx.fillText("Taper F pour attaquer " , GRID_PITCH * VIEWPORT_SIZE_X / 2, 84, 500)
+        }
+        else {
+            pCtx.textAlign = "end"
+            pCtx.fillText("Taper R pour parler ou F pour attaquer " , GRID_PITCH * VIEWPORT_SIZE_X / 2, 84, 500)
+        }
+        pCtx.textAlign = "start"
+    }
+    else if  (itemInFrontOfPlayer && itemInFrontOfPlayer instanceof AbstractTalkablePlayerItem && itemInFrontOfPlayer.interaction){
+
+        pCtx.fillStyle = "#fff";
+        pCtx.fillText("Taper R to interact " , 10, 25, 500)
+
     }
     else {
             pCtx.fillStyle = "#fff";
-            pCtx.fillText("Taper I pour ouvrir menu Inventaire/Help " , 10, 25, 500)
+            pCtx.fillText("Taper I pour ouvrir menu Inventaire " , 10, 25, 500)
+        pCtx.fillText("Taper H pour ouvrir l'aide " , 10, 55, 500)
     }
-    drawDialog(new Position(GRID_PITCH * VIEWPORT_SIZE_X / 2, GRID_PITCH * VIEWPORT_SIZE_Y), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X / 2, 110), patternCanvas);
+    drawDialog(new Position(GRID_PITCH * VIEWPORT_SIZE_X / 2, GRID_PITCH * VIEWPORT_SIZE_Y), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X / 2, GRID_PITCH*3), patternCanvas);
 }
 
 /**
@@ -101,72 +133,7 @@ const paintPopupItemInfoDialog = () => {
     }
 }
 
-/**
- * imprime l'inventaire en plein ecran avec toutes les infos sur les objets
- */
-const paintInventaireFullDialog = () => {
-    if (gameState.openMenu && gameState.contentMenu.type === TypeModal.INVENTAIRE) {
-        const patternCanvas = document.createElement("canvas");
-        patternCanvas.width = GRID_PITCH * VIEWPORT_SIZE_X;
-        patternCanvas.height = GRID_PITCH * VIEWPORT_SIZE_Y;
 
-        const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
-        pCtx.font = "20px gamms";
-        pCtx.fillStyle = "#fff";
-
-        const listeHelp=[
-            "Touche Z Q S D : Monter, Gauche, Descendre, Droite ",
-            "Touche I : Ouvrir l'inventaire ",
-            "Touche T : Prendre ou interragir avec un objet ",
-            "Touche F : Frapper un objet ou un personnage ",
-            "Touche R : Parler avec un PNJ ",
-            "Touche M : Couper/Activer le son ",
-            "Alt + F4 : Ragequit  "
-        ]
-
-        const ligneDebutHelp = 14
-
-        pCtx.fillText("Aide", GRID_PITCH * 3, GRID_PITCH*ligneDebutHelp, GRID_PITCH * 23 - 10)
-
-
-        listeHelp.forEach((text, index) => {
-            pCtx.fillText(text, GRID_PITCH * 4, (GRID_PITCH * ligneDebutHelp) + GRID_PITCH * (index + 1) + 20, GRID_PITCH * 20)
-              })
-        const LigneDebutListeInventaire = 1
-        pCtx.fillText("Inventaire", GRID_PITCH * 3, GRID_PITCH*LigneDebutListeInventaire, GRID_PITCH * 23 - 10)
-        gameState.player.inventory.get().forEach((item, index) => {
-            pCtx.drawImage(getImage(item.image), (GRID_PITCH * 2), (GRID_PITCH * LigneDebutListeInventaire) + GRID_PITCH * (index + 1), GRID_PITCH, GRID_PITCH)
-            pCtx.fillText(item.name, GRID_PITCH * 4, (GRID_PITCH * LigneDebutListeInventaire) + GRID_PITCH * (index + 1) + 20, GRID_PITCH * 10 - 10)
-            pCtx.fillText(item.description, GRID_PITCH * 10, (GRID_PITCH * LigneDebutListeInventaire) + GRID_PITCH * (index + 1) + 20, GRID_PITCH * 12 - 10)
-        })
-
-        drawDialog(new Position(0, 0), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X, GRID_PITCH * VIEWPORT_SIZE_Y), patternCanvas);
-    }
-}
-
-
-/**
- * imprime la popup d'interaction
- */
-const paintInteractionDialog = () => {
-    if (gameState.openMenu && gameState.contentMenu.type === TypeModal.DETAILSIMPLE) {
-        const patternCanvas = document.createElement("canvas");
-        patternCanvas.width = GRID_PITCH * VIEWPORT_SIZE_X;
-        patternCanvas.height = GRID_PITCH * VIEWPORT_SIZE_Y;
-
-        const pCtx = patternCanvas.getContext("2d") as CanvasRenderingContext2D;
-        pCtx.font = "20px gamms";
-        pCtx.fillStyle = "#fff";
-
-        pCtx.fillText(gameState.contentMenu.title, GRID_PITCH * 3, GRID_PITCH * 1, GRID_PITCH * 23 - 10)
-
-        gameState.contentMenu.texts.forEach((text, index) => {
-            pCtx.fillText(text, GRID_PITCH * 3, GRID_PITCH * 2 + (index + 1) * 20, GRID_PITCH * 23 - 10)
-
-        })
-        drawDialog(new Position(0, 0), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X, GRID_PITCH * VIEWPORT_SIZE_Y), patternCanvas);
-    }
-}
 
 const drawDialog = (position: Position, size: TwoDimensionalSize, content: any) => {
     const patternCanvas = document.createElement("canvas");
@@ -184,4 +151,25 @@ const drawDialog = (position: Position, size: TwoDimensionalSize, content: any) 
     // contenu
     pCtx.drawImage(content, 9, 9, size.width - 18, size.height - 18);
     canvasContext.drawImage(patternCanvas, position.x, position.y);
+}
+
+
+/**
+ * Permet de splitter un texte en un tableau de texte selon une largeur max . Split par mot.
+ * @param context canvaContext 2D
+ * @param text Le texte à decoupé
+ * @param length la largeur max en pixel
+ */
+export function splittext(context, text,length){
+    return text.split(" ").reduce((agr,word)=>{
+        if (context.measureText( agr[agr.length-1]+word).width < length ){
+            agr[agr.length-1] = agr[agr.length-1] +" " + word
+        }
+        else {
+            agr.push(word)
+        }
+        return agr
+    },[""])
+
+
 }

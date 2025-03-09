@@ -1,10 +1,11 @@
 import {Orientation} from "./model/Orientation.ts";
-import {gameState, getCurrentMap} from "./GameDataService.ts";
+import {gameConfiguration, gameState, getCurrentMap} from "./GameDataService.ts";
 import {notifyChangedTile, notifyViewportChanged} from "./GraphicsEngine.ts";
 import {Position} from "./model/Position.ts";
 import {computeViewportPosition} from "./ViewportManager.ts";
 import {
-    getItemAtPlayerPosition, getItemAtPosition,
+    getItemAtPlayerPosition,
+    getItemAtPosition,
     getItemInFrontOfPlayer,
     isTileAccessible,
     isTileIsNotObstructed,
@@ -15,9 +16,12 @@ import {ComsumableItem} from "./model/item/ComsumableItem.ts";
 import {UsableItem} from "./model/item/UsableItem.ts";
 import {PNJItem} from "./model/item/PNJItem.ts";
 import {playSound} from "./SoundEngine.ts";
-import {DecorativeItem} from "./model/item/DecorativeItem.ts";
-import {InventaireTemplate} from "./model/modalTemplate/InventaireTemplate.ts";
+import {viewEnum} from "./model/state/GameState.ts";
+import {DialogueMenuState} from "./model/state/menu/DialogueMenuState.ts";
+import {AbstractTalkablePlayerItem} from "./model/item/AbstractTalkablePlayerItem.ts";
 
+
+let lastMoveDate: number = Date.now();
 
 export const upKeyPressed = () => {
     rotatePlayer(Orientation.UP);
@@ -51,15 +55,17 @@ export const actionKeyPressed = () => {
 
 export const interactKeyPressed = () => {
     const itemInFrontOfPlayer = getItemInFrontOfPlayer();
-    if (itemInFrontOfPlayer && itemInFrontOfPlayer instanceof DecorativeItem) {
-        console.log("j'attaque'" + itemInFrontOfPlayer.name);
+    if (itemInFrontOfPlayer && itemInFrontOfPlayer instanceof AbstractTalkablePlayerItem) {
+        console.log("j'" + itemInFrontOfPlayer.name);
         interact(itemInFrontOfPlayer)
     }
 }
 
 
 export const inventoryKeyPressed = () => {
-    openInventory()
+
+    gameState.view=viewEnum.INVENTORYMENU
+    notifyViewportChanged()
 }
 
 
@@ -82,16 +88,10 @@ export const pickUpKeyPressed = () => {
 const attak = (pnj: PNJItem) => {
 
 
-    let degatToPnj = (gameState.player.attack - pnj.defense)
-    if (degatToPnj < 1) {
-        degatToPnj = 1
-    }
-    pnj.life = pnj.life - degatToPnj
+    pnj.takeDamage(gameState.player.attack)
 
     if (pnj.life < 1) {
-        console.log('death of ', pnj.name)
-        pnj.death(gameState)
-        playSound("kill")
+
     } else {
         gameState.player.takeDamage(pnj.attack)
 
@@ -101,41 +101,25 @@ const attak = (pnj: PNJItem) => {
 }
 
 
-function interact(itemInFrontOfPlayer: DecorativeItem) {
+function interact(itemInFrontOfPlayer: AbstractTalkablePlayerItem) {
+
+    const dialogue = new DialogueMenuState()
+
+    if (itemInFrontOfPlayer instanceof PNJItem){
+        if (itemInFrontOfPlayer.underAttack){
+            return
+        }
+    }
+
     if (itemInFrontOfPlayer.interaction) {
 
-
-        if (!gameState.openMenu) {
-            gameState.contentMenu = itemInFrontOfPlayer.interaction
-            gameState.isOnMap = false
-            gameState.openMenu = true
-        } else {
-            gameState.contentMenu = undefined
-            gameState.isOnMap = true
-            gameState.openMenu = false
-        }
+        dialogue.setTemplate(itemInFrontOfPlayer.interaction)
+        gameState.menusStates[viewEnum.DIALOGUEMENU]=dialogue
+        gameState.view=viewEnum.DIALOGUEMENU
 
         notifyViewportChanged()
 
     }
-
-}
-
-function openInventory() {
-
-
-    if (!gameState.openMenu) {
-        gameState.contentMenu = new InventaireTemplate()
-        gameState.isOnMap = false
-        gameState.openMenu = true
-    } else {
-        gameState.contentMenu = undefined
-        gameState.isOnMap = true
-        gameState.openMenu = false
-    }
-
-    notifyViewportChanged()
-
 
 }
 
@@ -220,6 +204,11 @@ export const movePlayerToPosition = (playerX: number, playerY: number) => {
 }
 
 export const movePlayer = (x: number, y: number) => {
+    if (! gameConfiguration.debugMod) {
+        if (lastMoveDate + 80 > Date.now()) {
+            return
+        }
+    }
     let playerX = gameState.player.position.x + x;
     if (playerX < 0) {
         playerX = 0;
@@ -235,6 +224,7 @@ export const movePlayer = (x: number, y: number) => {
     if (playerY >= getCurrentMap().grid.getHeight()) {
         playerY = getCurrentMap().grid.getHeight() - 1;
     }
+
     const boolean = movePlayerToPosition(playerX, playerY);
     if (boolean) {
         playSound("move")
@@ -242,5 +232,6 @@ export const movePlayer = (x: number, y: number) => {
         playSound("error")
     }
 
+    lastMoveDate = Date.now();
 }
 

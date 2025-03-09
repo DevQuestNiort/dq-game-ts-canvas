@@ -18,6 +18,8 @@ const stableZonePositionY = (VIEWPORT_SIZE_Y - STABLE_ZONE_SIZE_Y) / 2
 
 window.onload = async function () {
 
+
+
     console.log("Chargement des maps", mapsConfigurations)
     const initialMap = "astenia";
     const playerConfiguration = new PlayerConfiguration(

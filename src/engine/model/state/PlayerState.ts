@@ -51,6 +51,7 @@ export class PlayerState {
         this.updateStats()
         playSound("pick")
     }
+
     consumItem(item: ComsumableItem){
         item.playerModificator(this)
         playSound("pick")

@@ -5,21 +5,23 @@ import {ComsumableItem} from "../../engine/model/item/ComsumableItem.ts";
 import {UsableItem} from "../../engine/model/item/UsableItem.ts";
 import {movePlayer, movePlayerToPosition, movePlayerToPositionAndMap} from "../../engine/PlayerManager.ts";
 import {PNJItem} from "../../engine/model/item/PNJItem.ts";
-import {gameState, getCurrentMap} from "../../engine/GameDataService.ts";
-import {playSound, soundJump} from "../../engine/SoundEngine.ts";
+import {playSound} from "../../engine/SoundEngine.ts";
 import {DoorItem} from "../../engine/model/item/DoorItem.ts";
 import {ModalTemplate} from "../../engine/model/modalTemplate/ModalTemplate.ts";
 
 export const items = [
 
-    new DoorItem("cm6uhwsdo0005vs630x547dy7", "Porte Rouge", new Position(13, 17), "Porte Rouge", "", "prisonRed","cleRouge"),
+    new DoorItem("cm6uhwsdo0005vs630x547dy7", "Porte Rouge", new Position(14, 17), "Porte Rouge", "", "prisonRed", "cleRouge"),
 
     new PickableItem("cm6uhwsdm0002vs63dzl0g70a", "Epee", new Position(10, 5), (player) => player.attack += 3, "Epee Magique augmentant l'attaque +3", "press T pour prendre", "raresword"),
     new PickableItem("cm6uhwsdn0003vs63vjx18npm", "bouclier", new Position(9, 13), (player) => player.defense += 5, "Bouclier D' Agnes, +5 en defense", "press T pour prendre", "bouclier"),
 
-    new PickableItem("cleRouge", "cle", new Position(8, 16), (player) => {}, "Une cle Rouge", "press T pour prendre", "cleRed"),
-    new PickableItem("redStone", "Red Stone", new Position(25, 13), (player) => {}, "Diamant rendant insensible à la chaleur", "press T pour prendre", "gem"),
-    new PickableItem("blueStone", "Blue Stone", new Position(11, 11), (player) => {}, "Diamant permettant de marcher sur l'eau", "press T pour prendre", "diamantBleu"),
+    new PickableItem("cleRouge", "cle", new Position(8, 16), (player) => {
+    }, "Une cle Rouge", "press T pour prendre", "cleRed"),
+    new PickableItem("redStone", "Red Stone", new Position(25, 13), (player) => {
+    }, "Diamant rendant insensible à la chaleur", "press T pour prendre", "gem"),
+    new PickableItem("blueStone", "Blue Stone", new Position(11, 11), (player) => {
+    }, "Diamant permettant de marcher sur l'eau", "press T pour prendre", "diamantBleu"),
 
     new ComsumableItem("cm6uhwsdn0004vs63z2xh2hfh", "Potion", new Position(16, 16), (player) => player.life += 15, "Potion de soin +15", "press T pour Boise", "potion"),
     new UsableItem("cm6uiav5h000jvs633dm9oyj9", "Vortex", new Position(110, 29), (player) => {
@@ -37,20 +39,20 @@ export const items = [
     }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "vortex"),
 
     new UsableItem("cm6v5vbc4000ovs633vgd1cdb", "Vortex", new Position(30, 13), (player) => {
-        movePlayerToPositionAndMap(23, 26,"castelm01");// 18 / 14
+        movePlayerToPositionAndMap(23, 26, "castelm01");// 18 / 14
     }, "Vortex dimensionel", "Press T pour entrer dans la trappe", "trapp"),
 
-    new PNJItem("cm6uj11q4000lvs63d6xka7h4", "Vincent", new Position(13, 10), 10, 3, 2, (stateContext) => {
-        stateContext.mapStates[stateContext.currentMap].items.addItem(new ComsumableItem("cm6ul464y000mvs630qlpu3ik", "Potion", new Position(13, 10), (player) => player.life += 15, "Potion de soin +15", "", "potion"),)
-    }, "niak", "", "troll"),
 
-    new DecorativeItem("cm6ux31s6000nvs63zvk1aj1s", "Carte", new Position(2, 20), "panneau", "", "panneau",
-        new ModalTemplate("CastelGori",["Propriete du grand chaman El Paco Tille","ne supporte pas la salade et les elfes"])),
+    new DecorativeItem("cm6ux31s6000nvs63zvk1aj1s", "Information", new Position(8, 11), "panneau", "", "panneau",
+        new ModalTemplate("DEVQUEST", "panneau", "Bienvenue dans cette quete aventurier aventureux. Ne fait confiance a personne dans ce monde. Les dieux qui l'ont cree sont aussi fou qu ils sont incompetents. Mais qui sais, une recompense est peut etre au bout de cette aventure !!!")),
 
     new PNJItem("cm6v5vbc4000ovs633vgd1cdb", "arbre", new Position(78, 33), 1, 0, 0, (player) => {
-        movePlayerToPositionAndMap(23, 26,"castelm01");// 18 / 14
-    },"","","arbre"),
+        movePlayerToPositionAndMap(23, 26, "castelm01");// 18 / 14
+    }, "", "", "arbre"),
 
+    new PNJItem("cm6uj11q4000lvs63d6xka7h4", "Turuk", new Position(13, 10), 10, 8, 2, (stateContext) => {
+        stateContext.mapStates[stateContext.currentMap].items.addItem(new ComsumableItem("cm6ul464y000mvs630qlpu3ik", "Potion", new Position(13, 10), (player) => player.life += 15, "Potion de soin +15", "", "potion"),)
+    }, "niak", "", "troll",new ModalTemplate("Turuk", "troll", "Gniak !!!! Que viens tu faire avanturier... Ne commence pas à me chercher ! Moi je garde la boustifaille et le pinard !! Et je ne partage pas !! Donc vas t-en !")),
 
     new DecorativeItem("cm6uhwsdo0005vs630x547dy7", "tonneau", new Position(8, 13), "Tonneau", "", "tonneau"),
     new DecorativeItem("cm6uhwsdo0006vs63ms9nj6rz", "tonneau", new Position(9, 3), "Tonneau", "", "tonneau"),

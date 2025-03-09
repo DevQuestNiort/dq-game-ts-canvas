@@ -1,6 +1,7 @@
 import {MapConfiguration} from "./MapConfiguration.ts";
 import {PlayerConfiguration} from "./PlayerConfiguration.ts";
 import {ViewportConfiguration} from "./ViewportConfiguration.ts";
+import {MainMenuState} from "../state/menu/MainMenuState.ts";
 
 export class GameConfiguration {
     public player: PlayerConfiguration;
@@ -9,7 +10,10 @@ export class GameConfiguration {
     public viewport: ViewportConfiguration;
     public debugMod : boolean = false
 
-    constructor(maps: Record<string, MapConfiguration>, initialMap: string, player: PlayerConfiguration, viewport: ViewportConfiguration) {
+    constructor(maps: Record<string, MapConfiguration>,
+                initialMap: string,
+                player: PlayerConfiguration,
+                viewport: ViewportConfiguration) {
         this.maps = maps;
         this.initialMap = initialMap;
         this.player = player;

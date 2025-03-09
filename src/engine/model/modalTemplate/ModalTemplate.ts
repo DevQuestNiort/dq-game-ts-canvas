@@ -1,13 +1,16 @@
-import {AbstractModalTemplate, TypeModal} from "./AbstractModalTemplate.ts";
 
-export class ModalTemplate  extends AbstractModalTemplate{
+
+export class ModalTemplate  {
 
     title : string
-    texts :string[]
+    image : string
+    text :string
 
-    constructor(title: string, texts: string[]) {
-        super(TypeModal.DETAILSIMPLE)
+
+
+    constructor(title: string,image:string,  text: string) {
         this.title = title;
-        this.texts = texts;
+        this.image=image;
+        this.text = text;
     }
 }
