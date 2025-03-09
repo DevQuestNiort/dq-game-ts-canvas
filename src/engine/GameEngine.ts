@@ -79,47 +79,34 @@ const bindKeys = () => {
                 case "z":
                 case "Z":
 
-                    if (!gameState.isOnMap) {
-                        break
-                    }
                     upKeyPressed();
                     break;
                 case "ArrowDown":
                 case "s":
                 case "S":
-                    if (!gameState.isOnMap) {
-                        break
-                    }
+
                     downKeyPressed();
                     break;
                 case "ArrowLeft":
                 case "q":
                 case "Q":
-                    if (!gameState.isOnMap) {
-                        break
-                    }
+
                     leftKeyPressed();
                     break;
                 case "ArrowRight":
                 case "d":
                 case "D":
-                    if (!gameState.isOnMap) {
-                        break
-                    }
+
                     rightKeyPressed();
                     break;
                 case "f":
                 case "F":
-                    if (!gameState.isOnMap) {
-                        break
-                    }
+
                     actionKeyPressed();
                     break;
                 case "t":
                 case "T":
-                    if (!gameState.isOnMap) {
-                        break
-                    }
+
                     pickUpKeyPressed();
                     break;
                 case "m":

@@ -1,19 +1,24 @@
-import {AbstractItem} from "./AbstractItem.ts";
+
 import {Position} from "../Position.ts";
 import {ItemType} from "./Item.ts";
-import {PlayerState} from "../state/PlayerState.ts";
 import {GameState} from "../state/GameState.ts";
+import {AbstractTalkablePlayerItem} from "./AbstractTalkablePlayerItem.ts";
+import {ModalTemplate} from "../modalTemplate/ModalTemplate.ts";
+import {gameState} from "../../GameDataService.ts";
+import {playSound} from "../../SoundEngine.ts";
 
-export class PNJItem extends AbstractItem {
+export class PNJItem extends AbstractTalkablePlayerItem {
 
     life: number
     attack: number
     defense: number
+    underAttack : boolean = false
 
     onDeath: (stateContext : GameState) => void;
 
-    constructor(uid: string, name: string, position: Position, life: number, attack: number, defense: number, onDeath: (stateContext : GameState) => void , description: string, instructions: string, image: string) {
-        super(uid, name, ItemType.PNJ, position, description, instructions, image);
+    constructor(uid: string, name: string, position: Position, life: number, attack: number, defense: number, onDeath: (stateContext : GameState) => void , description: string, instructions: string, image: string, interaction: ModalTemplate | undefined = undefined
+    ) {
+        super(uid, name, ItemType.PNJ, position, description, instructions, image,interaction);
         this.life = life
         this.attack = attack
         this.defense = defense
@@ -21,6 +26,20 @@ export class PNJItem extends AbstractItem {
     }
 
 
+    takeDamage(damage :number){
+        let degatToPnj = (damage - this.defense)
+        this.underAttack=true
+        if (degatToPnj < 1) {
+            degatToPnj = 1
+        }
+        this.life = this.life - degatToPnj
+        if (this.life < 1) {
+            console.log('death of ', this.name)
+            this.death(gameState)
+            playSound("kill")
+        }
+
+    }
 
 
     death(stateContext : GameState){

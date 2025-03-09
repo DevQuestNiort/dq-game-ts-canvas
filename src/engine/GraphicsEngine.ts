@@ -59,9 +59,6 @@ export const draw = () => {
             paintDialogs();
         }
 
-
-
-
         tilesChanged = [];
         viewportChanged = false;
     }

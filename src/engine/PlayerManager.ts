@@ -16,10 +16,9 @@ import {ComsumableItem} from "./model/item/ComsumableItem.ts";
 import {UsableItem} from "./model/item/UsableItem.ts";
 import {PNJItem} from "./model/item/PNJItem.ts";
 import {playSound} from "./SoundEngine.ts";
-import {DecorativeItem} from "./model/item/DecorativeItem.ts";
-import {InventaireTemplate} from "./model/modalTemplate/InventaireTemplate.ts";
 import {viewEnum} from "./model/state/GameState.ts";
 import {DialogueMenuState} from "./model/state/menu/DialogueMenuState.ts";
+import {AbstractTalkablePlayerItem} from "./model/item/AbstractTalkablePlayerItem.ts";
 
 
 export const upKeyPressed = () => {
@@ -54,8 +53,8 @@ export const actionKeyPressed = () => {
 
 export const interactKeyPressed = () => {
     const itemInFrontOfPlayer = getItemInFrontOfPlayer();
-    if (itemInFrontOfPlayer && itemInFrontOfPlayer instanceof DecorativeItem) {
-        console.log("j'attaque'" + itemInFrontOfPlayer.name);
+    if (itemInFrontOfPlayer && itemInFrontOfPlayer instanceof AbstractTalkablePlayerItem) {
+        console.log("j'" + itemInFrontOfPlayer.name);
         interact(itemInFrontOfPlayer)
     }
 }
@@ -87,16 +86,10 @@ export const pickUpKeyPressed = () => {
 const attak = (pnj: PNJItem) => {
 
 
-    let degatToPnj = (gameState.player.attack - pnj.defense)
-    if (degatToPnj < 1) {
-        degatToPnj = 1
-    }
-    pnj.life = pnj.life - degatToPnj
+    pnj.takeDamage(gameState.player.attack)
 
     if (pnj.life < 1) {
-        console.log('death of ', pnj.name)
-        pnj.death(gameState)
-        playSound("kill")
+
     } else {
         gameState.player.takeDamage(pnj.attack)
 
@@ -106,9 +99,15 @@ const attak = (pnj: PNJItem) => {
 }
 
 
-function interact(itemInFrontOfPlayer: DecorativeItem) {
+function interact(itemInFrontOfPlayer: AbstractTalkablePlayerItem) {
 
     const dialogue = new DialogueMenuState()
+
+    if (itemInFrontOfPlayer instanceof PNJItem){
+        if (itemInFrontOfPlayer.underAttack){
+            return
+        }
+    }
 
     if (itemInFrontOfPlayer.interaction) {
 
@@ -119,22 +118,6 @@ function interact(itemInFrontOfPlayer: DecorativeItem) {
         notifyViewportChanged()
 
     }
-
-}
-
-function openInventory() {
-    if (!gameState.openMenu) {
-        gameState.contentMenu = new InventaireTemplate()
-        gameState.isOnMap = false
-        gameState.openMenu = true
-    } else {
-        gameState.contentMenu = undefined
-        gameState.isOnMap = true
-        gameState.openMenu = false
-    }
-
-    notifyViewportChanged()
-
 
 }
 
