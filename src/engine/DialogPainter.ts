@@ -8,15 +8,21 @@ import {PNJItem} from "./model/item/PNJItem.ts";
 import {TypeModal} from "./model/modalTemplate/AbstractModalTemplate.ts";
 import {viewEnum} from "./model/state/GameState.ts";
 
-export const paintDialogs = () => {
 
-    paintPlayerDialog();
-    paintPnjDialog();
-    paintPopupItemInfoDialog();
+
+
+export const paintDialogs = () => {
     paintInventaireFullDialog();
     paintInteractionDialog();
     paintDeathView();
     paintMainMenu();
+}
+
+export const paintDialogOnMap = () =>{
+
+    paintPlayerDialog();
+    paintPnjDialog();
+    paintPopupItemInfoDialog();
 }
 
 
@@ -170,10 +176,11 @@ const paintInteractionDialog = () => {
         pCtx.font = "20px gamms";
         pCtx.fillStyle = "#fff";
 
-        pCtx.fillText(gameState.contentMenu.title, GRID_PITCH * 3, GRID_PITCH * 1, GRID_PITCH * 23 - 10)
-
-        gameState.contentMenu.texts.forEach((text, index) => {
-            pCtx.fillText(text, GRID_PITCH * 3, GRID_PITCH * 2 + (index + 1) * 20, GRID_PITCH * 23 - 10)
+        pCtx.fillText(gameState.contentMenu.title, GRID_PITCH * 5, GRID_PITCH * 3, GRID_PITCH * 23 - 10)
+        pCtx.drawImage(getImage(gameState.contentMenu.image), (GRID_PITCH ), (GRID_PITCH ) , GRID_PITCH*3, GRID_PITCH*3)
+        const maxlength = TOTAL_PX_SIZE_X - GRID_PITCH * 6
+        splittext(pCtx,gameState.contentMenu.text,maxlength).map(text => text.trim()).forEach((text, index) => {
+            pCtx.fillText(text, GRID_PITCH * 3, GRID_PITCH * 4 + (index + 1) * 25, TOTAL_PX_SIZE_X - GRID_PITCH * 6)
 
         })
         drawDialog(new Position(0, 0), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X, GRID_PITCH * VIEWPORT_SIZE_Y), patternCanvas);
