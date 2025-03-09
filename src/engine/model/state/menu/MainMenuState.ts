@@ -2,7 +2,7 @@ import {IhmEntry} from "../../menu/IhmEntry.ts";
 import {Position} from "../../Position.ts";
 import {GRID_PITCH, TOTAL_PX_SIZE_X, TOTAL_PX_SIZE_Y, VIEWPORT_SIZE_X} from "../../../constants.ts";
 import {newGame} from "../../../GameEngine.ts";
-import {playSound} from "../../../SoundEngine.ts";
+import {playSound, SoundType} from "../../../SoundEngine.ts";
 import {MenuState} from "./MenuState.ts";
 import {getImage} from "../../../AssetLibrary.ts";
 
@@ -37,7 +37,7 @@ export class MainMenuState extends MenuState{
         else{
             this.selectedEntry = newSelected
         }
-        playSound("move")
+        playSound(SoundType.MOVE)
     }
     up(){
         const maxItem = this.entrys.length - 1
@@ -48,12 +48,12 @@ export class MainMenuState extends MenuState{
         else{
             this.selectedEntry = newSelected
         }
-        playSound("move")
+        playSound(SoundType.MOVE)
     }
 
     execute(){
         this.entrys[this.selectedEntry].action()
-        playSound("pick")
+        playSound(SoundType.PICK)
     }
 
 

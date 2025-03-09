@@ -1,11 +1,10 @@
-
 import {Position} from "../Position.ts";
 import {ItemType} from "./Item.ts";
 import {GameState} from "../state/GameState.ts";
 import {AbstractTalkablePlayerItem} from "./AbstractTalkablePlayerItem.ts";
 import {ModalTemplate} from "../modalTemplate/ModalTemplate.ts";
 import {gameState} from "../../GameDataService.ts";
-import {playSound} from "../../SoundEngine.ts";
+import {playSound, SoundType} from "../../SoundEngine.ts";
 
 export class PNJItem extends AbstractTalkablePlayerItem {
 
@@ -36,7 +35,7 @@ export class PNJItem extends AbstractTalkablePlayerItem {
         if (this.life < 1) {
             console.log('death of ', this.name)
             this.death(gameState)
-            playSound("kill")
+            playSound(SoundType.KILL)
         }
 
     }

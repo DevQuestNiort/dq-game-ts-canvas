@@ -2,7 +2,7 @@ import {Orientation} from "./model/Orientation.ts";
 import {gameConfiguration, gameState, getCurrentMap} from "./GameDataService.ts";
 import {notifyChangedTile, notifyViewportChanged} from "./GraphicsEngine.ts";
 import {Position} from "./model/Position.ts";
-import {computeViewportPosition} from "./ViewportManager.ts";
+import {centerViewportOnPlayer, computeViewportPosition} from "./ViewportManager.ts";
 import {
     getItemAtPlayerPosition,
     getItemAtPosition,
@@ -15,10 +15,11 @@ import {PickableItem} from "./model/item/PickableItem.ts";
 import {ComsumableItem} from "./model/item/ComsumableItem.ts";
 import {UsableItem} from "./model/item/UsableItem.ts";
 import {PNJItem} from "./model/item/PNJItem.ts";
-import {playSound} from "./SoundEngine.ts";
+import {playSound, SoundType} from "./SoundEngine.ts";
 import {viewEnum} from "./model/state/GameState.ts";
 import {DialogueMenuState} from "./model/state/menu/DialogueMenuState.ts";
 import {AbstractTalkablePlayerItem} from "./model/item/AbstractTalkablePlayerItem.ts";
+import {TrapItem} from "./model/item/TrapItem.ts";
 
 
 let lastMoveDate: number = Date.now();
@@ -49,7 +50,7 @@ export const actionKeyPressed = () => {
     if (itemInFrontOfPlayer && itemInFrontOfPlayer instanceof PNJItem) {
 
         console.log("j'attaque'" + itemInFrontOfPlayer.name);
-        attak(itemInFrontOfPlayer)
+        attack(itemInFrontOfPlayer)
     }
 }
 
@@ -85,7 +86,7 @@ export const pickUpKeyPressed = () => {
 
 }
 
-const attak = (pnj: PNJItem) => {
+const attack = (pnj: PNJItem) => {
 
 
     pnj.takeDamage(gameState.player.attack)
@@ -97,7 +98,7 @@ const attak = (pnj: PNJItem) => {
 
     }
     notifyChangedTile(pnj.position);
-    playSound("attack")
+    playSound(SoundType.ATTACK)
 }
 
 
@@ -158,6 +159,7 @@ export const movePlayerToPositionAndMap = (playerX: number, playerY: number, map
     gameState.player.position.x = playerX;
     gameState.player.position.y = playerY;
     gameState.currentMap = mapName
+    centerViewportOnPlayer();
     // puis je aller en playerX playerY
 
 
@@ -227,9 +229,15 @@ export const movePlayer = (x: number, y: number) => {
 
     const boolean = movePlayerToPosition(playerX, playerY);
     if (boolean) {
-        playSound("move")
+        const item = getItemAtPlayerPosition()
+        if (item &&  item instanceof TrapItem) {
+            item.activerPiege()
+        }
+        playSound(SoundType.MOVE)
+
+
     } else {
-        playSound("error")
+        playSound(SoundType.ERROR)
     }
 
     lastMoveDate = Date.now();

@@ -1,32 +1,43 @@
 import {zzfx} from "zzfx";
 import {BooleanOption, getBooleanOption} from "./OptionManager.ts";
 
-export const playSound = (id: string) => {
+export enum SoundType {
+    PICK,
+    ATTACK,
+    MOVE,
+    ERROR,
+    GAMEOVER,
+    JUMP,
+    PIEGE,
+    KILL
+}
+
+export const playSound = (id: SoundType) => {
 
     if (!getBooleanOption(BooleanOption.SOUND_MUTED)) {
         switch (id) {
-            case "pick" :
+            case SoundType.PICK :
                 soundPick()
                 break;
-            case "attack" :
+            case SoundType.ATTACK :
                 soundAttack()
                 break
-            case "move" :
+            case SoundType.MOVE :
                 soundMove()
                 break
-            case "error" :
+            case SoundType.ERROR :
                 soundError()
                 break
-            case "gameover" :
+            case SoundType.GAMEOVER :
                 soundGameOver()
                 break
-            case "jump" :
+            case SoundType.JUMP :
                 soundJump()
                 break
-            case "piege" :
+            case SoundType.PIEGE :
                 soundPiege()
                 break
-            case "kill" :
+            case SoundType.KILL :
                 soundKillEnnemy()
                 break
         }

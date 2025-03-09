@@ -2,10 +2,14 @@ import {Position} from "../Position.ts";
 import {Orientation} from "../Orientation.ts";
 import {Items} from "../item/Items.ts";
 import {gameState} from "../../GameDataService.ts";
-import {playSound} from "../../SoundEngine.ts";
+import {playSound, SoundType} from "../../SoundEngine.ts";
 import {PickableItem} from "../item/PickableItem.ts";
 import {ComsumableItem} from "../item/ComsumableItem.ts";
+
 export class PlayerState {
+    get life(): number {
+        return this._life;
+    }
     /** position sur la grille */
     public position: Position;
     public orientation: Orientation
@@ -13,7 +17,8 @@ export class PlayerState {
     public readonly baseDefense: number
     public attack: number
     public defense: number
-    public life: number
+    private _life: number
+    public maxLife: number
     public inventory: Items
 
 
@@ -24,12 +29,25 @@ export class PlayerState {
         this.baseDefense = baseDefense;
         this.attack = baseAttack;
         this.defense = baseDefense;
-        this.life = life;
+        this._life = life;
+        this.maxLife = life;
         this.inventory = new Items([])
     }
 
      isDead(){
-        return this.life <1
+        return this._life <1
+    }
+
+    heal(life : number){
+        this._life = this._life + life
+        if (this._life > this.maxLife){
+            this._life = this.maxLife
+        }
+    }
+
+
+    augmenterMaxLife(life : number){
+        this.maxLife = this.maxLife + life
     }
 
     takeDamage(damage :number){
@@ -39,9 +57,17 @@ export class PlayerState {
         if (degatToPlayer < 1) {
             degatToPlayer = 1
         }
-        this.life= this.life-degatToPlayer
+        this._life= this._life-degatToPlayer
         if (this.isDead()){
-            playSound("gameover")
+            playSound(SoundType.GAMEOVER)
+        }
+    }
+
+    takeCriticalDamage(damage :number){
+        console.log('take Critical damage player ', damage)
+        this._life= this._life-damage
+        if (this.isDead()){
+            playSound(SoundType.GAMEOVER)
         }
     }
 
@@ -49,12 +75,12 @@ export class PlayerState {
     takeItem(item: PickableItem){
         this.inventory.addItem(item);
         this.updateStats()
-        playSound("pick")
+        playSound(SoundType.PICK)
     }
 
     consumItem(item: ComsumableItem){
         item.playerModificator(this)
-        playSound("pick")
+        playSound(SoundType.PICK)
     }
 
     /*

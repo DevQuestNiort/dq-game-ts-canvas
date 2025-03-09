@@ -99,7 +99,7 @@ const paintInteractionDialog = () => {
     else if  (itemInFrontOfPlayer && itemInFrontOfPlayer instanceof AbstractTalkablePlayerItem && itemInFrontOfPlayer.interaction){
 
         pCtx.fillStyle = "#fff";
-        pCtx.fillText("Taper R to interact " , 10, 25, 500)
+        pCtx.fillText("Taper R pour interagir " , 10, 25, 500)
 
     }
     else {
@@ -126,7 +126,7 @@ const paintPopupItemInfoDialog = () => {
         pCtx.fillRect(0, 0, GRID_PITCH * 19, GRID_PITCH * 3);
         pCtx.font = "20px gamms";
         pCtx.fillStyle = "#fff";
-        pCtx.fillText("Description  : " + itemAtPlayerPosition.description, 10, 25, 500)
+        pCtx.fillText(itemAtPlayerPosition.description, 10, 25, 500)
 
         pCtx.fillText(itemAtPlayerPosition.instructions, 10, 57, 500)
         drawDialog(new Position(0, 0), new TwoDimensionalSize(GRID_PITCH * 19, GRID_PITCH * 3), patternCanvas);

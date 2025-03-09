@@ -27,7 +27,7 @@ export const isTileIsNotObstructed = (x: number, y: number) => {
     }else if (itemAtPos && itemAtPos.type === ItemType.DOOR  ){
         const itemAtPos1 = itemAtPos as DoorItem;
         console.log("recherche de " + itemAtPos1.itemId + "  dans l inventaire")
-        if (gameState.player.inventory.getById(itemAtPos1.itemId)) {
+        if (gameState.player.inventory.getById(itemAtPos1.itemId)|| itemAtPos1.itemId=== undefined ) {
             return true
         }
         return false
@@ -50,7 +50,7 @@ export const getItemAtPlayerPosition = () => {
 }
 
 /**
- * return l obet face au joueur ou undefined si y a rien
+ * return l objet face au joueur ou undefined si y a rien
  */
 export const getItemInFrontOfPlayer = () => {
     const position = getPositionInFrontOfPlayer();
