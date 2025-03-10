@@ -7,8 +7,8 @@ export class DecorativeItem extends AbstractTalkablePlayerItem {
 
 
 
-    constructor(uid: string, name: string, position: Position, description: string, instructions: string, image: string, interaction: ModalTemplate = undefined) {
-        super(uid, name, ItemType.DECORATIF, position, description, instructions, image,interaction);
+    constructor(uid: string, name: string, position: Position, description: string, instructions: string, image: string, interaction: ModalTemplate = undefined, walkable : boolean = false) {
+        super(uid, name, ItemType.DECORATIF, position, description, instructions, image,interaction, walkable);
 
     }
 }

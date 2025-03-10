@@ -21,7 +21,7 @@ window.onload = async function () {
 
 
     console.log("Chargement des maps", mapsConfigurations)
-    const initialMap = "astenia";
+    const initialMap = "boss";
     const playerConfiguration = new PlayerConfiguration(
         new PlayerState(new Position(10, 18), Orientation.RIGHT, 3, 2, 25),
         "./assets/player-sprite.png")

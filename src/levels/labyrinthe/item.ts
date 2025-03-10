@@ -89,7 +89,7 @@ export const items = [
             playSound(SoundType.PIEGE);
         },
         true,"collier"),
-    new TrapItem("piege007",
+    new TrapItem("cm83kk24v0000iw63uqjwdypx",
         "trapp",
         new Position(32, 29),
 
@@ -102,8 +102,128 @@ export const items = [
         },
         true,"collier"),
 
+    new TrapItem("cm83kk24w0001iw63hyeget1j",
+        "trapp",
+        new Position(13, 16),
 
+        "trapp",
+        "Aie",
+        "piege",
+        () => {
+            gameState.player.takeCriticalDamage(4);
+            playSound(SoundType.PIEGE);
+        },
+        true,"collier"),
 
+    new TrapItem("cm83kk24x0002iw63nez5e383",
+        "trapp",
+        new Position(14, 13),
 
+        "trapp",
+        "Aie",
+        "piege",
+        () => {
+            gameState.player.takeCriticalDamage(4);
+            playSound(SoundType.PIEGE);
+        },
+        true,"collier"),
+
+    new TrapItem("cm83kk24x0003iw63juzc1vzh",
+        "trapp",
+        new Position(28, 36),
+
+        "trapp",
+        "Aie",
+        "piege",
+        () => {
+            gameState.player.takeCriticalDamage(4);
+            playSound(SoundType.PIEGE);
+        },
+        true,"collier"),
+
+    new TrapItem("cm83kk24x0004iw634g8rw5z6",
+        "trapp",
+        new Position(42, 26),
+
+        "trapp",
+        "Aie",
+        "piege",
+        () => {
+            gameState.player.takeCriticalDamage(4);
+            playSound(SoundType.PIEGE);
+        },
+        true,"collier"),
+    new TrapItem("cm83kk24y0005iw63qbjpyvvn",
+        "trapp",
+        new Position(42, 27),
+
+        "trapp",
+        "Aie",
+        "piege",
+        () => {
+            gameState.player.takeCriticalDamage(4);
+            playSound(SoundType.PIEGE);
+        },
+        true,"collier"),
+    new TrapItem("cm83kk24y0006iw63yld5gx20",
+        "trapp",
+        new Position(40, 22),
+
+        "trapp",
+        "Aie",
+        "piege",
+        () => {
+            gameState.player.takeCriticalDamage(4);
+            playSound(SoundType.PIEGE);
+        },
+        true,"collier"),
+    new TrapItem("cm83kk24y0007iw63r8s3cbyh",
+        "trapp",
+        new Position(40, 13),
+
+        "trapp",
+        "Aie",
+        "piege",
+        () => {
+            gameState.player.takeCriticalDamage(4);
+            playSound(SoundType.PIEGE);
+        },
+        true,"collier"),
+    new TrapItem("cm83kk24z0008iw6375hr76ni",
+        "trapp",
+        new Position(42, 14),
+
+        "trapp",
+        "Aie",
+        "piege",
+        () => {
+            gameState.player.takeCriticalDamage(4);
+            playSound(SoundType.PIEGE);
+        },
+        true,"collier"),
+    new TrapItem("cm83kk24z0009iw63o3c32xmy",
+        "trapp",
+        new Position(45, 39),
+
+        "trapp",
+        "Aie",
+        "piege",
+        () => {
+            gameState.player.takeCriticalDamage(4);
+            playSound(SoundType.PIEGE);
+        },
+        true,"collier"),
+    new TrapItem("cm83kk24z000aiw630t0vzcvq",
+        "trapp",
+        new Position(41, 24),
+
+        "trapp",
+        "Aie",
+        "piege",
+        () => {
+            gameState.player.takeCriticalDamage(4);
+            playSound(SoundType.PIEGE);
+        },
+        true,"collier"),
 
 ]

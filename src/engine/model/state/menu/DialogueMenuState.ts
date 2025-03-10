@@ -8,6 +8,7 @@ import {notifyViewportChanged} from "../../../GraphicsEngine.ts";
 import {getImage} from "../../../AssetLibrary.ts";
 import {ModalTemplate} from "../../modalTemplate/ModalTemplate.ts";
 import {splittext} from "../../../DialogPainter.ts";
+import {playSound, SoundType} from "../../../SoundEngine.ts";
 
 export class DialogueMenuState extends MenuState{
 
@@ -34,18 +35,60 @@ export class DialogueMenuState extends MenuState{
 
     setTemplate(modalTemplate:ModalTemplate){
         this.template = modalTemplate
+        const nuberOfEntry = modalTemplate.choices.length
+
+
+        const choicesEntrys = modalTemplate.choices.map((choice,index) => new IhmEntry(choice.titre, new Position((GRID_PITCH *  VIEWPORT_SIZE_X)/2 , GRID_PITCH* (20 -(nuberOfEntry*1) + ((index -1) *1 )  ) ),20,choice.titre, choice.action) )
+        this.entrys = [...choicesEntrys, ...this.entrys]
     }
 
+    execute(){
+        this.entrys[this.selectedEntry].action()
+        playSound(SoundType.PICK)
+        gameState.view = viewEnum.MAP;
+        notifyViewportChanged();
+    }
+    down(){
+        const maxItem = this.entrys.length - 1
+        const newSelected = this.selectedEntry + 1
+        if (newSelected> maxItem){
+            this.selectedEntry = 0
+        }
+        else{
+            this.selectedEntry = newSelected
+        }
+        playSound(SoundType.MOVE)
+    }
+    up(){
+        const maxItem = this.entrys.length - 1
+        const newSelected = this.selectedEntry - 1
+        if (newSelected< 0){
+            this.selectedEntry = maxItem
+        }
+        else{
+            this.selectedEntry = newSelected
+        }
+        playSound(SoundType.MOVE)
+    }
 
     build(evt){
 
         switch (evt.key) {
+            case "ArrowUp":
+            case "z":
+            case "Z":
+
+                this.up()
+                break;
+            case "ArrowDown":
+            case "s":
+            case "S":
+                this.down()
+                break;
             case "Enter":
-                this.entrys[this.selectedEntry].action()
+                this.execute()
                 break
         }
-
-
     }
 
     paint(){
@@ -66,6 +109,8 @@ export class DialogueMenuState extends MenuState{
         })
 
         pCtx.textAlign = "center";
+
+
         this.entrys.forEach((entry, index) => {
             pCtx.font = `${entry.size}px gamms`;
             if (index === this.selectedEntry){

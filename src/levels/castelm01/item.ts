@@ -3,6 +3,12 @@ import {Position} from "../../engine/model/Position.ts";
 import {movePlayerToPositionAndMap} from "../../engine/PlayerManager.ts";
 import {playSound, SoundType} from "../../engine/SoundEngine.ts";
 import {DoorItem} from "../../engine/model/item/DoorItem.ts";
+import {PickableItem} from "../../engine/model/item/PickableItem.ts";
+import {DecorativeItem} from "../../engine/model/item/DecorativeItem.ts";
+import {PNJItem} from "../../engine/model/item/PNJItem.ts";
+import {ComsumableItem} from "../../engine/model/item/ComsumableItem.ts";
+import {gameState} from "../../engine/GameDataService.ts";
+import {ModalTemplate} from "../../engine/model/modalTemplate/ModalTemplate.ts";
 
 
 export const items = [
@@ -30,6 +36,16 @@ export const items = [
     new DoorItem("cm8219pvu000uqw632omo42vw", "Porte Verte", new Position(25, 43), "Porte Verte", "", "prisonGreen","cleVerte"),
     new DoorItem("cm8219pvv000vqw63w2d3qyjh", "Porte Verte", new Position(32, 43), "Porte Verte", "", "prisonGreen","cleVerte"),
     new DoorItem("cm8219pvv000wqw63arfcynk2", "Porte Verte", new Position(38, 43), "Porte Verte", "", "prisonGreen","cleVerte"),
+
+
+    new DecorativeItem("","",new Position(31,36),"","","skeletteMort",undefined,true),
+    new DecorativeItem("","",new Position(25,45),"","","skeletteMort",undefined,true),
+    new PickableItem("collier", "collier", new Position(25,46), (player) => {}, "Collier du trappeur, detecte les pièges", "press T pour prendre", "collier"),
+
+    new PNJItem("Signark", "Signark", new Position(44, 41), 10, 8, 2, (stateContext) => {
+        stateContext.mapStates[stateContext.currentMap].items.addItem(new ComsumableItem("cm6ul464y000mvs630qlpu3ik", "Potion", new Position(44, 41), () => gameState.player.heal(5), "Potion de soin +5", "", "potion"),)
+    }, "niak", "", "troll", new ModalTemplate("Signark", "troll", "Gniak !!!! On ne passe pas !!")),
+
 
 
 ]

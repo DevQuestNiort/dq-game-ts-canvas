@@ -115,7 +115,7 @@ const paintInteractionDialog = () => {
  */
 const paintPopupItemInfoDialog = () => {
     const itemAtPlayerPosition = getItemAtPlayerPosition();
-
+console.log("itemAtPlayerPosition",itemAtPlayerPosition)
     if (itemAtPlayerPosition) {
         const patternCanvas = document.createElement("canvas");
         patternCanvas.width = GRID_PITCH * 19;

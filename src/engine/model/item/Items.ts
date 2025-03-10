@@ -1,5 +1,7 @@
 import {Position} from "../Position.ts";
 import {AbstractItem} from "./AbstractItem.ts";
+import {AbstractTalkablePlayerItem} from "./AbstractTalkablePlayerItem.ts";
+import {DecorativeItem} from "./DecorativeItem.ts";
 
 export class Items {
 
@@ -19,8 +21,9 @@ export class Items {
      * @param position
      */
     getItemByPosition = (position: Position) => {
-        return this.list.find(item => item.position.x === position.x && item.position.y === position.y)
+        return this.list.filter(item => !(item instanceof DecorativeItem) || ( !item.isWalkable())).find(item => item.position.x === position.x && item.position.y === position.y)
     }
+
     getById = (uid: string) => {
       return this.list.find(item => item.uid === uid)
     }

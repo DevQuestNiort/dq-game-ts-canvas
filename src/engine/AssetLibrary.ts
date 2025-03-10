@@ -94,6 +94,28 @@ export const init = async () => {
     await loadAsset("boat01", "boat01.png");
     await loadAsset("boat02", "boat02.png");
     await loadAsset("boat03", "boat03.png");
+
+
+    await loadAsset("tapisMilieu", "dungeon/tapisMilieu.png");
+    await loadAsset("tapisCoteHaut", "dungeon/tapisCoteHaut.png");
+    await loadAsset("tapisCoteBas", "dungeon/tapisCoteBas.png");
+    await loadAsset("tapisCoteGauche", "dungeon/tapisCoteGauche.png");
+    await loadAsset("tapisCoteDroit", "dungeon/tapisCoteDroit.png");
+    await loadAsset("tapisAngleHautGauche", "dungeon/tapisAngleHautGauche.png");
+    await loadAsset("tapisAngleBasGauche", "dungeon/tapisAngleBasGauche.png");
+    await loadAsset("tapisAngleHautDroit", "dungeon/tapisAngleHautDroit.png");
+    await loadAsset("tapisAngleBasDroit", "dungeon/tapisAngleBasDroit.png");
+    await loadAsset("feu", "dungeon/feu.png");
+    await loadAsset("fleurs", "dungeon/fleurs.png");
+    await loadAsset("trone", "dungeon/trone.png");
+    await loadAsset("tresor01", "dungeon/tresor01.png");
+    await loadAsset("tresor02", "dungeon/tresor02.png");
+    await loadAsset("tonneau", "dungeon/tonneau.png");
+    await loadAsset("porteh", "dungeon/porteh.png");
+    await loadAsset("portev", "dungeon/portev.png");
+    await loadAsset("skeletteMort", "dungeon/skeletteMort.png");
+
+
     //
     await loadAsset("boite01", "item/Boxes/1.png");
     await loadAsset("boite02", "item/Boxes/2.png");

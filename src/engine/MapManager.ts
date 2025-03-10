@@ -3,6 +3,8 @@ import {Position} from "./model/Position.ts";
 import {ItemType} from "./model/item/Item.ts";
 import {Orientation} from "./model/Orientation.ts";
 import {DoorItem} from "./model/item/DoorItem.ts";
+import {DecorativeItem} from "./model/item/DecorativeItem.ts";
+import {AbstractTalkablePlayerItem} from "./model/item/AbstractTalkablePlayerItem.ts";
 
 export const isTileAccessible = (x: number, y: number) => {
     const tileType = getCurrentMap().grid.getCase(x, y)
@@ -22,7 +24,7 @@ export const isTileAccessible = (x: number, y: number) => {
 export const isTileIsNotObstructed = (x: number, y: number) => {
     const itemAtPos = getItemAtPosition(new Position(x, y))
 
-    if (itemAtPos && (itemAtPos.type === ItemType.DECORATIF ||  itemAtPos.type === ItemType.PNJ)) {
+    if (itemAtPos && itemAtPos instanceof AbstractTalkablePlayerItem && ! itemAtPos.isWalkable()) {
         return false
     }else if (itemAtPos && itemAtPos.type === ItemType.DOOR  ){
         const itemAtPos1 = itemAtPos as DoorItem;
