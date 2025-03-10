@@ -16,10 +16,13 @@ export const init = async () => {
     await loadAsset("carte-au-tresor-bis", "carte-au-tresor-bis.png");
     await loadAsset("chandelier", "chandelier.png");
     await loadAsset("chicken", "chicken.png");
+    await loadAsset("chevre01", "chevre01.png");
+    await loadAsset("chevre02", "chevre02.png");
     await loadAsset("cle", "cle.png");
     await loadAsset("cleBlue", "cleBlue.png");
     await loadAsset("cleGreen", "cleGreen.png");
     await loadAsset("cleRed", "cleRed.png");
+    await loadAsset("collier", "collier.png");
     await loadAsset("communsword", "communsword.png");
     await loadAsset("cor-des-alpes", "cor-des-alpes.png");
     await loadAsset("diamantRouge", "diamantRouge.png");
@@ -44,10 +47,10 @@ export const init = async () => {
     await loadAsset("magicsword", "magicsword.png");
     await loadAsset("mission", "mission.png");
     await loadAsset("necromancer", "necromancer.png");
-    await loadAsset("ogre", "ogre.png");
-    await loadAsset("ogre1", "ogre (1).png");
-    await loadAsset("ogre2", "ogre (2).png");
-    await loadAsset("ogre3", "ogre (3).png");
+    await loadAsset("ogre01", "ogre01.png");
+    await loadAsset("ogre02", "ogre02.png");
+    await loadAsset("ogre03", "ogre03.png");
+    await loadAsset("ogre04", "ogre04.png");
     await loadAsset("oldchandelier", "oldchandelier.png");
     await loadAsset("panneau", "panneau.png");
     await loadAsset("piege", "piege.png");
@@ -87,7 +90,29 @@ export const init = async () => {
     await loadAsset("bg-chemin", "bg/chemin.png");
     await loadAsset("echelle", "echelle.png");
     await loadAsset("trapp", "trapp.png");
-    await loadAsset("question", "question.png");
+    //
+    await loadAsset("boat01", "boat01.png");
+    await loadAsset("boat02", "boat02.png");
+    await loadAsset("boat03", "boat03.png");
+    //
+    await loadAsset("boite01", "item/Boxes/1.png");
+    await loadAsset("boite02", "item/Boxes/2.png");
+    await loadAsset("boite03", "item/Boxes/3.png");
+    await loadAsset("boite04", "item/Boxes/4.png");
+    await loadAsset("boite05", "item/Boxes/5.png");
+    await loadAsset("boite06", "item/Boxes/6.png");
+    await loadAsset("boite07", "item/Boxes/7.png");
+    await loadAsset("boite08", "item/Boxes/8.png");
+    await loadAsset("boite09", "item/Boxes/9.png");
+    await loadAsset("boite10", "item/Boxes/10.png");
+    await loadAsset("boite11", "item/Boxes/11.png");
+    await loadAsset("boite12", "item/Boxes/12.png");
+    await loadAsset("boite13", "item/Boxes/13.png");
+    await loadAsset("boite14", "item/Boxes/14.png");
+    await loadAsset("boite15", "item/Boxes/15.png");
+
+    await loadAsset("table01", "item/furniture/32x32_table.png");
+    await loadAsset("chair01", "item/furniture/32x32_chair01_blue.png");
 
 
 
@@ -95,7 +120,7 @@ export const init = async () => {
     await  loadAsset("bgMenu","bgMenu.webp")
     await  loadAsset("logodq","logo.png")
 
-
+    await loadAsset("question", "question.png");
 }
 
 

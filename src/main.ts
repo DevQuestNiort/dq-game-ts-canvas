@@ -23,7 +23,7 @@ window.onload = async function () {
     console.log("Chargement des maps", mapsConfigurations)
     const initialMap = "astenia";
     const playerConfiguration = new PlayerConfiguration(
-        new PlayerState(new Position(10, 10), Orientation.RIGHT, 3, 2, 25),
+        new PlayerState(new Position(10, 18), Orientation.RIGHT, 3, 2, 25),
         "./assets/player-sprite.png")
     const viewportConfiguration = new ViewportConfiguration(
         new TwoDimensionalSize(VIEWPORT_SIZE_X, VIEWPORT_SIZE_Y),

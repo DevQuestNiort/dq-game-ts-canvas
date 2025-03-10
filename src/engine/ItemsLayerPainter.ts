@@ -8,7 +8,7 @@ import {TrapItem} from "./model/item/TrapItem.ts";
 export const paintItemsLayer = (items: Items, tilesChanged: Position[], viewportChanged: boolean) => {
     items.get().forEach(item => {
 
-        if(item instanceof TrapItem && item.isHidden ){
+        if(item instanceof TrapItem && !item.isvisible() ){
             // do NOTHING
         } else {
             // si il est dans le viewport

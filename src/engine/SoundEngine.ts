@@ -9,7 +9,8 @@ export enum SoundType {
     GAMEOVER,
     JUMP,
     PIEGE,
-    KILL
+    KILL,
+    VOYAGE,
 }
 
 export const playSound = (id: SoundType) => {
@@ -34,6 +35,9 @@ export const playSound = (id: SoundType) => {
             case SoundType.JUMP :
                 soundJump()
                 break
+            case SoundType.VOYAGE :
+                soundVoyage()
+                break
             case SoundType.PIEGE :
                 soundPiege()
                 break
@@ -52,3 +56,4 @@ const soundKillEnnemy = () => zzfx(0.9, 0.05, 79, 0.03, 0.04, 0.46, 3, 2, 5, -1,
 const soundGameOver = () => zzfx(2.1, 0.05, 52, 0.03, 0.28, 0.46, 1, 0.1, -0.2, 0, 0, 0, 0.06, 0.9, 0, 0.2, 0.37, 0.49, 0.21, 0, 0,);
 const soundJump = () => zzfx(0.6, 0.05, 235, 0.05, 0.09, 0.19, 1, 0.3, 9, 24, 0, 0, 0, 0.1, 0, 0, 0.03, 0.55, 0.03, 0, 369,);
 const soundPiege = () => zzfx(0.8, 0.05, 283, 0, 0.17, 0.16, 2, 3.3, -15, 2, 0, 0, 0, 0, 0, 0.1, 0.2, 0.66, 0.15, 0, 597,);
+const soundVoyage = () => zzfx(1,.05,505,.06,.21,.12,1,3.7,4,-87,319,.08,.04,0,.2,0,0,.92,.17,0,0);

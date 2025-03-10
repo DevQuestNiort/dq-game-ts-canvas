@@ -6,10 +6,13 @@ import {gameState} from "../../GameDataService.ts";
 
 export class TrapItem extends AbstractModificatorPlayerItem {
 
-    constructor(uid: string, name: string, position: Position, description: string, instructions: string, image: string, playerModificator: (player: PlayerState) => void, isHidden: boolean) {
+    itemDetectorId:string
+
+    constructor(uid: string, name: string, position: Position, description: string, instructions: string, image: string, playerModificator: (player: PlayerState) => void, isHidden: boolean,itemDetectorId="none") {
         super(uid, name, ItemType.PIEGE, position, description, instructions, image, playerModificator);
 
         this._isHidden = isHidden;
+        this.itemDetectorId=itemDetectorId
     }
 
     private _isUsed: boolean = false;
@@ -24,11 +27,16 @@ export class TrapItem extends AbstractModificatorPlayerItem {
         return this._isHidden;
     }
 
+    isvisible(){
+        return !this.isHidden || gameState.player.inventory.hasItemBy(this.itemDetectorId) ||  this._isUsed
+
+    }
+
     activerPiege() {
-        if (!this._isUsed) {
+        if (!this.isUsed) {
             this._isHidden = false;
             this._isUsed = true;
-            this.playerModificator(gameState.player);
+            this.playerModificator();
         }
     }
 

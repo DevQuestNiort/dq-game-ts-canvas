@@ -56,7 +56,7 @@ const bindKeys = () => {
 
         evt.preventDefault();
         if (evt.ctrlKey && evt.shiftKey && evt.key.toLowerCase() === "a") {
-            gameConfiguration.debugMod = !gameConfiguration.debugMod
+            switchOption(BooleanOption.DEBUG_MODE)
             notifyViewportChanged()
         }
         if (gameState.player.isDead()) {

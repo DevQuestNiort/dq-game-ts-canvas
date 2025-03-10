@@ -162,7 +162,11 @@ const drawDialog = (position: Position, size: TwoDimensionalSize, content: any) 
  */
 export function splittext(context, text,length){
     return text.split(" ").reduce((agr,word)=>{
-        if (context.measureText( agr[agr.length-1]+word).width < length ){
+        if (word === "\n" ){
+            agr.push("")
+
+        }
+        if (context.measureText( agr[agr.length-1]+word).width < length  ){
             agr[agr.length-1] = agr[agr.length-1] +" " + word
         }
         else {

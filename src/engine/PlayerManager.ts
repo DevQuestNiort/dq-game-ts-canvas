@@ -1,5 +1,5 @@
 import {Orientation} from "./model/Orientation.ts";
-import {gameConfiguration, gameState, getCurrentMap} from "./GameDataService.ts";
+import {gameState, getCurrentMap} from "./GameDataService.ts";
 import {notifyChangedTile, notifyViewportChanged} from "./GraphicsEngine.ts";
 import {Position} from "./model/Position.ts";
 import {centerViewportOnPlayer, computeViewportPosition} from "./ViewportManager.ts";
@@ -20,6 +20,7 @@ import {viewEnum} from "./model/state/GameState.ts";
 import {DialogueMenuState} from "./model/state/menu/DialogueMenuState.ts";
 import {AbstractTalkablePlayerItem} from "./model/item/AbstractTalkablePlayerItem.ts";
 import {TrapItem} from "./model/item/TrapItem.ts";
+import {BooleanOption, getBooleanOption} from "./OptionManager.ts";
 
 
 let lastMoveDate: number = Date.now();
@@ -172,7 +173,7 @@ export const movePlayerToPositionAndMap = (playerX: number, playerY: number, map
 export const movePlayerToPosition = (playerX: number, playerY: number) => {
 
     // puis je aller en playerX playerY
-    if (isTileAccessible(playerX, playerY) && isTileIsNotObstructed(playerX, playerY)) {
+    if ((isTileAccessible(playerX, playerY) && isTileIsNotObstructed(playerX, playerY)) || getBooleanOption(BooleanOption.DEBUG_MODE) ) {
         const oldPosition = structuredClone(gameState.player.position);
 
         gameState.player.position.x = playerX;
@@ -206,7 +207,7 @@ export const movePlayerToPosition = (playerX: number, playerY: number) => {
 }
 
 export const movePlayer = (x: number, y: number) => {
-    if (! gameConfiguration.debugMod) {
+    if (! getBooleanOption(BooleanOption.DEBUG_MODE)) {
         if (lastMoveDate + 80 > Date.now()) {
             return
         }

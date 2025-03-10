@@ -15,6 +15,7 @@ export class PNJItem extends AbstractTalkablePlayerItem {
 
     onDeath: (stateContext : GameState) => void;
 
+
     constructor(uid: string, name: string, position: Position, life: number, attack: number, defense: number, onDeath: (stateContext : GameState) => void , description: string, instructions: string, image: string, interaction: ModalTemplate | undefined = undefined
     ) {
         super(uid, name, ItemType.PNJ, position, description, instructions, image,interaction);

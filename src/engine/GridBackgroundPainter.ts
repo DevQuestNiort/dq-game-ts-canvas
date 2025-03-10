@@ -6,6 +6,7 @@ import {getFiller, init as initGridBackgroundFillers} from "./GridBackgroundFill
 import {Position} from "./model/Position.ts";
 import {getImage, init as initAssetLibrary} from "./AssetLibrary.ts";
 import {canvasContext, gameConfiguration, gameState} from "./GameDataService.ts";
+import {BooleanOption, getBooleanOption} from "./OptionManager.ts";
 
 
 export const init = async () => {
@@ -26,7 +27,7 @@ export const paintBackground = (grid: Grid, viewportState: ViewportState, viewpo
         }
     }
 
-    if (gameConfiguration.debugMod) {
+    if (getBooleanOption(BooleanOption.DEBUG_MODE)) {
         canvasContext.strokeStyle = "#c400ff";
         canvasContext.strokeRect(gameConfiguration.viewport.deadZone.position.x * GRID_PITCH,
             gameConfiguration.viewport.deadZone.position.y * GRID_PITCH,
@@ -62,6 +63,7 @@ const paintBackgroundTile = (x: number, y: number, type: string) => {
             case "B":
                 return getFiller("wood")
             case "w":
+            case "W":
                 return getFiller("water");
             case "║":
             case "═":
@@ -120,6 +122,7 @@ const paintBackgroundTile = (x: number, y: number, type: string) => {
             canvasContext.drawImage(getImage("bg-sol"), x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
             break
         case "w":
+        case "W":
             canvasContext.drawImage(getImage("bg-water"), x * GRID_PITCH, y * GRID_PITCH, GRID_PITCH, GRID_PITCH);
             break
         case "S":

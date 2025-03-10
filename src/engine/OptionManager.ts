@@ -1,12 +1,13 @@
 export enum BooleanOption {
-    SOUND_MUTED
+    SOUND_MUTED="SOUND_MUTED",
+    DEBUG_MODE="DEBUG_MODE",
 }
 
 export enum NumberOption {
-    SOUND_VOLUME// multiplicateur, 1 est le volume max
+    SOUND_VOLUME = SOUND_VOLUME// multiplicateur, 1 est le volume max
 }
 
-let booleanOptions: Record<BooleanOption, boolean> = {[BooleanOption.SOUND_MUTED]: false};
+let booleanOptions: Record<BooleanOption, boolean> = {[BooleanOption.SOUND_MUTED]: false, [BooleanOption.DEBUG_MODE]: true};
 let numberOptions: Record<NumberOption, number> = {[NumberOption.SOUND_VOLUME]: 1};
 
 export const getBooleanOption = (option: BooleanOption) => {
@@ -15,10 +16,12 @@ export const getBooleanOption = (option: BooleanOption) => {
 
 export const setBooleanOption = (option: BooleanOption, value: boolean) => {
     booleanOptions[option] = value;
+    saveOptionsInLocalStorage()
 }
 
 export const switchOption = (option: BooleanOption) => {
     booleanOptions[option] = !booleanOptions[option];
+    saveOptionsInLocalStorage()
 }
 
 export const getNumberOption = (option: NumberOption) => {
@@ -27,6 +30,7 @@ export const getNumberOption = (option: NumberOption) => {
 
 export const setNumberOption = (option: NumberOption, value: number) => {
     numberOptions[option] = value;
+    saveOptionsInLocalStorage()
 }
 
 export const saveOptionsInLocalStorage = () => {
