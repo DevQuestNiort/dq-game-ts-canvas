@@ -13,7 +13,7 @@ import {ModalTemplate} from "../../engine/model/modalTemplate/ModalTemplate.ts";
 
 export const items = [
     new UsableItem("cm6wgtgl8000pvs637yvkmuig", "Vortex", new Position(23, 26), () => {
-        movePlayerToPositionAndMap(30, 13,"astenia");// 30, 13
+        movePlayerToPositionAndMap(31, 3,"astenia");// 30, 13
         playSound(SoundType.JUMP)
     }, "Vortex dimensionnel", "appuyer sur T pour entrer dans le vortex", "echelle"),
 

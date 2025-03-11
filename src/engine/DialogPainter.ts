@@ -88,24 +88,24 @@ const paintInteractionDialog = () => {
         pCtx.fillText("name  :" + itemInFrontOfPlayer.name, 10, 57, 125)
         if (itemInFrontOfPlayer.underAttack){
             pCtx.textAlign = "end"
-            pCtx.fillText("Taper F pour attaquer " , GRID_PITCH * VIEWPORT_SIZE_X / 2, 84, 500)
+            pCtx.fillText("Appuyer sur F pour attaquer " , GRID_PITCH * VIEWPORT_SIZE_X / 2, 84, 500)
         }
         else {
             pCtx.textAlign = "end"
-            pCtx.fillText("Taper R pour parler ou F pour attaquer " , GRID_PITCH * VIEWPORT_SIZE_X / 2, 84, 500)
+            pCtx.fillText("Appuyer sur R pour parler ou F pour attaquer " , GRID_PITCH * VIEWPORT_SIZE_X / 2, 84, 500)
         }
         pCtx.textAlign = "start"
     }
     else if  (itemInFrontOfPlayer && itemInFrontOfPlayer instanceof AbstractTalkablePlayerItem && itemInFrontOfPlayer.interaction){
 
         pCtx.fillStyle = "#fff";
-        pCtx.fillText("Taper R pour interagir " , 10, 25, 500)
+        pCtx.fillText("Appuyer sur R pour interagir " , 10, 25, 500)
 
     }
     else {
             pCtx.fillStyle = "#fff";
-            pCtx.fillText("Taper I pour ouvrir menu Inventaire " , 10, 25, 500)
-        pCtx.fillText("Taper H pour ouvrir l'aide " , 10, 55, 500)
+            pCtx.fillText("Appuyer sur I pour ouvrir menu Inventaire " , 10, 25, 500)
+        pCtx.fillText("Appuyer sur H pour ouvrir l'aide " , 10, 55, 500)
     }
     drawDialog(new Position(GRID_PITCH * VIEWPORT_SIZE_X / 2, GRID_PITCH * VIEWPORT_SIZE_Y), new TwoDimensionalSize(GRID_PITCH * VIEWPORT_SIZE_X / 2, GRID_PITCH*3), patternCanvas);
 }
