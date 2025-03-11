@@ -22,7 +22,7 @@ export const items = [
     }, "serpent", "", "serpent",new ModalTemplate("snake", "serpent", "tssssss ")),
     new PNJItem("snake06", "snake", new Position(12, 22), 5, 3, 1, (stateContext) => {
         stateContext.mapStates[stateContext.currentMap].items.addItem(new PickableItem("cleJaune", "cle Jaune", new Position(12, 22), () => {
-        }, "Clef Jaune", "appuyer sur T pour rammasser", "cle"),)
+        }, "Clef Jaune", "appuyer sur T pour ramasser", "cle"),)
     }, "serpent", "", "serpent",new ModalTemplate("snake", "serpent", "tssssss ")),
     new PNJItem("snake07", "snake", new Position(15, 25), 5, 3, 1, (stateContext) => {
     }, "serpent", "", "serpent",new ModalTemplate("snake", "serpent", "tssssss ")),
