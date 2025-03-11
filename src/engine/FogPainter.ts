@@ -2,10 +2,11 @@ import {canvasContext, gameConfiguration, gameState, getCurrentMap} from "./Game
 import {Position} from "./model/Position.ts";
 import {Fog} from "./model/configuration/Fog.ts";
 import {GRID_PITCH} from "./constants.ts";
+import {BooleanOption, getBooleanOption} from "./OptionManager.ts";
 
 export const paintFog = (tilesChanged: Position[], viewportChanged: boolean) => {
     const fog = getCurrentMap().fog;
-    if (fog !== undefined) {
+    if (fog !== undefined && !getBooleanOption(BooleanOption.DEBUG_MODE)) {
         if (viewportChanged) {
             for (let x = 0; x < gameConfiguration.viewport.dimension.width; x++) {
                 for (let y = 0; y < gameConfiguration.viewport.dimension.height; y++) {

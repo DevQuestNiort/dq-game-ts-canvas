@@ -5,5 +5,5 @@ import {Grid} from "../../engine/model/configuration/Grid.ts";
 import {Fog} from "../../engine/model/configuration/Fog.ts";
 
 
-export default new MapConfiguration(new Grid(grid), items, /*new Fog(3)*/);
+export default new MapConfiguration(new Grid(grid), items, new Fog(3));
 
