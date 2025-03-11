@@ -103,8 +103,9 @@ export class DialogueMenuState extends MenuState{
         pCtx.fillText(this.template.title, GRID_PITCH * 5, GRID_PITCH * 3, GRID_PITCH * 23 - 10)
         pCtx.drawImage(getImage(this.template.image), (GRID_PITCH ), (GRID_PITCH ) , GRID_PITCH*3, GRID_PITCH*3)
         const maxlength = TOTAL_PX_SIZE_X - GRID_PITCH * 6
-        splittext(pCtx,this.template.text,maxlength).map(text => text.trim()).forEach((text, index) => {
-            pCtx.fillText(text, GRID_PITCH * 3, GRID_PITCH * 4 + (index + 1) * 25, TOTAL_PX_SIZE_X - GRID_PITCH * 6)
+        splittext(pCtx,this.template.text,maxlength).forEach((text, index) => {
+            console.log("printing text: ", text, index);
+            pCtx.fillText(text.trim(), GRID_PITCH * 3, GRID_PITCH * 4 + (index + 1) * 25, TOTAL_PX_SIZE_X - GRID_PITCH * 6)
 
         })
 

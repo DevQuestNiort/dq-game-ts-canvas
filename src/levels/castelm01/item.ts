@@ -15,7 +15,7 @@ export const items = [
     new UsableItem("cm6wgtgl8000pvs637yvkmuig", "Vortex", new Position(23, 26), () => {
         movePlayerToPositionAndMap(30, 13,"astenia");// 30, 13
         playSound(SoundType.JUMP)
-    }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "echelle"),
+    }, "Vortex dimensionnel", "appuyer sur T pour entrer dans le vortex", "echelle"),
 
     new DoorItem("cm8219pvl000gqw630vrmr7sl", "Porte Rouge", new Position(29, 26), "Porte Rouge", "", "prisonRed","cleRouge"),
 
@@ -40,11 +40,11 @@ export const items = [
 
     new DecorativeItem("","",new Position(31,36),"","","skeletteMort",undefined,true),
     new DecorativeItem("","",new Position(25,45),"","","skeletteMort",undefined,true),
-    new PickableItem("collier", "collier", new Position(25,46), (player) => {}, "Collier du trappeur, detecte les pièges", "press T pour prendre", "collier"),
+    new PickableItem("collier", "collier", new Position(25,46), (player) => {}, "Collier du trappeur, détecte les pièges", "appuyer sur T pour prendre", "collier"),
 
     new PNJItem("Signark", "Signark", new Position(44, 41), 10, 8, 2, (stateContext) => {
         stateContext.mapStates[stateContext.currentMap].items.addItem(new ComsumableItem("cm6ul464y000mvs630qlpu3ik", "Potion", new Position(44, 41), () => gameState.player.heal(5), "Potion de soin +5", "", "potion"),)
-    }, "niak", "", "troll", new ModalTemplate("Signark", "troll", "Gniak !!!! On ne passe pas !!")),
+    }, "niak", "", "troll", new ModalTemplate("Signark", "troll", "Gniak! On ne passe pas!")),
 
 
 

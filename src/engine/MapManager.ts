@@ -9,7 +9,7 @@ import {AbstractTalkablePlayerItem} from "./model/item/AbstractTalkablePlayerIte
 export const isTileAccessible = (x: number, y: number) => {
     const tileType = getCurrentMap().grid.getCase(x, y)
     if (tileType === "l" && ! gameState.player.inventory.hasItemBy("redStone")) {
-        console.log("aie ca brule")
+        console.log("Aïe ca brule")
         return false;
     } else if (tileType === "w" && ! gameState.player.inventory.hasItemBy("blueStone")) {
         console.log("ca a l'air profond")

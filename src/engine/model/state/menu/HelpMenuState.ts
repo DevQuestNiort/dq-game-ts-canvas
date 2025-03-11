@@ -54,12 +54,12 @@ export class HelpMenuState extends MenuState{
         pCtx.font = "20px gamms";
         pCtx.fillStyle = "#fff";
         const listeHelp=[
-            "Touche Z Q S D : Monter, Gauche, Descendre, Droite ",
-            "Touche I : Ouvrir l'inventaire ",
-            "Touche T : Prendre ou interragir avec un objet ",
-            "Touche F : Frapper un objet ou un personnage ",
-            "Touche R : Parler avec un PNJ ",
-            "Touche M : Couper/Activer le son ",
+            "Touche Z Q S D : Monter, Gauche, Descendre, Droite",
+            "Touche I : Ouvrir l'inventaire",
+            "Touche T : Prendre ou interagir avec un objet",
+            "Touche F : Frapper un objet ou un personnage",
+            "Touche R : Parler avec un PNJ",
+            "Touche M : Couper/Activer le son",
             "Alt + F4 : Ragequit  "
         ]
         const ligneDebutHelp = 4

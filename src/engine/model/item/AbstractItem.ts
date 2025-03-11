@@ -2,7 +2,6 @@ import {Position} from "../Position.ts";
 import {ItemType} from "./Item.ts";
 
 export abstract class AbstractItem {
-    
     public uid: string;
     public name: string;
     public type: ItemType;

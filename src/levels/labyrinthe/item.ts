@@ -4,14 +4,12 @@ import {movePlayerToPositionAndMap} from "../../engine/PlayerManager.ts";
 import {playSound, SoundType} from "../../engine/SoundEngine.ts";
 import {TrapItem} from "../../engine/model/item/TrapItem.ts";
 import {gameState} from "../../engine/GameDataService.ts";
-import {DecorativeItem} from "../../engine/model/item/DecorativeItem.ts";
-import {ModalTemplate} from "../../engine/model/modalTemplate/ModalTemplate.ts";
 
 export const items = [
     new UsableItem("cm6uiaf5h000jvs643dm9oyj9", "Vortex", new Position(48, 40), () => {
         movePlayerToPositionAndMap(29, 30, "boss");
         playSound(SoundType.JUMP)
-    }, "Vortex dimensionel", "Press T pour entrer dans le vortex", "vortex"),
+    }, "Vortex dimensionnel", "appuyer sur T pour entrer dans le vortex", "vortex"),
 
 
     new TrapItem("piege001",
@@ -19,7 +17,7 @@ export const items = [
         new Position(11, 17),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -32,7 +30,7 @@ export const items = [
         new Position(33, 15),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -45,7 +43,7 @@ export const items = [
         new Position(35, 16),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -58,7 +56,7 @@ export const items = [
         new Position(41, 39),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -70,7 +68,7 @@ export const items = [
         new Position(19, 23),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -82,7 +80,7 @@ export const items = [
         new Position(28, 37),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -94,7 +92,7 @@ export const items = [
         new Position(32, 29),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -107,7 +105,7 @@ export const items = [
         new Position(13, 16),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -120,7 +118,7 @@ export const items = [
         new Position(14, 13),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -133,7 +131,7 @@ export const items = [
         new Position(28, 36),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -146,7 +144,7 @@ export const items = [
         new Position(42, 26),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -158,7 +156,7 @@ export const items = [
         new Position(42, 27),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -170,7 +168,7 @@ export const items = [
         new Position(40, 22),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -182,7 +180,7 @@ export const items = [
         new Position(40, 13),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -194,7 +192,7 @@ export const items = [
         new Position(42, 14),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -206,7 +204,7 @@ export const items = [
         new Position(45, 39),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);
@@ -218,7 +216,7 @@ export const items = [
         new Position(41, 24),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(4);

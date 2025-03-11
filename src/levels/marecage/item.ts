@@ -22,7 +22,7 @@ export const items = [
     }, "serpent", "", "serpent",new ModalTemplate("snake", "serpent", "tssssss ")),
     new PNJItem("snake06", "snake", new Position(12, 22), 5, 3, 1, (stateContext) => {
         stateContext.mapStates[stateContext.currentMap].items.addItem(new PickableItem("cleJaune", "cle Jaune", new Position(12, 22), () => {
-        }, "Clef Jaune", "T pour rammasser", "cle"),)
+        }, "Clef Jaune", "appuyer sur T pour rammasser", "cle"),)
     }, "serpent", "", "serpent",new ModalTemplate("snake", "serpent", "tssssss ")),
     new PNJItem("snake07", "snake", new Position(15, 25), 5, 3, 1, (stateContext) => {
     }, "serpent", "", "serpent",new ModalTemplate("snake", "serpent", "tssssss ")),
@@ -42,5 +42,5 @@ export const items = [
     new UsableItem("toAstenia", "toAstenia", new Position(0, 40), () => {
         movePlayerToPositionAndMap(124, 23,"astenia");
         playSound(SoundType.JUMP)
-    }, "Vers Astenia", "Press T pour entrer dans Astenia", "vortex"),
+    }, "Vers Astenia", "appuyer sur T pour entrer dans Astenia", "vortex"),
 ]

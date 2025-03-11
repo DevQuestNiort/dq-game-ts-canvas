@@ -155,25 +155,24 @@ const drawDialog = (position: Position, size: TwoDimensionalSize, content: any) 
 
 
 /**
- * Permet de splitter un texte en un tableau de texte selon une largeur max . Split par mot.
+ * Permet de splitter un texte en un tableau de texte selon une largeur max. Split par mot.
  * @param context canvaContext 2D
  * @param text Le texte à decoupé
  * @param length la largeur max en pixel
  */
-export function splittext(context, text,length){
-    return text.split(" ").reduce((agr,word)=>{
-        if (word === "\n" ){
-            agr.push("")
-
-        }
-        if (context.measureText( agr[agr.length-1]+word).width < length  ){
-            agr[agr.length-1] = agr[agr.length-1] +" " + word
-        }
-        else {
-            agr.push(word)
-        }
-        return agr
-    },[""])
-
-
+export function splittext(context: CanvasRenderingContext2D, text: string, length: number){
+    console.log("splitting text");
+    console.log(context, text, length);
+    // on split en premier par les sauts de ligne, ensuite par la taille
+    return text.split("\n").map(line => {
+        return line.split(" ").reduce((agr,word)=> {
+            if (context.measureText(agr[agr.length-1] + word).width < length) {
+                agr[agr.length-1] = agr[agr.length-1] + " " + word
+            } else {
+                agr.push(word)
+            }
+            return agr
+        },[""])
+    })
+    .flat()
 }

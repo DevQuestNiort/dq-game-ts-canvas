@@ -24,7 +24,7 @@ export class MainMenuState extends MenuState{
         this.entrys= [entry1,entry2,entry3]
         this.texts= [
             new IhmEntry("title", new Position((GRID_PITCH *  VIEWPORT_SIZE_X)/2 , GRID_PITCH*2),50,"DevQuest The Game",undefined),
-            new IhmEntry("subtitle", new Position((GRID_PITCH *  VIEWPORT_SIZE_X)/2 , GRID_PITCH*3),20,"Le jeu officiel de la conference officielle de Niort",undefined)
+            new IhmEntry("subtitle", new Position((GRID_PITCH *  VIEWPORT_SIZE_X)/2 , GRID_PITCH*3),20,"Le jeu officiel de la conférence officielle de Niort",undefined)
         ]
     }
 

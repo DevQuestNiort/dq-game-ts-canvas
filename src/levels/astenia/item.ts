@@ -3,13 +3,14 @@ import {DecorativeItem} from "../../engine/model/item/DecorativeItem.ts";
 import {PickableItem} from "../../engine/model/item/PickableItem.ts";
 import {ComsumableItem} from "../../engine/model/item/ComsumableItem.ts";
 import {UsableItem} from "../../engine/model/item/UsableItem.ts";
-import {movePlayerToPosition, movePlayerToPositionAndMap} from "../../engine/PlayerManager.ts";
+import {movePlayerToPositionAndMap} from "../../engine/PlayerManager.ts";
 import {PNJItem} from "../../engine/model/item/PNJItem.ts";
 import {playSound, SoundType} from "../../engine/SoundEngine.ts";
 import {DoorItem} from "../../engine/model/item/DoorItem.ts";
 import {ModalTemplate} from "../../engine/model/modalTemplate/ModalTemplate.ts";
 import {gameState} from "../../engine/GameDataService.ts";
 import {TrapItem} from "../../engine/model/item/TrapItem.ts";
+import {ModalChoice} from "../../engine/model/modalTemplate/ModalChoice.ts";
 
 export const items = [
 
@@ -33,7 +34,7 @@ export const items = [
     new DecorativeItem("bibliotheque003", "Information", new Position(19, 21), "bibliotheque", "", "bibliotheque"),
 
     new DecorativeItem("bibliotheque004", "Information", new Position(20, 19), "bibliotheque", "", "bibliotheque",
-        new ModalTemplate("Bibliotheque", "bibliotheque", "Tiens un passage secret",
+        new ModalTemplate("Bibliotheque", "bibliotheque", "Tiens? un passage secret!",
             [
                 new ModalChoice("Teleportation" , ()=> movePlayerToPositionAndMap(10,10,"end")),
             ])),
@@ -45,14 +46,14 @@ export const items = [
     new DecorativeItem("", "table", new Position(13, 20), "table", "", "table01"),
 
     new PickableItem("cleVerte", "cle", new Position(17, 21), () => {
-    }, "Une cle vert", "press T pour prendre", "cleGreen"),
+    }, "Une cle vert", "appuyer sur T pour prendre", "cleGreen"),
 
     new PNJItem("necromancer", "necromancer", new Position(11, 19), 10, 3, 1, (stateContext) => {
     }, "necromancer", "", "necromancer", new ModalTemplate("necromancer", "necromancer",
-        "Je suis Darnillam, nécromancien  renommé.. Vous me connaissez ??  eumh Non . Tant pis ! Je suis prisonnier de ce chateau depuis longtemps. Trop longtemps. Tous ce que je puis vous dire c'est que je ne suis pas celui que vous penser que je sois..  Mais soit !!! \n \n Le repaire de Browser se trouve dans une grotte au sud du village. \n \n \n  Ne toucher pas à mes grimoires.. Par contre le potion  viollette à coté de moi est pour vous !  "
+        "Je suis Darnillam, nécromancien renommé, Vous me connaissez? Non? Tant pis! Je suis prisonnier de ce château depuis longtemps. Trop longtemps. Tous ce que je puis vous dire c'est que je ne suis pas celui que vous pensez, mais soit! \n \n Le repaire de Browser se trouve dans une grotte au sud du village.\n\n\nNe touchez pas à mes grimoires! En revanche, la potion violette à coté de moi est pour vous!"
     )),
 
-    new ComsumableItem("PotionMaxVie", "Potion", new Position(17, 18), () => gameState.player.augmenterMaxLife(5), "Augmente la vie max de 5 points", "press T pour Boire", "potion-tr"),
+    new ComsumableItem("PotionMaxVie", "Potion", new Position(17, 18), () => gameState.player.augmenterMaxLife(5), "Augmente la vie max de 5 points", "appuyer sur T pour boire", "potion-tr"),
     // ----------------------------------------------------------
 
 
@@ -93,7 +94,7 @@ export const items = [
 
     new PNJItem("Turuk", "Turuk", new Position(13, 10), 10, 8, 2, (stateContext) => {
         stateContext.mapStates[stateContext.currentMap].items.addItem(new ComsumableItem("cm6ul464y000mvs630qlpu3ik", "Potion", new Position(13, 10), () => gameState.player.heal(15), "Potion de soin +15", "", "potion"),)
-    }, "niak", "", "troll", new ModalTemplate("Turuk", "troll", "Gniak !!!! Que viens tu faire aventurier... Ne commence pas à me chercher ! Moi je garde la salle du trésor !!Et je le fais bien !! Donc vas t-en !")),
+    }, "niak", "", "troll", new ModalTemplate("Turuk", "troll", "Gniak!!!! Que viens-tu faire aventurier... Ne commence pas à me chercher! Moi je garde la salle du trésor! Et je le fais bien! Donc va-t'en!")),
 
 
     // salle trésor
@@ -148,7 +149,7 @@ export const items = [
     new DecorativeItem("", "tresor02", new Position(11, 5), "Coffre", "", "tresor02"),
 
     new PickableItem("cleRouge", "cle", new Position(18, 3), () => {
-    }, "Une cle Rouge", "press T pour prendre", "cleRed"),
+    }, "Une cle Rouge", "appuyer sur T pour prendre", "cleRed"),
 
     //------------------------------------
 
@@ -182,7 +183,7 @@ export const items = [
     // entre chateau
 
     new DecorativeItem("infoChateau", "Information", new Position(23, 32), "panneau", "", "panneau",
-        new ModalTemplate("Chateau d'iRule", "panneau", "Bienvenue au Dark iRule ! Soyez prévenu, si vous y pénétrez, vous vous y risquez ! Le maitre incontesté Browser le méchant navigateur ainsi que ces fidèles sous fifres I'x et Cess vous chasseront sans cesse !")),
+        new ModalTemplate("Chateau d'iRule", "panneau", "Bienvenue au Dark iRule! Soyez prévenus, si vous y pénétrez, vous vous y risquez! Le maitre incontesté Browser, le méchant navigateur ainsi que ses fidèles sous fifres I'x et Cess vous chasseront sans cesse!")),
 
 
     new PNJItem("Yanok", "Yanok", new Position(26, 22), 10, 3, 1, (stateContext) => {
@@ -200,8 +201,8 @@ export const items = [
 
 
 
-    new PickableItem("epee", "Epee", new Position(77, 10), (player) => player.attack += 3, "Epee Magique augmentant l'attaque +3", "press T pour prendre", "raresword"),
-    new PickableItem("bouclier", "bouclier", new Position(77, 13), (player) => player.defense += 5, "Bouclier De Ragnar, +5 en defense", "press T pour prendre", "bouclier"),
+    new PickableItem("epee", "Epee", new Position(77, 10), (player) => player.attack += 3, "Epee Magique augmentant l'attaque +3", "appuyer sur T pour prendre", "raresword"),
+    new PickableItem("bouclier", "bouclier", new Position(77, 13), (player) => player.defense += 5, "Bouclier De Ragnar, +5 en defense", "appuyer sur T pour prendre", "bouclier"),
 
 
 
@@ -210,16 +211,16 @@ export const items = [
 
     // village ecurie
     new PickableItem("cleBleu", "cle", new Position(123, 5), () => {
-    }, "Une cle Bleu", "press T pour prendre", "cleBlue"),
+    }, "Une cle Bleu", "appuyer sur T pour prendre", "cleBlue"),
     // --------------------------------------------------------
 
     /*
     new PickableItem("redStone", "Red Stone", new Position(25, 13), () => {
-    }, "Diamant rendant insensible à la chaleur", "press T pour prendre", "gem"),
+    }, "Diamant rendant insensible à la chaleur", "appuyer sur T pour prendre", "gem"),
 
 */
 
-    //new ComsumableItem("poutionsoin01 ", "Potion", new Position(16, 16), () => gameState.player.heal(15), "Potion de soin +15", "press T pour Boire", "potion"),
+    //new ComsumableItem("poutionsoin01 ", "Potion", new Position(16, 16), () => gameState.player.heal(15), "Potion de soin +15", "appuyer sur T pour Boire", "potion"),
 
 
     new TrapItem("piege001",
@@ -227,7 +228,7 @@ export const items = [
         new Position(11, 10),
 
         "trapp",
-        "Aie",
+        "Aïe",
         "piege",
         () => {
             gameState.player.takeCriticalDamage(10);
@@ -240,22 +241,21 @@ export const items = [
     new UsableItem("TeleportVersMarecage", "Vers Marecage", new Position(124, 23), () => {
         movePlayerToPositionAndMap(0, 40, "marecage");
         playSound(SoundType.JUMP)
-    }, "Vers le marécage", "Press T pour entrer dans le marécage", "vortex"),
+    }, "Vers le marécage", "appuyer sur T pour entrer dans le marécage", "vortex"),
 
     new DecorativeItem("informationMarecage", "Information", new Position(120, 22), "panneau", "", "panneau",
-        new ModalTemplate("Marécage Passec", "panneau", " Voici le marécage Passec. Le dernier repaire d'une race de serpent vorace. Nombreux sont les villageois qui ont disparu dans ce marécage. \n \n " +
-            " Homage aux disparus \n " +
-            " * Gaspar le maraicher \n " +
-            " * René la taupe \n " +
-            " * Roger le gardien du la grotte au sud \n " +
-            " \n \n Attention ! Les serpents avalent tout et n'importe quoi  !")),
+        new ModalTemplate("Marécage Passec", "panneau", "Voici le marécage Passec, le dernier repaire d'une race de serpent vorace. Nombreux sont les villageois qui ont disparu dans ce marécage.\n\n" +
+            " Homage aux disparus\n" +
+            " * Gaspar le maraicher\n" +
+            " * René la taupe\n" +
+            " * Roger le gardien du la grotte au sud\n" +
+            " \n\nAttention! Les serpents avalent tout et n'importe quoi!")),
 
     new PNJItem("Dame", "Dame Damdeo", new Position(117, 21), 5, 5, 1, () => {
 
-    }, "", "", "elfe", new ModalTemplate("Dame Damdeo", "elfe", "Pour rentrer dans ce marécage, il te faudra aller dans l'eau, Je possédais une gemme magique me permttant de marcher sur l'eau. Mais une chévre me la prise.. \n  \n  " +
-        "Et comme le roi à envoyer toutes les chèvres sur une ile... \n " +
-        " \n  " +
-        " peut etre qu'un bateau au port du chateau peux vous y emmener !")),
+    }, "", "", "elfe", new ModalTemplate("Dame Damdeo", "elfe", "Pour rentrer dans ce marécage, il te faudra aller dans l'eau, Je possédais une gemme magique me permettant de marcher sur l'eau, mais une chèvre me la prise...\n" +
+        "Et comme le roi a envoyé toutes les chèvres sur une île...\n" +
+        " Peut-être qu'un bateau au port du château peut vous y emmener!")),
 
     //---------------------------------
 
@@ -263,7 +263,7 @@ export const items = [
     new UsableItem("vortexToLabyrintheMAP", "vers le labyrinthe", new Position(112, 30), () => {
         movePlayerToPositionAndMap(8, 10, "labyrinthe");
         playSound(SoundType.JUMP)
-    }, "Trap d'acces", "Press T pour descendre dans le labyrinthe", "trapp"),
+    }, "Trappe d'accès", "appuyer sur T pour descendre dans le labyrinthe", "trapp"),
 
 
     new DecorativeItem("infoGrotte", "Information", new Position(113, 26), "panneau", "", "panneau",
@@ -272,9 +272,8 @@ export const items = [
     new PNJItem("gardienDeLaTrapLabyrinthe", "La Poisse", new Position(111, 29), 15, 5, 1, () => {
 
     }, "", "", "ogre02", new ModalTemplate("La Poisse", "ogre02", "Ca fait longtemps que je n'avais pas vu une tête vivante... " +
-        "Je m'appelle La Poisse. Je suis la pour garder l'accès du labirynthe maudit et prévenir les aventuriers des dangers a y pénétrer. Mais j'en ai ma claque donc si tu veux te faire tuer libre à toi..  \n  \n \n" +
-        " \n " +
-        " Mais si tu veux vivre, J'ai entendu dire qu'un prisonnier du donjon possedait un médaillon permettant la detection des dangers cachés. Je pense qu il faudrait mieux descendre la dedans avec. \n Je dis ca, je dis rien !!")),
+        "Je m'appelle La Poisse. Je suis la pour garder l'accès du labyrinthe maudit et prévenir les aventuriers des dangers d'y pénétrer. Mais j'en ai ma claque donc si tu veux te faire tuer libre à toi.\n\n\n" +
+        "Mais si tu veux vivre, J'ai entendu dire qu'un prisonnier du donjon possédait un médaillon permettant la détection des dangers cachés. Je pense qu'il faudrait mieux descendre la dedans bien équipé.\nJe dis ca, je dis rien!")),
 
     new DoorItem("porteJaune01", "Porte", new Position(111, 27), "Porte", "", "prisonYellow", "cleJaune"
     ),
@@ -284,7 +283,7 @@ export const items = [
     // Donjon
     new UsableItem("cm6v5vbc4000ovs633vgd1cdb", "Vers le sous sol", new Position(31, 3), () => {
         movePlayerToPositionAndMap(23, 26, "castelm01");// 18 / 14
-    }, "Trappe d'accès", "Press T pour descendre dans les prisons du chateau", "trapp"),
+    }, "Trappe d'accès", "appuyer sur T pour descendre dans les prisons du château", "trapp"),
 // ---------------------------
 
 
@@ -293,22 +292,22 @@ export const items = [
     new UsableItem("moveToIleDeserte", "vers ile ", new Position(46, 20), () => {
         movePlayerToPositionAndMap(5, 21, "ile");
         playSound(SoundType.VOYAGE)
-    }, "Bateau", "Press T pour voyager vers l'ile aux chèvres", "boat01"),
+    }, "Bateau", "appuyer sur T pour voyager vers l'ile aux chèvres", "boat01"),
     new UsableItem("moveToIleDeserte", "vers ile ", new Position(46, 21), () => {
         movePlayerToPositionAndMap(5, 21, "ile");
         playSound(SoundType.VOYAGE)
-    }, "Bateau", "Press T pour voyager vers l'ile aux chèvres", "boat02"),
+    }, "Bateau", "appuyer sur T pour voyager vers l'ile aux chèvres", "boat02"),
     new UsableItem("moveToIleDeserte", "vers ile ", new Position(46, 22), () => {
         movePlayerToPositionAndMap(5, 21, "ile");
         playSound(SoundType.VOYAGE)
-    }, "Bateau", "Press T pour voyager vers l'ile aux chèvres", "boat03"),
+    }, "Bateau", "appuyer sur T pour voyager vers l'île aux chèvres", "boat03"),
 
     // ----------
 
 
     // croisement
     new DecorativeItem("cm6ux31s6000nvs63zvk1aj1s", "Information", new Position(82, 29), "panneau", "", "panneau",
-        new ModalTemplate("DEVQUEST", "panneau", "Bienvenue dans cette quete aventurier aventureux. Ne fait confiance a personne dans ce monde. Les dieux qui l'ont cree sont aussi fou qu ils sont incompetents. Mais qui sais, une recompense est peut etre au bout de cette aventure !!!")),
+        new ModalTemplate("DEVQUEST", "panneau", "Bienvenue dans cette quête, aventurier aventureux. Ne fait confiance à personne dans ce monde. Les dieux qui l'ont créé sont aussi fous qu'ils sont incompétents. Mais qui sait, une recompense est peut-être au bout de cette aventure!")),
 
     // ----------
 
@@ -317,9 +316,9 @@ export const items = [
     // Village
     new PNJItem("Shamin", "Shamin", new Position(100, 15), 7, 15, 2, (stateContext) => {
         stateContext.mapStates[stateContext.currentMap].items.addItem(new ComsumableItem("cm6ul464y000mvs630qlpu3ik", "Potion", new Position(13, 10), () => gameState.player.heal(15), "Potion de soin +15", "", "potion"),)
-    }, "wizard", "", "wizard", new ModalTemplate("Shamin", "wizard", "Bienvenu sur Astenia jeu aventurier ! Cette ville connait une historie sombre en cette époque. Notre princesse L'IA s'est faite capturer par Browser, le maitre du château.\n" +
+    }, "wizard", "", "wizard", new ModalTemplate("Shamin", "wizard", "Bienvenue sur Astenia jeune aventurier! Cette ville connait une histoire sombre en cette époque. Notre princesse L'IA s'est faite capturer par Browser, le maître du château.\n" +
         "Aidez-nous à sauver notre princesse pour restaurer l'équilibre de notre ville!\n" +
-        "Il me semble que le palefrenier cache une clef du chateau. Il doit être dans son écurie au nord est !")),
+        "Il me semble que le palefrenier cache une clef du château. Il doit être dans son écurie au nord est!")),
 
     new PNJItem("Grodor", "Grodor", new Position(81, 11), 12, 5, 1, (stateContext) => {
 
