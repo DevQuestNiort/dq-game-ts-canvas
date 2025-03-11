@@ -32,7 +32,11 @@ export const items = [
 
     new DecorativeItem("bibliotheque003", "Information", new Position(19, 21), "bibliotheque", "", "bibliotheque"),
 
-    new DecorativeItem("bibliotheque004", "Information", new Position(20, 19), "bibliotheque", "", "bibliotheque"),
+    new DecorativeItem("bibliotheque004", "Information", new Position(20, 19), "bibliotheque", "", "bibliotheque",
+        new ModalTemplate("Bibliotheque", "bibliotheque", "Tiens un passage secret",
+            [
+                new ModalChoice("Teleportation" , ()=> movePlayerToPositionAndMap(10,10,"end")),
+            ])),
 
     new DecorativeItem("bibliotheque005", "Information", new Position(20, 21), "bibliotheque", "", "bibliotheque"),
 
