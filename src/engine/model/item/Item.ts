@@ -1,9 +1,9 @@
 export enum ItemType {
-    DECORATIF,
-    DOOR,
-    PICKABLE,
-    COMSUMBALE,
-    USABLE,
-    PNJ,
-    PIEGE,
+  DECORATIF,
+  DOOR,
+  PICKABLE,
+  COMSUMBALE,
+  USABLE,
+  PNJ,
+  PIEGE,
 }

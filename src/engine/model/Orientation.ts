@@ -1,6 +1,6 @@
 export enum Orientation {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT,
 }

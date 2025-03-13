@@ -1,11 +1,10 @@
 ## Gestion des cartes
 
+Une carte est répésenté par un dossier.
 
-Une carte est répésenté par un dossier. 
+Celui ci contient
 
-Celui ci contient 
-
-* un fichier  grid.json
+- un fichier grid.json
 
 ```json
 [
@@ -35,38 +34,44 @@ Celui ci contient
   "wwwwwwBBwwwwwwwwwwwwwwwww",
   "wwwwwwwwwwwwwwwwwwwwwwwww"
 ]
-
 ```
 
-
-* un fichier items.ts
-
+- un fichier items.ts
 
 ```ts
 export const items = [
-    new UsableItem("cm6wgtgl8000pvs637yvkmuig", "Vortex", new Position(23, 26), (player) => {
-        movePlayerToPositionAndMap(30, 13,"astenia");// 30, 13
-        playSound("jump")
-    }, "Vortex dimensionnel", "appuyer sur T pour entrer dans le vortex", "echelle"),
+  new UsableItem(
+    "cm6wgtgl8000pvs637yvkmuig",
+    "Vortex",
+    new Position(23, 26),
+    (player) => {
+      movePlayerToPositionAndMap(30, 13, "astenia"); // 30, 13
+      playSound("jump");
+    },
+    "Vortex dimensionnel",
+    "appuyer sur T pour entrer dans le vortex",
+    "echelle",
+  ),
 
-    new DoorItem("cm6wgtl9d000qvs632skbx029", "Porte Rouge", new Position(29, 26), "Porte Rouge", "", "prisonRed","cleRouge"),
-]
-
-
+  new DoorItem(
+    "cm6wgtl9d000qvs632skbx029",
+    "Porte Rouge",
+    new Position(29, 26),
+    "Porte Rouge",
+    "",
+    "prisonRed",
+    "cleRouge",
+  ),
+];
 ```
 
+- un index.ts
 
-
-* un index.ts
 ```ts
-import grid from './grid.json'
-import {items} from "./item.ts";
-import {MapConfiguration} from "../../engine/model/configuration/MapConfiguration.ts";
-import {Grid} from "../../engine/model/configuration/Grid.ts";
-
+import grid from "./grid.json";
+import { items } from "./item.ts";
+import { MapConfiguration } from "../../engine/model/configuration/MapConfiguration.ts";
+import { Grid } from "../../engine/model/configuration/Grid.ts";
 
 export default new MapConfiguration(new Grid(grid), items);
-
-
 ```
-

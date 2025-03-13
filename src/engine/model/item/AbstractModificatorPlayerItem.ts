@@ -1,15 +1,22 @@
-import {PlayerState} from "../state/PlayerState.ts";
-import {AbstractItem} from "./AbstractItem.ts";
-import {ItemType} from "./Item.ts";
-import {Position} from "../Position.ts";
+import { PlayerState } from "../state/PlayerState.ts";
+import { AbstractItem } from "./AbstractItem.ts";
+import { ItemType } from "./Item.ts";
+import { Position } from "../Position.ts";
 
-export class AbstractModificatorPlayerItem extends AbstractItem{
+export class AbstractModificatorPlayerItem extends AbstractItem {
+  playerModificator: (player: PlayerState) => void;
 
-    playerModificator : () => void;
-
-
-    constructor(uid: string, name: string, type: ItemType, position: Position, description: string, instructions: string, image: string, playerModificator: (player: PlayerState) => void) {
-        super(uid, name, type, position, description, instructions, image);
-        this.playerModificator = playerModificator;
-    }
+  constructor(
+    uid: string,
+    name: string,
+    type: ItemType,
+    position: Position,
+    description: string,
+    instructions: string,
+    image: string,
+    playerModificator: (player: PlayerState) => void,
+  ) {
+    super(uid, name, type, position, description, instructions, image);
+    this.playerModificator = playerModificator;
+  }
 }

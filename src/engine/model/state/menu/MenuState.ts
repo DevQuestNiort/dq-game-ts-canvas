@@ -1,18 +1,10 @@
-import {playSound} from "../../../SoundEngine.ts";
-import {IhmEntry} from "../../menu/IhmEntry.ts";
+import { IhmEntry } from "../../menu/IhmEntry.ts";
 
-export class MenuState {
-    public selectedEntry:number = 0
-    public entrys : IhmEntry[]
+export abstract class MenuState {
+  public selectedEntry: number = 0;
+  public entrys: IhmEntry[];
 
+  abstract build(evt: KeyboardEvent): void;
 
-
-
-    build(evt){}
-
-    paint(){
-
-    }
-
-
+  abstract paint(): void;
 }
