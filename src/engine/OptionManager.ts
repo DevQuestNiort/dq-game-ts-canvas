@@ -4,10 +4,10 @@ export enum BooleanOption {
 }
 
 export enum NumberOption {
-    SOUND_VOLUME = SOUND_VOLUME// multiplicateur, 1 est le volume max
+    SOUND_VOLUME = "SOUND_VOLUME"// multiplicateur, 1 est le volume max
 }
 
-let booleanOptions: Record<BooleanOption, boolean> = {[BooleanOption.SOUND_MUTED]: false, [BooleanOption.DEBUG_MODE]: true};
+let booleanOptions: Record<BooleanOption, boolean> = {[BooleanOption.SOUND_MUTED]: false, [BooleanOption.DEBUG_MODE]: false};
 let numberOptions: Record<NumberOption, number> = {[NumberOption.SOUND_VOLUME]: 1};
 
 export const getBooleanOption = (option: BooleanOption) => {
@@ -40,8 +40,8 @@ export const saveOptionsInLocalStorage = () => {
 export const loadOptionsFromLocalStorage = () => {
     const raw = localStorage.getItem("options");
     if (raw) {
-        const {boolOpts, numberOpts} = JSON.parse(raw);
-        booleanOptions = {...booleanOptions, ...boolOpts};
-        numberOptions = {...numberOptions, ...numberOpts};
+        const option = JSON.parse(raw);
+        booleanOptions = {...booleanOptions, ...option.booleanOptions};
+        numberOptions = {...numberOptions, ...option.numberOptions};
     }
 }
