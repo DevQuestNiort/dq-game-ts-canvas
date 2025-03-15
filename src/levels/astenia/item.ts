@@ -92,7 +92,7 @@ export const items = [
       "Tiens? un passage secret!",
       [
         new ModalChoice("Teleportation", () =>
-          movePlayerToPositionAndMap(10, 10, "end"),
+          movePlayerToPositionAndMap(28, 11, "end"),
         ),
       ],
     ),
@@ -1120,7 +1120,7 @@ export const items = [
     () => {},
     "",
     "",
-    "elfe",
+    "elf",
     new ModalTemplate(
       "Dame Damdeo",
       "elfe",

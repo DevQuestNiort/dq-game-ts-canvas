@@ -132,6 +132,7 @@ export const init = async () => {
     loadAsset("deadbg", "deadBg.webp"),
     loadAsset("bgMenu", "bgMenu.webp"),
     loadAsset("logodq", "logo.png"),
+    loadAsset("sac-plastique", "sac-plastique.png"),
     loadAsset("question", "question.png"),
   ]);
 };

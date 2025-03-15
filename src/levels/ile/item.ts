@@ -46,7 +46,7 @@ export const items = [
 
   new PNJItem(
     "chevre01",
-    "chevre01",
+    "Chèvre Maigre",
     new Position(13, 14),
     1,
     0,
@@ -68,14 +68,14 @@ export const items = [
     "",
     "chevre01",
     new ModalTemplate(
-      "Chevre Maigre",
+      "Chèvre Maigre",
       "chevre01",
       " Beeeeh !  Je ne saaiiiiiis pas ce que tu cheeeeeeerche mais c'est paaaaaaas mon problèèèèèème.. ",
     ),
   ),
   new PNJItem(
     "chevre02",
-    "chevre02",
+    "Chèvre en bon point",
     new Position(9, 16),
     1,
     0,
@@ -87,9 +87,9 @@ export const items = [
           "sac",
           new Position(9, 16),
           () => {},
-          "Sac qui ne sert a rien ",
+          "Sac qui ne sert à rien ",
           "appuyer sur T pour prendre",
-          "sac",
+          "sac-plastique",
         ),
       );
     },
@@ -97,7 +97,7 @@ export const items = [
     "",
     "chevre02",
     new ModalTemplate(
-      "Chevre en bon point",
+      "Chèvre en bon point",
       "chevre02",
       "  Beeeeh !  Riennnnn à signaaaaaler iciiiiiii ! ",
     ),
