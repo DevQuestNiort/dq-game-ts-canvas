@@ -29,7 +29,7 @@ export const items = [
         new ModalTemplate(
             "Victoire",
             "quest",
-            " Victoire, voici devant toi, à tes pieds,  code promo que tu pourras utilisé pour obtenir le pass pour le devquest gratuitement ! Pour cela rend toi sur la billeterie du devquest choisi ton pass 2 jours et colle le code réduc..   \n Attention Premier arrivé premier servi. ",
+            " Victoire, voici devant toi, à tes pieds, le code promo que tu pourras utiliser pour obtenir le pass Devquest gratuitement ! Pour cela, rends-toi sur la billetterie du Devquest, choisis ton pass 2 jours et colle le code réduc.\nAttention, Premier arrivé, premier servi! ",
 
         ),
 
