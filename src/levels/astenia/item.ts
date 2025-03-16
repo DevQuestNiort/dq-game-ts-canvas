@@ -113,27 +113,27 @@ export const items = [
 
   new PickableItem(
     "cleVerte",
-    "cle",
+    "clef",
     new Position(17, 21),
     () => {},
-    "Une cle vert",
+    "Une clef verte. Ouvre les portes avec une serrure verte",
     "appuyer sur T pour prendre",
     "cleGreen",
   ),
 
   new PNJItem(
     "necromancer",
-    "necromancer",
+    "Darnillam",
     new Position(11, 19),
     10,
     3,
     1,
     () => {},
-    "necromancer",
+    "Darnillam",
     "",
     "necromancer",
     new ModalTemplate(
-      "necromancer",
+      "Darnillam",
       "necromancer",
       "Je suis Darnillam, nécromancien renommé, Vous me connaissez? Non? Tant pis! Je suis prisonnier de ce château depuis longtemps. Trop longtemps. Tous ce que je puis vous dire c'est que je ne suis pas celui que vous pensez, mais soit! \n \n Le repaire de Browser se trouve dans une grotte au sud du village.\n\n\nNe touchez pas à mes grimoires! En revanche, la potion violette à coté de moi est pour vous!",
     ),
@@ -432,12 +432,12 @@ export const items = [
     (stateContext) => {
       stateContext.mapStates[stateContext.currentMap].items.addItem(
         new ComsumableItem(
-          "cm6ul464y000mvs630qlpu3ik",
+          "fgfgdsggsergdsfgdjukjykfserteshgyjtujgfyjdfg",
           "Potion",
           new Position(13, 10),
           () => gameState.player.heal(15),
           "Potion de soin +15",
-          "",
+          "Appuyer sur T pour boire",
           "potion",
         ),
       );
@@ -830,10 +830,10 @@ export const items = [
 
   new PickableItem(
     "cleRouge",
-    "cle",
+    "clef",
     new Position(18, 3),
     () => {},
-    "Une cle Rouge",
+    "Une clef Rouge, ouvre les portes avec une serrure rouge",
     "appuyer sur T pour prendre",
     "cleRed",
   ),
@@ -1044,10 +1044,10 @@ export const items = [
   // village ecurie
   new PickableItem(
     "cleBleu",
-    "cle",
+    "clef",
     new Position(123, 5),
     () => {},
-    "Une cle Bleu",
+    "Une clef Bleu, ouvre les portes avec une serrure bleue",
     "appuyer sur T pour prendre",
     "cleBlue",
   ),
@@ -1271,12 +1271,12 @@ export const items = [
     (stateContext) => {
       stateContext.mapStates[stateContext.currentMap].items.addItem(
         new ComsumableItem(
-          "cm6ul464y000mvs630qlpu3ik",
+          "sdgfsdfgsdfgsdfgdsfgsdfgsdfgfth",
           "Potion",
           new Position(13, 10),
           () => gameState.player.heal(15),
           "Potion de soin +15",
-          "",
+            "Appuyer sur T pour boire",
           "potion",
         ),
       );

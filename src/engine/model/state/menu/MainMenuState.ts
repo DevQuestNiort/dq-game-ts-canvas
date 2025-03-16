@@ -24,13 +24,7 @@ export class MainMenuState extends MenuState {
       "Nouvelle partie",
       () => newGame(),
     );
-    const entry2 = new IhmEntry(
-      "02",
-      new Position((GRID_PITCH * VIEWPORT_SIZE_X) / 2, GRID_PITCH * 11),
-      30,
-      "Help info",
-      () => console.log("new game"),
-    );
+
     const entry3 = new IhmEntry(
       "03",
       new Position((GRID_PITCH * VIEWPORT_SIZE_X) / 2, GRID_PITCH * 14),
@@ -39,7 +33,7 @@ export class MainMenuState extends MenuState {
       () => alert("Created by Devquest"),
     );
 
-    this.entrys = [entry1, entry2, entry3];
+    this.entrys = [entry1, entry3];
     this.texts = [
       new IhmEntry(
         "title",

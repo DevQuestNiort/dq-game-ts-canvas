@@ -51,7 +51,7 @@ export class PNJItem extends AbstractTalkablePlayerItem {
     }
     this.life = this.life - degatToPnj;
     if (this.life < 1) {
-      console.log("death of ", this.name);
+      //console.log("death of ", this.name);
       this.death(gameState);
       playSound(SoundType.KILL);
     }

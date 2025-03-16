@@ -1,6 +1,6 @@
 const modules = import.meta.glob("./*/index.ts", { eager: true });
 
-console.log("Modules importés :", modules);
+//console.log("Modules importés :", modules);
 
 interface ImportModule {
   default: Object;

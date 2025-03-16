@@ -51,7 +51,7 @@ export const rightKeyPressed = () => {
 export const actionKeyPressed = () => {
   const itemInFrontOfPlayer = getItemInFrontOfPlayer();
   if (itemInFrontOfPlayer && itemInFrontOfPlayer instanceof PNJItem) {
-    console.log("j'attaque'" + itemInFrontOfPlayer.name);
+   // console.log("j'attaque'" + itemInFrontOfPlayer.name);
     attack(itemInFrontOfPlayer);
   }
 };
@@ -62,7 +62,7 @@ export const interactKeyPressed = () => {
     itemInFrontOfPlayer &&
     itemInFrontOfPlayer instanceof AbstractTalkablePlayerItem
   ) {
-    console.log("j'" + itemInFrontOfPlayer.name);
+    //console.log("j'" + itemInFrontOfPlayer.name);
     interact(itemInFrontOfPlayer);
   }
 };
@@ -76,19 +76,19 @@ export const pickUpKeyPressed = () => {
   const itemAtPlayerPosition = getItemAtPlayerPosition();
 
   if (itemAtPlayerPosition && itemAtPlayerPosition instanceof PickableItem) {
-    console.log("je ramasse");
+    //console.log("je ramasse");
     addItemToInventory(itemAtPlayerPosition);
   } else if (
     itemAtPlayerPosition &&
     itemAtPlayerPosition instanceof ComsumableItem
   ) {
-    console.log("je Consomme");
+    //console.log("je Consomme");
     comsumnItem(itemAtPlayerPosition);
   } else if (
     itemAtPlayerPosition &&
     itemAtPlayerPosition instanceof UsableItem
   ) {
-    console.log("j utilise");
+    //console.log("j utilise");
     useItem(itemAtPlayerPosition);
   }
 };
@@ -133,7 +133,7 @@ const comsumnItem = (item: ComsumableItem) => {
 };
 
 const useItem = (item: UsableItem) => {
-  console.log("useItem");
+  //console.log("useItem");
   item.playerModificator(gameState.player);
   computeViewportPosition();
   notifyViewportChanged();

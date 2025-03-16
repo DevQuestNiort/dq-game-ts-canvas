@@ -34,6 +34,17 @@ export const items = [
     "cleRouge",
   ),
 
+  new ComsumableItem(
+      "fdsqfqsfdqsfdqs",
+      "Potion",
+      new Position(6, 15),
+      () => gameState.player.heal(10),
+      "Potion de soin +10",
+      "Appuyer sur T pour boire",
+      "potion",
+  ),
+
+
   new DoorItem(
     "cm8219pvm000hqw63a7q142j6",
     "Porte Verte",

@@ -57,9 +57,9 @@ export class PlayerState {
   }
 
   takeDamage(damage: number) {
-    console.log("take damage player ", damage);
+    //console.log("take damage player ", damage);
     let degatToPlayer = damage - gameState.player.defense;
-    console.log("real take damage player ", degatToPlayer);
+    //console.log("real take damage player ", degatToPlayer);
     if (degatToPlayer < 1) {
       degatToPlayer = 1;
     }
@@ -70,7 +70,7 @@ export class PlayerState {
   }
 
   takeCriticalDamage(damage: number) {
-    console.log("take Critical damage player ", damage);
+    //console.log("take Critical damage player ", damage);
     this._life = this._life - damage;
     if (this.isDead()) {
       playSound(SoundType.GAMEOVER);

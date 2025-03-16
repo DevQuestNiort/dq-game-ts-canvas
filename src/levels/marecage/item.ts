@@ -83,10 +83,10 @@ export const items = [
       stateContext.mapStates[stateContext.currentMap].items.addItem(
         new PickableItem(
           "cleJaune",
-          "cle Jaune",
+          "clef",
           new Position(12, 22),
           () => {},
-          "Clef Jaune",
+          "Clef Jaune, ouvre les portes avec une serrure jaune",
           "appuyer sur T pour ramasser",
           "cle",
         ),

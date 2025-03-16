@@ -35,7 +35,7 @@ export const isTileIsNotObstructed = (x: number, y: number) => {
     return false;
   } else if (itemAtPos && itemAtPos.type === ItemType.DOOR) {
     const itemAtPos1 = itemAtPos as DoorItem;
-    console.log("recherche de " + itemAtPos1.itemId + "  dans l inventaire");
+   // console.log("recherche de " + itemAtPos1.itemId + "  dans l inventaire");
     return !!(
       gameState.player.inventory.getById(itemAtPos1.itemId) ||
       itemAtPos1.itemId === undefined
