@@ -27,14 +27,9 @@ export const items = [
         "Clique sur R pour lire",
 "quest",
         new ModalTemplate(
-            "Victoire",
+            "Too late",
             "quest",
-            " Victoire, voici devant toi, à tes pieds, le code promo que tu pourras utiliser pour obtenir le pass Devquest gratuitement ! Pour cela, rends-toi sur la billetterie du Devquest, choisis ton pass 2 jours et colle le code réduc.\nAttention, Premier arrivé, premier servi! ",
-
+            " La récompense unique a déja été trouvé par un aventurier ! Mais Féliciatation d'être parvenu jusqu'ici ! N'hesites pas poster le code se trouvant à tes pieds, sur les reseaux sociaux en taguant le devquest, comme preuve et reconnaissance de ta victoire! ",
         ),
-
     ),
-
-
-
 ];
