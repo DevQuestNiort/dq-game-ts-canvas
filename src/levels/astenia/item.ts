@@ -91,9 +91,10 @@ export const items = [
       "bibliotheque",
       "Tiens? un passage secret!",
       [
-        new ModalChoice("Teleportation", () =>
-          movePlayerToPositionAndMap(28, 11, "end"),
-        ),
+        new ModalChoice("Teleportation", () =>{
+          gameState.time = Math.floor(Math.abs(new Date().getTime() - gameState.startTime.getTime())/1000);
+          movePlayerToPositionAndMap(28, 11, "end");
+        }),
       ],
     ),
   ),
@@ -102,7 +103,7 @@ export const items = [
     "bibliotheque005",
     "Information",
     new Position(20, 21),
-    "bibliotheque",
+    "bibliothèque",
     "",
     "bibliotheque",
   ),

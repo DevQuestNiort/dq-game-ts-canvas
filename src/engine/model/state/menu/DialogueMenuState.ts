@@ -134,7 +134,13 @@ export class DialogueMenuState extends MenuState {
       GRID_PITCH * 3,
     );
     const maxlength = TOTAL_PX_SIZE_X - GRID_PITCH * 6;
-    splittext(pCtx, this.template.text, maxlength).forEach((text, index) => {
+    let text;
+    if (typeof this.template.text === "string") {
+      text = this.template.text;
+    } else {
+      text = this.template.text(gameState);
+    }
+    splittext(pCtx, text, maxlength).forEach((text, index) => {
       //console.log("printing text: ", text, index);
       pCtx.fillText(
         text.trim(),
