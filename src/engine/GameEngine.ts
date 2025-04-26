@@ -85,7 +85,7 @@ export function newGame() {
 const bindKeys = () => {
   addEventListener("keydown", (evt) => {
     evt.preventDefault();
-    if (evt.ctrlKey && evt.shiftKey && evt.key.toLowerCase() === "a") {
+    if (import.meta.env.DEV && evt.ctrlKey && evt.shiftKey && evt.key.toLowerCase() === "a") {
       switchOption(BooleanOption.DEBUG_MODE);
       notifyViewportChanged();
     }
