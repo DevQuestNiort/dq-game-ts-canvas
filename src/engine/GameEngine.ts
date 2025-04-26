@@ -77,6 +77,7 @@ const buildInitialGameState: (
 
 export function newGame() {
   gameState.view = viewEnum.MAP;
+  gameState.startTime = new Date();
   notifyViewChanged();
   notifyViewportChanged();
 }

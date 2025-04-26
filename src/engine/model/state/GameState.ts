@@ -16,6 +16,8 @@ export class GameState {
   public openMenu: boolean = false;
   public contentMenu: any = undefined;
   public menusStates: Record<string, MenuState>;
+  public startTime: Date;
+  public time: number;
 
   constructor(
     player: PlayerState,
